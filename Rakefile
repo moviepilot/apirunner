@@ -13,8 +13,8 @@ require 'jeweler'
 Jeweler::Tasks.new do |gem|
   # gem is a Gem::Specification... see http://docs.rubygems.org/read/chapter/20 for more options
   gem.name = "apirunner"
-  gem.summary = %Q{TODO: one-line summary of your gem}
-  gem.description = %Q{TODO: longer description of your gem}
+  gem.summary = %Q{one-line summary of your gem}
+  gem.description = %Q{longer description of your gem}
   gem.email = "developers@moviepilot.com"
   gem.homepage = "http://github.com/janroesner/apirunner"
   gem.authors = ["moviepilot"]
@@ -27,6 +27,7 @@ Jeweler::Tasks.new do |gem|
   gem.add_development_dependency "bundler", "~> 1.0.0"
   gem.add_development_dependency "jeweler", "~> 1.5.0.pre3"
   gem.add_development_dependency "rcov", ">= 0"
+  gem.files += Dir['lib/**/*.rb', 'lib/tasks/*.rake']
 end
 Jeweler::RubygemsDotOrgTasks.new
 
