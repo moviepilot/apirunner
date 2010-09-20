@@ -1,0 +1,15 @@
+local:
+  protocol: http
+  host: localhost
+  port: 3000
+  namespace: api1v0
+staging:
+  protocol: http
+  host: staging.moviepilot.dom
+  port: 8976
+  namespace: api1v0
+production:
+  protocol: http
+  host: www.moviepilot.com
+  port: 80
+  namespace: api1v0

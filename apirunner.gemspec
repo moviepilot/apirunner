@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{apirunner}
-  s.version = "0.0.1"
+  s.version = "0.0.9"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["moviepilot"]
@@ -20,15 +20,18 @@ Gem::Specification.new do |s|
     ".document",
     ".gitignore",
     "Gemfile",
+    "Gemfile.lock",
     "LICENSE",
     "README.rdoc",
     "Rakefile",
     "VERSION",
+    "apirunner.gemspec",
     "features/apirunner.feature",
     "features/step_definitions/apirunner_steps.rb",
     "features/support/env.rb",
     "lib/api_runner.rb",
     "lib/apirunner.rb",
+    "lib/apirunner/railtie.rb",
     "lib/expectation_matcher.rb",
     "lib/http_client.rb",
     "lib/tasks/api.rake",

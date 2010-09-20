@@ -1,0 +1,25 @@
+---
+- name: 'Create new User'
+  request:
+    path:        '/users/duffyduck'
+    method:      'PUT'
+    body:
+      username:  'duffyduck'
+  response_expectation:
+    status_code: 201
+    headers:
+      Last-Modified:    /.*/
+    body:
+      username:       'duffyduck'
+      fsk:            "17"
+- name: 'Update existing User - Update watchlist'
+  request:
+    path:       '/users/duffyduck/watchlist'
+    method:     'PUT'
+    body:
+    - m367
+    - m73
+  response_expectation:
+    status_code: 204
+    body:
+

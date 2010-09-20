@@ -72,7 +72,6 @@ class ApiRunner
     path = "vendor/plugins/telekom_api/spec/api_runner/"
     Dir.new(path).entries.each do |dir_entry|
       @spec.push *YAML.load_file(path+dir_entry) if not (File.directory? dir_entry or dir_entry.match(/^\./) or dir_entry.match(/excludes/))
-
     end
   end
 

@@ -1,0 +1,8 @@
+---
+- name: 'Delete User'
+  request:
+    path:        '/users/duffyduck'
+    method:      'DELETE'
+    body:        {}
+  response_expectation:
+    status_code: 202
