@@ -63,13 +63,13 @@ class ApiRunner
 
   # loads environment config data from yaml file
   def load_config(env)
-    config = YAML.load_file("#{Rails.root}/vendor/plugins/telekom_api/config/api_runner.yaml")
+    config = YAML.load_file("config/api_runner.yml")
     config[env.to_s].each { |key, value| instance_variable_set("@#{key}", value) }
   end
 
   # loads spec cases from yaml files
   def load_url_spec
-    path = "vendor/plugins/telekom_api/spec/api_runner/"
+    path = "test/api_runner/"
     Dir.new(path).entries.each do |dir_entry|
       @spec.push *YAML.load_file(path+dir_entry) if not (File.directory? dir_entry or dir_entry.match(/^\./) or dir_entry.match(/excludes/))
     end
@@ -77,7 +77,7 @@ class ApiRunner
 
   # loads and parses items that need to be excluded from the checks in certain environments
   def load_excludes(env)
-    excludes_file = "vendor/plugins/telekom_api/spec/api_runner/excludes.yml"
+    excludes_file = "test/api_runner/excludes.yml"
     @excludes = YAML.load_file(excludes_file).detect{ |a| a.first == env.to_s }[1]["excludes"]
   end
 end
