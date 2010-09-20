@@ -10,7 +10,7 @@ apirunner was initially developed for testing of the mighty (m8ty) i18n recommen
 
 == Capabilities
 
-*apirunner* *can:*
+*apirunner* *can*:
 
 * be configured for as many environemnts as you wish (your local machine, you staging environment, your production boxes, your wifes handbag)
 * send GET, POST, PUT and DELETE requests via HTTP
@@ -72,15 +72,15 @@ apirunner heavily depends on the following great GEM's:
 
 apirunner was written by:
 
-*Jan Roesner* (http://railspotting.de) (jan@roesner.it)
+*Jan* *Roesner* (http://railspotting.de) (jan@roesner.it)
 
 for the great guy's at moviepilot.com (http://www.moviepilot.com)
 
 With support from:
 
-*Daniel Bornkessel* (daniel@moviepilot.com)
+*Daniel* *Bornkessel* (daniel@moviepilot.com)
 
-and the *moviepilot dev-team* (developers@moviepilot.com)
+and the *moviepilot* *dev-team* (developers@moviepilot.com)
 
 == Note on Patches/Pull Requests
 
