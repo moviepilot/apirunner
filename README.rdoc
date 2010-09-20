@@ -1,6 +1,6 @@
 = apirunner
 
-apirunner let's you test your JSON API from the outside. Sometimes model-, controlle-r and routing-test's are not enough, you want to send requests to your application and validate the response in ganular detail. Then apirunner will be your best friend.
+*apirunner* let's you test your _JSON API_ from the outside. Sometimes model-, controlle-r and routing-test's are not enough, you want to send requests to your application and validate the response in ganular detail. Then apirunner will be your best friend.
 
 apirunner is no replacement to rspec or cucumber tests, nor does it replace webrat or capable tools like that. It's an addition that lets you query you API, specify your queries in detail, parse the expected response code, message, header and body and compare all (or any) of 'em to your expectation.
 
@@ -29,21 +29,37 @@ apirunner was initially developed for testing of the mighty (m8ty) i18n recommen
 
 == Installation
 
-gem install apirunner
+  gem install apirunner
 
 == Configuration
 
-rake api::scaffold
+  rake api::scaffold
 
 The latter one generates a starter configuration file in your config directory:
 
-config/api_runner.yml
+  config/api_runner.yml
 
 Additionally there will be some example testcases which can be found in:
 
-test/apirunner/001_create_ressource.yml
-test/apirunner/002_delete_ressource.yml
-test/apirunner/excludes.yml
+  test/apirunner/001_create_ressource.yml
+  test/apirunner/002_delete_ressource.yml
+  test/apirunner/excludes.yml
+
+== Invocation
+
+Assuming you defined an environment "local" and "staging" you can invoke your masterpiece with:
+
+  rake api:run:local
+
+and
+
+  rake api:run:staging
+
+== Testing
+
+There are rspec model tests for all classes which can be invoked via:
+
+  rspec spec
 
 == Dependencies
 
@@ -67,7 +83,7 @@ Daniel Bornkessel (daniel@moviepilot.com)
 and the dev-team (developers@moviepilot.com)
 
 == Note on Patches/Pull Requests
- 
+
 * Fork the project.
 * Make your feature addition or bug fix.
 * Add tests for it. This is important so I don't break it in a
