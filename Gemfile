@@ -5,6 +5,10 @@ source "http://rubygems.org"
 
 # Add dependencies to develop your gem here.
 # Include everything needed to run rake, tests, features, etc.
+
+gem 'nokogiri', '~> 1.4.3.1'
+gem 'httparty', '~> 0.6.1'
+
 group :development do
   gem "rspec", ">= 2.0.0.beta.19"
   gem "cucumber", ">= 0"

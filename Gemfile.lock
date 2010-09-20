@@ -2,6 +2,7 @@ GEM
   remote: http://rubygems.org/
   specs:
     builder (2.1.2)
+    crack (0.1.8)
     cucumber (0.8.5)
       builder (~> 2.1.2)
       diff-lcs (~> 1.1.2)
@@ -12,11 +13,14 @@ GEM
     gherkin (2.1.5)
       trollop (~> 1.16.2)
     git (1.2.5)
+    httparty (0.6.1)
+      crack (= 0.1.8)
     jeweler (1.5.0.pre3)
       bundler (~> 1.0.0)
       git (>= 1.2.5)
       rake
     json_pure (1.4.6)
+    nokogiri (1.4.3.1)
     rake (0.8.7)
     rcov (0.9.9)
     rspec (2.0.0.beta.22)
@@ -38,6 +42,8 @@ PLATFORMS
 DEPENDENCIES
   bundler (~> 1.0.0)
   cucumber
+  httparty (~> 0.6.1)
   jeweler (~> 1.5.0.pre3)
+  nokogiri (~> 1.4.3.1)
   rcov
   rspec (>= 2.0.0.beta.19)

@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{apirunner}
-  s.version = "0.0.9"
+  s.version = "0.0.12"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["moviepilot"]
@@ -26,6 +26,10 @@ Gem::Specification.new do |s|
     "Rakefile",
     "VERSION",
     "apirunner.gemspec",
+    "examples/config/api_runner.yml",
+    "examples/test/api_runner/001_create_ressource.yml",
+    "examples/test/api_runner/999_delete_ressource.yml",
+    "examples/test/api_runner/excludes.yml",
     "features/apirunner.feature",
     "features/step_definitions/apirunner_steps.rb",
     "features/support/env.rb",
@@ -36,7 +40,6 @@ Gem::Specification.new do |s|
     "lib/http_client.rb",
     "lib/tasks/api.rake",
     "spec/.rspec",
-    "spec/apirunner_spec.rb",
     "spec/spec_helper.rb"
   ]
   s.homepage = %q{http://github.com/janroesner/apirunner}
@@ -44,7 +47,7 @@ Gem::Specification.new do |s|
   s.rubygems_version = %q{1.3.7}
   s.summary = %q{one-line summary of your gem}
   s.test_files = [
-    "spec/apirunner_spec.rb",
+    "spec/expectation_matcher_spec.rb",
     "spec/spec_helper.rb"
   ]
 
@@ -53,6 +56,8 @@ Gem::Specification.new do |s|
     s.specification_version = 3
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
+      s.add_runtime_dependency(%q<nokogiri>, ["~> 1.4.3.1"])
+      s.add_runtime_dependency(%q<httparty>, ["~> 0.6.1"])
       s.add_development_dependency(%q<rspec>, [">= 2.0.0.beta.19"])
       s.add_development_dependency(%q<cucumber>, [">= 0"])
       s.add_development_dependency(%q<bundler>, ["~> 1.0.0"])
@@ -64,6 +69,8 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<jeweler>, ["~> 1.5.0.pre3"])
       s.add_development_dependency(%q<rcov>, [">= 0"])
     else
+      s.add_dependency(%q<nokogiri>, ["~> 1.4.3.1"])
+      s.add_dependency(%q<httparty>, ["~> 0.6.1"])
       s.add_dependency(%q<rspec>, [">= 2.0.0.beta.19"])
       s.add_dependency(%q<cucumber>, [">= 0"])
       s.add_dependency(%q<bundler>, ["~> 1.0.0"])
@@ -76,6 +83,8 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<rcov>, [">= 0"])
     end
   else
+    s.add_dependency(%q<nokogiri>, ["~> 1.4.3.1"])
+    s.add_dependency(%q<httparty>, ["~> 0.6.1"])
     s.add_dependency(%q<rspec>, [">= 2.0.0.beta.19"])
     s.add_dependency(%q<cucumber>, [">= 0"])
     s.add_dependency(%q<bundler>, ["~> 1.0.0"])

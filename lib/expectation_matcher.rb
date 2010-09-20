@@ -1,7 +1,7 @@
-class Api1v0ExpectationMatcher
+class ExpectationMatcher
   require 'nokogiri'
 
-  def initialize(excludes)
+  def initialize(excludes=nil)
     @test_types = [:response_code, :response_body_format, :response_headers, :response_body]
     @excludes = excludes
   end
@@ -145,8 +145,9 @@ class Api1v0ExpectationMatcher
 
   # returns true if the given regular expression matches the given value
   def regex_matches?(regex, value)
-    regex = regex.gsub(/^\//, '').gsub(/\/$/,'')
-    value.to_s.match(regex)
+      debugger
+    regex = Regexp.compile( regex.gsub(/^\//, '').gsub(/\/$/,'') )
+    !!value.to_s.match(regex)
   end
 
   # returns true if the given string exactly matches the given value

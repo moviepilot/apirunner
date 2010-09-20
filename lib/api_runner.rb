@@ -12,7 +12,7 @@ class ApiRunner
     load_config(env)
     load_excludes(env)
     load_url_spec
-    @expectation = Api1v0ExpectationMatcher.new(@excludes)
+    @expectation = ExpectationMatcher.new(@excludes)
   end
 
   # checks servers availability and invokes test cases
