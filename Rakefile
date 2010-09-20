@@ -16,7 +16,7 @@ Jeweler::Tasks.new do |gem|
   gem.summary = %Q{one-line summary of your gem}
   gem.description = %Q{longer description of your gem}
   gem.email = "developers@moviepilot.com"
-  gem.homepage = "http://github.com/janroesner/apirunner"
+  gem.homepage = "http://github.com/moviepilot/apirunner"
   gem.authors = ["moviepilot"]
   # Include your dependencies below. Runtime dependencies are required when using your gem,
   # and development dependencies are only needed for development (ie running rake tasks, tests, etc)

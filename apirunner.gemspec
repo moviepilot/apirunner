@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{apirunner}
-  s.version = "0.0.13"
+  s.version = "0.1.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["moviepilot"]
@@ -43,7 +43,7 @@ Gem::Specification.new do |s|
     "spec/expectation_matcher_spec.rb",
     "spec/spec_helper.rb"
   ]
-  s.homepage = %q{http://github.com/janroesner/apirunner}
+  s.homepage = %q{http://github.com/moviepilot/apirunner}
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.3.7}
   s.summary = %q{one-line summary of your gem}

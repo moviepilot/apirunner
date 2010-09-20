@@ -1,6 +1,70 @@
 = apirunner
 
-Description goes here.
+apirunner let's you test your JSON API from the outside. Sometimes model-, controlle-r and routing-test's are not enough, you want to send requests to your application and validate the response in ganular detail. Then apirunner will be your best friend.
+
+apirunner is no replacement to rspec or cucumber tests, nor does it replace webrat or capable tools like that. It's an addition that lets you query you API, specify your queries in detail, parse the expected response code, message, header and body and compare all (or any) of 'em to your expectation.
+
+The request and expectation can (and have to be) written down in easily createable YAML Files. The provided expectation matchers can match strings, integers and regular expressions. So apirunner provides you with a simple but powerful tool to examine your api's bugs.
+
+apirunner was initially developed for testing of the mighty (m8ty) i18n recommendation engine showcase of moviepilot.com (http://www.moviepilot.com) and extracted and gem'ified afterwards.
+
+== Capabilities 
+
+*apirunner can:*
+
+* be configured for as many environemnts as you wish (your local machine, you staging environment, your production boxes, your wifes handbag)
+* send GET, POST, PUT and DELETE requests via HTTP
+* read as many testcases as you wish from YAML files and execute them in the order of file appearance
+* read more then one testcase from a file
+* match the response code's of your applications responses
+* match the syntactical correctnes of the response format (as long as it is JSON)
+* proof the occurance and match the content of your app's HTTP header
+* proof the occurence and match the content of your app's Body (as long as it responds JSON)
+* optionally match only parts of header / body (you dont have to specify them in more detail than you are interested in)
+* exclude certain value test's from certain environments (by reading excludes from excludes.yml)
+* provide you with some nice feedback at the console .... yeah sexy dots (".") and fancy F's ("F") ....
+* print out a nice error report (that you as a awesome ruby coder will never see)
+* be invoked from within rake to generate some example configuration and testcase files
+* be invoked also from within rake to run your test's
+
+== Installation
+
+gem install apirunner
+
+== Configuration
+
+rake api::scaffold
+
+The latter one generates a starter configuration file in your config directory:
+
+config/api_runner.yml
+
+Additionally there will be some example testcases which can be found in:
+
+test/apirunner/001_create_ressource.yml
+test/apirunner/002_delete_ressource.yml
+test/apirunner/excludes.yml
+
+== Dependencies
+
+apirunner heavily depends on the following great GEM's:
+
+1) nokogiri
+2) httparty
+
+== Authors
+
+apirunner was written by:
+
+Jan Roesner (http://railspotting.de) (jan@roesner.it)
+
+for the great guy's at moviepilot.com (http://www.moviepilot.com)
+
+With support from:
+
+Daniel Bornkessel (daniel@moviepilot.com)
+
+and the dev-team (developers@moviepilot.com)
 
 == Note on Patches/Pull Requests
  
