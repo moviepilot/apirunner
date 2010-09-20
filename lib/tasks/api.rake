@@ -14,13 +14,26 @@ namespace :api do
   end
   desc "generates configuration and a skeleton for apirunner tests as well as excludes"
   task :scaffold do
-    FileUtils.mkdir_p( "test/api_runner" )
-    FileUtils.mkdir_p( "config" )
-    FileUtils.cp_r( "#{APIRUNNER_ROOT}/examples/config", ".")
-    FileUtils.cp_r( "#{APIRUNNER_ROOT}/examples/test", ".")
-    puts "created the following files:"
-    Dir.glob("#{APIRUNNER_ROOT}/examples/**/*").each do |file|
-      puts "\t#{file.gsub(/.*examples\//, '')}"
+    TEST_EXAMPLES_PATH="test/api_runner"
+    CONFIG_EXAMPLE_PATH="config"
+
+    FileUtils.mkdir_p( TEST_EXAMPLES_PATH )
+    FileUtils.mkdir_p( CONFIG_EXAMPLE_PATH )
+    Dir.glob("#{APIRUNNER_ROOT}/examples/#{TEST_EXAMPLES_PATH}/*.yml").each do |file|
+      unless File.exists?("#{TEST_EXAMPLES_PATH}/#{File.basename(file)}")
+        FileUtils.cp(file, "#{TEST_EXAMPLES_PATH}") 
+        puts "%-50s .... created" % "#{TEST_EXAMPLES_PATH}/#{File.basename(file)}"
+      else
+        puts "%-50s .... already exists" % "#{TEST_EXAMPLES_PATH}/#{File.basename(file)}"
+      end
+    end
+    Dir.glob("#{APIRUNNER_ROOT}/examples/#{CONFIG_EXAMPLE_PATH}/*.yml").each do |file|
+      unless File.exists?("#{CONFIG_EXAMPLE_PATH}/#{File.basename(file)}")
+        FileUtils.cp(file, "#{CONFIG_EXAMPLE_PATH}") unless File.exists?("#{CONFIG_EXAMPLE_PATH}/#{File.basename(file)}")
+        puts "%-50s .... created" % "#{CONFIG_EXAMPLE_PATH}/#{File.basename(file)}"
+      else
+        puts "%-50s .... already exists" % "#{CONFIG_EXAMPLE_PATH}/#{File.basename(file)}"
+      end
     end
   end
 end
