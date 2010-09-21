@@ -3,7 +3,7 @@ class ExpectationMatcher
 
   def initialize(excludes=nil)
     @test_types = [:response_code, :response_body_format, :response_headers, :response_body]
-    @excludes = excludes
+    @excludes = excludes || []
   end
 
   # returns the available test types if this matcher class
@@ -145,7 +145,6 @@ class ExpectationMatcher
 
   # returns true if the given regular expression matches the given value
   def regex_matches?(regex, value)
-      debugger
     regex = Regexp.compile( regex.gsub(/^\//, '').gsub(/\/$/,'') )
     !!value.to_s.match(regex)
   end

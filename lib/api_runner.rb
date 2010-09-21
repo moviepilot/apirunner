@@ -5,7 +5,7 @@ class ApiRunner
 
   # initializes the object, loads environment, build base_uri
   def initialize(env)
-    @http_client11 = HttpClient.new
+    @http_client = HttpClient.new
     @spec = []
     @errors = []
     @excludes = []
