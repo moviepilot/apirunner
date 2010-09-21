@@ -3,6 +3,10 @@ class ApiRunner
   require 'expectation_matcher'
   require 'http_client'
 
+  CONFIG_FILE = "config/api_runner.yml"
+  SPEC_PATH = "test/api_runner/"
+  EXCLUDES_FILE = "test/api_runner/excludes.yml"
+
   # initializes the object, loads environment, build base_uri
   def initialize(env)
     @http_client = HttpClient.new
@@ -63,13 +67,13 @@ class ApiRunner
 
   # loads environment config data from yaml file
   def load_config(env)
-    config = YAML.load_file("config/api_runner.yml")
+    config = YAML.load_file(self.class.config_file)
     config[env.to_s].each { |key, value| instance_variable_set("@#{key}", value) }
   end
 
   # loads spec cases from yaml files
   def load_url_spec
-    path = "test/api_runner/"
+    path = self.class.spec_path
     Dir.new(path).entries.each do |dir_entry|
       @spec.push *YAML.load_file(path+dir_entry) if not (File.directory? dir_entry or dir_entry.match(/^\./) or dir_entry.match(/excludes/))
     end
@@ -77,8 +81,23 @@ class ApiRunner
 
   # loads and parses items that need to be excluded from the checks in certain environments
   def load_excludes(env)
-    excludes_file = "test/api_runner/excludes.yml"
+    excludes_file = self.class.excludes_file
     @excludes = YAML.load_file(excludes_file).detect{ |a| a.first == env.to_s }[1]["excludes"]
+  end
+
+  # returns config files path and can be stubbed this way
+  def self.config_file
+    CONFIG_FILE
+  end
+
+  # returns path to spec files that can be stubbed for tests
+  def self.spec_path
+    SPEC_PATH
+  end
+
+  # returns excludes file path that can be stubbed
+  def self.excludes_file
+    EXCLUDES_FILE
   end
 end
 
