@@ -17,7 +17,6 @@ describe 'apirunner' do
     it 'should output errors, if some occure'
   end
 
-
   describe 'run_tests' do
     it 'should send a request for every given testcase'
     it 'should run a test for every test_type'
