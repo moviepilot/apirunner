@@ -5,12 +5,12 @@
 
 Gem::Specification.new do |s|
   s.name = %q{apirunner}
-  s.version = "0.1.1"
+  s.version = "0.1.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
-  s.authors = ["moviepilot"]
-  s.date = %q{2010-09-20}
-  s.description = %q{longer description of your gem}
+  s.authors = ["jan@moviepilot.com"]
+  s.date = %q{2010-09-21}
+  s.description = %q{apirunner is a testsuite to query your RESTful JSON API and match response with your defined expectations}
   s.email = %q{developers@moviepilot.com}
   s.extra_rdoc_files = [
     "LICENSE",
@@ -40,7 +40,9 @@ Gem::Specification.new do |s|
     "lib/http_client.rb",
     "lib/tasks/api.rake",
     "spec/.rspec",
+    "spec/api_runner_spec.rb",
     "spec/expectation_matcher_spec.rb",
+    "spec/http_client_spec.rb",
     "spec/spec_helper.rb"
   ]
   s.homepage = %q{http://github.com/moviepilot/apirunner}
@@ -48,7 +50,9 @@ Gem::Specification.new do |s|
   s.rubygems_version = %q{1.3.7}
   s.summary = %q{one-line summary of your gem}
   s.test_files = [
+    "spec/api_runner_spec.rb",
     "spec/expectation_matcher_spec.rb",
+    "spec/http_client_spec.rb",
     "spec/spec_helper.rb"
   ]
 
@@ -64,6 +68,7 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<bundler>, ["~> 1.0.0"])
       s.add_development_dependency(%q<jeweler>, ["~> 1.5.0.pre3"])
       s.add_development_dependency(%q<rcov>, [">= 0"])
+      s.add_development_dependency(%q<mocha>, [">= 0.9.8"])
       s.add_development_dependency(%q<rspec>, [">= 2.0.0.beta.19"])
       s.add_development_dependency(%q<cucumber>, [">= 0"])
       s.add_development_dependency(%q<bundler>, ["~> 1.0.0"])
@@ -77,6 +82,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<bundler>, ["~> 1.0.0"])
       s.add_dependency(%q<jeweler>, ["~> 1.5.0.pre3"])
       s.add_dependency(%q<rcov>, [">= 0"])
+      s.add_dependency(%q<mocha>, [">= 0.9.8"])
       s.add_dependency(%q<rspec>, [">= 2.0.0.beta.19"])
       s.add_dependency(%q<cucumber>, [">= 0"])
       s.add_dependency(%q<bundler>, ["~> 1.0.0"])
@@ -91,6 +97,7 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<bundler>, ["~> 1.0.0"])
     s.add_dependency(%q<jeweler>, ["~> 1.5.0.pre3"])
     s.add_dependency(%q<rcov>, [">= 0"])
+    s.add_dependency(%q<mocha>, [">= 0.9.8"])
     s.add_dependency(%q<rspec>, [">= 2.0.0.beta.19"])
     s.add_dependency(%q<cucumber>, [">= 0"])
     s.add_dependency(%q<bundler>, ["~> 1.0.0"])
