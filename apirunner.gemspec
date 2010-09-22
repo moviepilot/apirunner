@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{apirunner}
-  s.version = "0.1.4"
+  s.version = "0.1.5"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["jan@moviepilot.com"]
@@ -26,6 +26,7 @@ Gem::Specification.new do |s|
     "Rakefile",
     "VERSION",
     "apirunner.gemspec",
+    "changelog.txt",
     "examples/config/api_runner.yml",
     "examples/test/api_runner/001_create_ressource.yml",
     "examples/test/api_runner/999_delete_ressource.yml",
