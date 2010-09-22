@@ -99,7 +99,6 @@ describe 'ExpectationMatcher' do
       @response = response_struct.new
     end
     it 'should return a struct representing success, if one certain expected header value matches the response header' do
-      pending "Rails context is missing"
       @response.headers = {"content-type"=>["text/html; charset=utf-8"], "cache-control"=>["no-cache"], "x-runtime"=>["0.340116"], "server"=>["WEBrick/1.3.1 (Ruby/1.9.2/2010-08-18)"], "date"=>["Tue, 21 Sep 2010 11:33:05 GMT"], "content-length"=>["149"], "connection"=>["close"], "Last-Modified" => "2010-10-01 23:23:23"}
       testcase = { 'response_expectation' => { 'headers' => {"Last-Modified"=>"/.*/"} } }
       @em.send(:response_headers, @response, testcase).should be_a(Struct)

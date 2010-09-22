@@ -1,8 +1,8 @@
 class ApiRunner
   require 'yaml'
+  require 'JSON'
   require 'expectation_matcher'
   require 'http_client'
-
 
   CONFIG_FILE = "config/api_runner.yml"
   SPEC_PATH = "test/api_runner/"
@@ -24,9 +24,9 @@ class ApiRunner
   def run
     if server_is_available?
       run_tests
-      @errors.try(:each_with_index) do |error, index|
+      @errors.each_with_index do |error, index|
         puts("\n\nError (#{index+1}): #{error}")
-      end
+      end unless @errors.empty?
     else
       puts("Server #{@host} seems to be unavailable!")
     end

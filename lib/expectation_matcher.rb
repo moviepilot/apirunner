@@ -46,8 +46,7 @@ class ExpectationMatcher
     result_struct = Struct.new(:succeeded, :error)
     results = result_struct.new(:succeeded => true, :error => nil)
 
-    debugger
-    testcase['response_expectation']['headers'].try(:each_pair) do |header_name, header_value|
+    testcase['response_expectation']['headers'].each_pair do |header_name, header_value|
       if is_regex?(header_value)
         if not (excluded?(header_name) or regex_matches?(header_value, response.headers[header_name]))
           results.succeeded = false
@@ -59,7 +58,7 @@ class ExpectationMatcher
           results.error = "testcase '#{testcase['name']}'\n expected header identifier --#{header_name}-- to match --#{header_value}--\n got --#{response.headers[header_name]}--"
         end
       end
-    end
+    end unless (testcase['response_expectation']['headers'].nil? or testcase['response_expectation']['headers'].empty?)
     return results
   end
 

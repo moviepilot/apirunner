@@ -34,9 +34,14 @@ describe 'apirunner' do
 
   describe 'run_tests' do
     it 'should send a request for every given testcase' do
-      pending "Rails context missing"
+      response_struct = Struct.new(:code, :message, :headers, :body)
+      response = response_struct.new
+      response.code = 404
+      response.message = "Ok"
+      response.body = {}
+      response.headers = {}
       @a.should_receive(:server_is_available?).and_return true
-      @a.should_receive(:send_request).exactly(@a.instance_variable_get(:@spec).size).times
+      @a.should_receive(:send_request).exactly(@a.instance_variable_get(:@spec).size).times.and_return(response)
       @a.run
     end
     it 'should run a test for every test_type'

@@ -1,0 +1,7 @@
+plan version 0.2.0
+  run without rails environment
+	fix pending specs
+	body should be evaluateable as nil
+	body tags should be evaluateable as nil too
+	create separate classes for TestCase and TestExpectation as well as strip
+	down ExpectationMatcher
