@@ -84,8 +84,7 @@ class ApiRunner
   # loads and parses items that need to be excluded from the checks in certain environments
   def load_excludes(env)
     excludes_file = self.class.excludes_file
-    @excludes = YAML.load_file(excludes_file).detect{ |a| a.first == env.to_s }[1]["excludes"]
-    #TODO: sections can be missing so that this one here fatals
+    @excludes = YAML.load_file(excludes_file).detect{ |a| a.first == env.to_s }[1]["excludes"] rescue nil
   end
 
   # returns config files path and can be stubbed this way

@@ -7,7 +7,8 @@ source "http://rubygems.org"
 # Include everything needed to run rake, tests, features, etc.
 
 gem 'nokogiri', '~> 1.4.3.1'
-gem 'httparty', '~> 0.6.1'
+#gem 'httparty', '~> 0.6.1'
+gem 'rest-client', '>= 1.6.1'
 
 group :development do
   gem "rspec", ">= 2.0.0.beta.19"
