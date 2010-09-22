@@ -1,5 +1,7 @@
-config = YAML.load_file("#{Rails.root}/vendor/plugins/telekom_api/config/api_runner.yaml")
-
+begin
+  config = YAML.load_file("#{Rails.root}/config/api_runner.yml")
+rescue
+end
 namespace :api do
   namespace :run do
     config.each_key do |env|
@@ -10,7 +12,7 @@ namespace :api do
         api_runner.run
         puts "\nTestrun finished\n\n"
       end
-    end
+    end unless config.nil?
   end
   desc "generates configuration and a skeleton for apirunner tests as well as excludes"
   task :scaffold do

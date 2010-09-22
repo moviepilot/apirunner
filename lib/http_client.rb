@@ -4,7 +4,8 @@ class HttpClient
 
   # sends http request with given method, uri and data and returns servers response
   def send_request(method, uri, data=nil)
-    build_response(self.class.send(method, uri, data ||= {}))
+    options = { :body => data.to_json, :format => :json }
+    build_response(self.class.send(method, uri, options))
   end
 
   protected

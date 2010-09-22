@@ -26,6 +26,7 @@ apirunner was initially developed for testing of the mighty (m8ty) i18n recommen
 * print out a nice error report (that you as a awesome ruby coder will never see)
 * be invoked from within rake to generate some example configuration and testcase files
 * be invoked also from within rake to run your test's
+* not travel to Ibiza
 
 == Installation
 
@@ -44,6 +45,44 @@ Additionally there will be some example testcases which can be found in:
   test/apirunner/001_create_ressource.yml
   test/apirunner/002_delete_ressource.yml
   test/apirunner/excludes.yml
+
+At first take some time and change config/api_runner.yml to your needs. You might for example want to test your app locally on localhost:3000, on staging machine and on production environment too. So your api_runner.yml could look like that:
+
+  local:
+    protocol: http
+    host: localhost
+    port: 3000
+    namespace: api
+  staging:
+    protocol: http
+    host: staging.yourstagingdomain.dom
+    port: 80
+    namespace: api
+  production:
+    protocol: https
+    host: www.yourproductiondomain.dom
+    port: 80
+    namespace: prod_api
+
+Take a look at "namespace" here. It makes the expectation matcher build ressource URI's like so:
+
+  http://localhost:3000/api
+  http://staging.yourstagingdomain.dom/api
+  http://www.yourproductiondomain.dom/prod_api
+
+The ressource pathes are simply appended before the request is sent.
+
+The file also generates your rake tasks dynamically. The above config will generate 3 new tasks:
+
+  api:run:local
+  api:run:staging
+  api:run:production
+
+== Excludes
+
+You may also want to define some excludes for some of your environment. Imageine on your localhost's server there is no "Last-Modified" present in the header, but you would like to check that on staging and production boxes.
+
+Simply define your story to check "Last-Modified" generally and exclude it for 
 
 == Invocation
 
@@ -67,6 +106,18 @@ apirunner heavily depends on the following great GEM's:
 
 1) nokogiri
 2) httparty
+
+== Examples
+
+After invoking:
+
+  rake api:scaffold
+
+you will find some YAML example files for request and expectation generation in test/api_runner. You can create as many story files here as you like, they are executed in the order they are read from the filesystem, so you should name them like 000_create_some_ressource.yml, 001_read_some_ressource.yml and so on. 
+
+Alternatively you can place all your stories into one single file.
+
+Addition
 
 == Authors
 
