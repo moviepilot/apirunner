@@ -20,7 +20,10 @@ describe 'apirunner' do
       @a.instance_variable_get(:@excludes).include?("content-length").should be_true
       @a.instance_variable_get(:@excludes).include?("notthere").should be_false
     end
-    it 'should fill @spec'
+    it 'should fill @spec' do
+      @a.instance_variable_get(:@spec).should be_a(Array)
+      @a.instance_variable_get(:@spec).size.should >= 1
+    end
     it 'should instantiate an http client into @http_client' do
       @a.instance_variable_get(:@http_client).should be_a(HttpClient)
     end
@@ -30,11 +33,14 @@ describe 'apirunner' do
   end
 
   describe 'run_tests' do
-    it 'should send a request for every given testcase'
+    it 'should send a request for every given testcase' do
+      pending "Rails context missing"
+      @a.should_receive(:server_is_available?).and_return true
+      @a.should_receive(:send_request).exactly(@a.instance_variable_get(:@spec).size).times
+      @a.run
+    end
     it 'should run a test for every test_type'
-    it 'should output an "F" if an error occured'
     it 'should save an error message in @errors if an error occured'
-    it 'should output a "." if all test_types of a certain test_case passed'
   end
 
   describe 'send_request' do
@@ -50,19 +56,4 @@ describe 'apirunner' do
     it 'should return false if the given server is not available'
   end
 
-  describe 'load_config' do
-    it 'should load the configuration from a YAML file'
-    it 'should put the config into certain instance variables'
-  end
-
-  describe 'load_url_spec' do
-    it 'should load the URL spec from a YAML file'
-    it 'should create an array of test_cases in @spec instance variable'
-  end
-
-  describe 'load_excludes' do
-    it 'should load the excludes from a yaml file'
-    it 'should populate @excludes instance variable with the excludes from the YAML file'
-    it 'should make sure that @excludes is an array'
-  end
 end

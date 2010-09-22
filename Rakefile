@@ -14,10 +14,10 @@ Jeweler::Tasks.new do |gem|
   # gem is a Gem::Specification... see http://docs.rubygems.org/read/chapter/20 for more options
   gem.name = "apirunner"
   gem.summary = %Q{one-line summary of your gem}
-  gem.description = %Q{longer description of your gem}
+  gem.description = %Q{apirunner is a testsuite to query your RESTful JSON API and match response with your defined expectations}
   gem.email = "developers@moviepilot.com"
   gem.homepage = "http://github.com/moviepilot/apirunner"
-  gem.authors = ["moviepilot"]
+  gem.authors = ["jan@moviepilot.com"]
   # Include your dependencies below. Runtime dependencies are required when using your gem,
   # and development dependencies are only needed for development (ie running rake tasks, tests, etc)
   #  spec.add_runtime_dependency 'jabber4r', '> 0.1'

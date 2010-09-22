@@ -3,6 +3,7 @@ class ApiRunner
   require 'expectation_matcher'
   require 'http_client'
 
+
   CONFIG_FILE = "config/api_runner.yml"
   SPEC_PATH = "test/api_runner/"
   EXCLUDES_FILE = "test/api_runner/excludes.yml"
