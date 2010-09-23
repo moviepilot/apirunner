@@ -1,6 +1,5 @@
 class HttpClient
   require 'net/http'
-  require 'JSON'
 
   def initialize(host, port, namespace)
     @http = Net::HTTP.new(host, port)
