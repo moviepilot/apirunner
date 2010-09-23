@@ -10,13 +10,13 @@ class ApiRunner
 
   # initializes the object, loads environment, build base_uri
   def initialize(env)
-    @http_client = HttpClient.new
     @spec = []
     @errors = []
     @excludes = []
     load_config(env)
     load_excludes(env)
     load_url_spec
+    @http_client = HttpClient.new(@host, @port, @namespace)
     @expectation = ExpectationMatcher.new(@excludes)
   end
 
@@ -37,7 +37,7 @@ class ApiRunner
   # runs all testcases that are provided by the testclass an fills errors if there are any
   def run_tests
     @spec.each do |test_case|
-      response = send_request(test_case['request']['method'].downcase.to_sym, target_uri(test_case['request']['path']), test_case['request']['body'])
+      response = send_request(test_case['request']['method'].downcase.to_sym, test_case['request']['path'], test_case['request']['body'])
       @expectation.test_types.each do |test_type|
         test = @expectation.check(test_type, response, test_case)
         if not test.succeeded
@@ -57,12 +57,13 @@ class ApiRunner
   end
 
   # builds target uri from base uri generated of host port and namespace as well as the ressource path
-  def target_uri(ressource_path)
-    "#{@protocol}://#{@host}:#{@port}/#{@namespace}" + ressource_path
+  def target_uri
+    "#{@protocol}://#{@host}"
   end
 
   # returns true if server is available
   def server_is_available?
+    return true
     !@http_client.send_request(:get, "#{@protocol}://#{@host}:#{@port}", {:timeout => 5}).nil?
   end
 

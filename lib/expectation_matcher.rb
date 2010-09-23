@@ -22,7 +22,7 @@ class ExpectationMatcher
   def response_code(response, testcase)
     result_struct = Struct.new(:succeeded, :error)
     results = result_struct.new(:succeeded => true, :error => nil)
-    if not testcase['response_expectation']['status_code'] == response.code
+    if not testcase['response_expectation']['status_code'].to_s == response.code.to_s
       results.succeeded = false
       results.error = "testcase '#{testcase['name']}'\n expected response code --#{testcase['response_expectation']['status_code']}--\n got response code --#{response.code}--"
     end
@@ -64,6 +64,10 @@ class ExpectationMatcher
 
   # matches the given attributes and values against the ones from the response body
   def response_body(response, testcase)
+    puts("Testcase #{testcase['name']}\n")
+    puts("got response --#{response.body}--\n\n")
+    puts("exp response --#{testcase['response_expectation']['body']}--\n")
+    puts("___________________________\n\n\n")
     result_struct = Struct.new(:succeeded, :error)
     results = result_struct.new(:succeeded => true, :error => nil)
 
