@@ -40,7 +40,6 @@
         m336: 4.0
         m79: 2.5
       fsk:            "18"
-      expires_at: Fri, 09 Sep 2011 22:41:50 +0000
 - name: 'Update existing User - Update watchlist'
   request:
     path:       '/users/duffyduck/watchlist'
@@ -79,16 +78,14 @@
     path:        '/users/duffyduck/ratings'
     method:      'PUT'
     body:
-      "m1035": 4
-      "m2087": 3
+      "m1035": 1
+      "m2087": 0.5
       "m1554": 2
-      "m2981": 1
+      "m2981": 1.0
       "m1590": 2
-      "m1056": 3
       "m12493": 4
       "m1875": 5
       "m7258": 2.5
-      "m7339": 3.5
   response_expectation:
     status_code: 204
     headers:
@@ -115,11 +112,10 @@
       - m78
       ratings:
         "m1035": "1.0"
-        "m2087": "3.0"
+        "m2087": "0.5"
         "m1554": "2.0"
+        "m2981": "1.0"
         "m1590": "2.0"
-        "m1056": "3.0"
         "m12493": "4.0"
         "m1875": "5.0"
         "m7258": "2.5"
-        "m7339": "3.5"

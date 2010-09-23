@@ -1,6 +1,5 @@
 class ApiRunner
   require 'yaml'
-  require 'JSON'
   require 'expectation_matcher'
   require 'http_client'
 
