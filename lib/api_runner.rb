@@ -63,7 +63,6 @@ class ApiRunner
 
   # returns true if server is available
   def server_is_available?
-    return true
     !@http_client.send_request(:get, "#{@protocol}://#{@host}:#{@port}", {:timeout => 5}).nil?
   end
 
