@@ -1,5 +1,6 @@
 class ExpectationMatcher
   require 'nokogiri'
+  require 'JSON'
 
   def initialize(excludes=nil)
     @test_types = [:response_code, :response_body_format, :response_headers, :response_body]
