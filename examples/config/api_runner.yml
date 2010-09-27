@@ -16,6 +16,6 @@ production:
 general:
   verbosity:
     - rspec
-    - on_error
-    - on_success
-    - curl
+    - verbose_on_error
+    - verbose_on_success
+    - verbose_with_curl

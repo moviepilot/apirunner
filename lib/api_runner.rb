@@ -11,7 +11,7 @@ class ApiRunner
   # initializes the object, loads environment, build base_uri
   def initialize(env)
     @spec = []
-    @errors = []
+    @results = []
     @excludes = []
     @configuration = ApiConfiguration.new
     load_config(env)
@@ -25,9 +25,9 @@ class ApiRunner
   def run
     if server_is_available?
       run_tests
-      @errors.each_with_index do |error, index|
-        puts("\n\nError (#{index+1}): #{error}")
-      end unless @errors.empty?
+      @results.each_with_index do |result, index|
+        result.honk_in(@configuration.verbosity, index)
+      end unless @results.empty?
     else
       puts("Server #{@configuration.host} seems to be unavailable!")
     end
@@ -40,13 +40,16 @@ class ApiRunner
     @spec.each do |test_case|
       response = send_request(test_case['request']['method'].downcase.to_sym, test_case['request']['path'], test_case['request']['body'])
       @expectation.test_types.each do |test_type|
-        test = @expectation.check(test_type, response, test_case)
-        if not test.succeeded
-          @errors << test.error_message
+        result = @expectation.check(test_type, response, test_case)
+        if not result.succeeded
           putc "F"
+          @results << result
           break
         else
-          putc "." if test_type == @expectation.test_types.last
+          if test_type == @expectation.test_types.last
+            @results << result
+            putc "."
+          end
         end
       end
     end

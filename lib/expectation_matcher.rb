@@ -25,7 +25,7 @@ class ExpectationMatcher
     result = Result.new(testcase, response)
     if not testcase['response_expectation']['status_code'].to_s == response.code.to_s
       result.succeeded = false
-      result.error_message = "testcase '#{testcase['name']}'\n expected response code --#{testcase['response_expectation']['status_code']}--\n got response code --#{response.code}--"
+      result.error_message = " expected response code --#{testcase['response_expectation']['status_code']}--\n got response code --#{response.code}--"
     end
     result
   end
@@ -38,7 +38,7 @@ class ExpectationMatcher
     result = Result.new(testcase, response)
     if not valid_json?(response.body)
       result.succeeded = false
-      result.error_message = "testcase '#{testcase['name']}'\n expected valid JSON in body\n got --#{response.body[1..400]}--"
+      result.error_message = "expected valid JSON in body\n got --#{response.body[1..400]}--"
     end
     result
   end
@@ -51,12 +51,12 @@ class ExpectationMatcher
       if is_regex?(header_value)
         if not (excluded?(header_name) or regex_matches?(header_value, response.headers[header_name]))
           result.succeeded = false
-          result.error_message = "testcase '#{testcase['name']}'\n expected header identifier --#{header_name}-- to match regex --#{header_value}--\n got --#{response.headers[header_name]}--"
+          result.error_message = " expected header identifier --#{header_name}-- to match regex --#{header_value}--\n got --#{response.headers[header_name]}--"
         end
       else
         if not (excluded?(header_name) or string_matches?(header_value, response.headers[header_name]))
           result.succeeded = false
-          result.error_message = "testcase '#{testcase['name']}'\n expected header identifier --#{header_name}-- to match --#{header_value}--\n got --#{response.headers[header_name]}--"
+          result.error_message = " expected header identifier --#{header_name}-- to match --#{header_value}--\n got --#{response.headers[header_name]}--"
         end
       end
     end unless (testcase['response_expectation']['headers'].nil? or testcase['response_expectation']['headers'].empty?)
@@ -78,7 +78,7 @@ class ExpectationMatcher
     rescue
       result = Result.new(testcase, response)
       result.success = false
-      result.error_message = "testcase '#{testcase['name']}'\n expected response to have a body\n got raw body --#{response.body}-- which is nil or an unparseable hash"
+      result.error_message = " expected response to have a body\n got raw body --#{response.body}-- which is nil or an unparseable hash"
       return result
     end
 
@@ -94,7 +94,7 @@ class ExpectationMatcher
       # return error if response body does not have the expected entry
       if response_node.nil?
         result.succeeded = false
-        result.error_message = "testcase '#{testcase['name']}'\n expected body to have identifier --#{expectation_node.name}--\n got nil"
+        result.error_message = " expected body to have identifier --#{expectation_node.name}--\n got nil"
         return result
       end
 
@@ -102,12 +102,12 @@ class ExpectationMatcher
       if is_regex?(expectation_node.text)
         if not (excluded?(expectation_node.name) or regex_matches?(expectation_node.text, response_node.text))
           result.succeeded = false
-          result.error_message = "testcase '#{testcase['name']}'\n expected body identifier --#{expectation_node.name}-- to match regex --#{expectation_node.text}--\n got --#{response_node.text}--"
+          result.error_message = " expected body identifier --#{expectation_node.name}-- to match regex --#{expectation_node.text}--\n got --#{response_node.text}--"
         end
       else
         if not (excluded?(expectation_node.name) or string_matches?(expectation_node.text, response_node.text))
           result.succeeded = false
-          result.error_message = "testcase '#{testcase['name']}'\n expected body identifier --#{expectation_node.name}-- to match --#{expectation_node.text}--\n got --#{response_node.text}--"
+          result.error_message = " expected body identifier --#{expectation_node.name}-- to match --#{expectation_node.text}--\n got --#{response_node.text}--"
         end
       end
     end
