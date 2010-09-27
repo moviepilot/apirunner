@@ -2,6 +2,7 @@ class ApiRunner
   require 'yaml'
   require 'expectation_matcher'
   require 'http_client'
+  require 'api_configuration'
 
   CONFIG_FILE = "config/api_runner.yml"
   SPEC_PATH = "test/api_runner/"
@@ -12,10 +13,11 @@ class ApiRunner
     @spec = []
     @errors = []
     @excludes = []
+    @configuration = ApiConfiguration.new
     load_config(env)
     load_excludes(env)
     load_url_spec
-    @http_client = HttpClient.new(@host, @port, @namespace)
+    @http_client = HttpClient.new(@configuration.host, @configuration.port, @configuration.namespace)
     @expectation = ExpectationMatcher.new(@excludes)
   end
 
@@ -27,7 +29,7 @@ class ApiRunner
         puts("\n\nError (#{index+1}): #{error}")
       end unless @errors.empty?
     else
-      puts("Server #{@host} seems to be unavailable!")
+      puts("Server #{@configuration.host} seems to be unavailable!")
     end
   end
 
@@ -57,19 +59,20 @@ class ApiRunner
 
   # builds target uri from base uri generated of host port and namespace as well as the ressource path
   def target_uri
-    "#{@protocol}://#{@host}"
+    "#{@configuration.protocol}://#{@configuration.host}"
   end
 
   # returns true if server is available
   def server_is_available?
     return true
-    !@http_client.send_request(:get, "#{@protocol}://#{@host}:#{@port}", {:timeout => 5}).nil?
+    !@http_client.send_request(:get, "#{@configuration.protocol}://#{@configuration.host}:#{@configuration.port}", {:timeout => 5}).nil?
   end
 
   # loads environment config data from yaml file
   def load_config(env)
     config = YAML.load_file(self.class.config_file)
-    config[env.to_s].each { |key, value| instance_variable_set("@#{key}", value) }
+    config[env.to_s].each { |key, value| @configuration.instance_variable_set("@#{key}", value) }
+    @configuration.verbosity = config['general']['verbosity'].first
   end
 
   # loads spec cases from yaml files

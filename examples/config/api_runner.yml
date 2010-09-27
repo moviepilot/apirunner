@@ -13,3 +13,9 @@ production:
   host: www.moviepilot.com
   port: 80
   namespace: api1v0
+general:
+  verbosity:
+    - rspec
+    - on_error
+    - on_success
+    - curl
