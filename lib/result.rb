@@ -10,14 +10,14 @@ class Result
     @error_message = nil
   end
 
+  # honk out the errors message corresponding to the verbosity configuration the user took
   def honk_in(verbosity="rspec", index)
     self.send(verbosity.to_sym, index)
   end
 
-  def error_message
-    @error_message
-  end
+  private
 
+  # yields out rspec like error messages only in case of an error
   def rspec(index)
     if not @succeeded
       puts "\nError (#{index}) - \"#{@testcase['name']}\""
@@ -25,16 +25,45 @@ class Result
     end
   end
 
-  def verbose_on_error
-    "I am the on_error message"
+  # yields a more verbose error message only in case of an error
+  def verbose_on_error(index)
+    if not @succeeded
+      be_verbose(index)
+    end
   end
 
-  def verbose_on_success
-    "I am the on_success message"
+  # yields a more verbose message in case of an error AND success
+  def verbose_on_success(index)
+    be_verbose(index)
   end
 
-  def verbose_with_curl
-    "I am a message including curl call parameters"
+  # yields a more verbose message in any case and includes a curl command to manually simulate the testcase
+  def verbose_with_curl(index)
+    be_verbose(index)
+    puts "\n  simulate this call with: \"curl TODO\""
+  end
+
+  # yields the verbose error messages
+  def be_verbose(index)
+      puts "\n#{result_case} (#{index+1}) - \"#{@testcase['name']}\""
+      puts @error_message
+      puts ("  More more more verbosity\n")
+      puts ("  request method: #{@testcase['request']['method']}")
+      puts ("  resource path: #{@testcase['request']['path']}")
+      puts ("  request headers: #{@testcase['request']['headers']}")
+      puts ("  JSON body sent: #{@testcase['request']['body']}")
+      puts ("  response status code: #{@testcase['response_expectation']['status_code']}")
+      puts ("  response headers: #{@testcase['response_expectation']['headers']}")
+      puts ("  response body: #{@testcase['response_expectation']['body']}")
+  end
+
+  # returns the result case for interpolation in the output message header
+  def result_case
+    if @succeeded
+      "Success"
+    else
+      "Error"
+    end
   end
 
 end
