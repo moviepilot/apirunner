@@ -60,7 +60,7 @@ class Result
       puts("  result:")
       puts("    response status code: #{@response.code}")
       puts("    response headers: #{@response.headers}")
-      puts("    repsonse body: #{JSON.parse(@response.body)}")
+      puts("    repsonse body: #{JSON.parse(@response.body) rescue nil}")
   end
 
   # returns the result case for interpolation in the output message header
