@@ -1,6 +1,8 @@
 ---
 - name: 'Create new User'
   request:
+    headers:
+      Content-Type: 'application/json'
     path:        '/users/duffyduck'
     method:      'PUT'
     body:
@@ -42,6 +44,8 @@
       fsk:            "18"
 - name: 'Update existing User - Update watchlist'
   request:
+    headers:
+      Content-Type: 'application/json'
     path:       '/users/duffyduck/watchlist'
     method:     'PUT'
     body:
@@ -52,6 +56,8 @@
     body:
 - name: 'Check User FSK,Watchlist'
   request:
+    headers:
+      Content-Type: 'application/json'
     path:        '/users/duffyduck'
     method:      'GET'
   response_expectation:
@@ -75,6 +81,8 @@
         m79: 2.5
 - name: 'Set 10 Ratings'
   request:
+    headers:
+      Content-Type: 'application/json'
     path:        '/users/duffyduck/ratings'
     method:      'PUT'
     body:
@@ -92,6 +100,8 @@
       Last-Modified:    /.*/
 - name: 'Check User Ratings Update'
   request:
+    headers:
+      Content-Type: 'application/json'
     path:        '/users/duffyduck'
     method:      'GET'
   response_expectation:

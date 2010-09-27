@@ -31,7 +31,6 @@ class ExpectationMatcher
   end
 
   # checks the format of the given data of JSON conformity
-  # returns a structure containing return value and error if there is one
   def response_body_format(response, testcase)
     result_struct = Struct.new(:succeeded, :error)
     results = result_struct.new(:succeeded => true, :error => nil)

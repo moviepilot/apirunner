@@ -38,7 +38,7 @@ class ApiRunner
   # runs all testcases that are provided by the testclass an fills errors if there are any
   def run_tests
     @spec.each do |test_case|
-      response = send_request(test_case['request']['method'].downcase.to_sym, test_case['request']['path'], test_case['request']['body'])
+      response = send_request(test_case['request']['method'].downcase.to_sym, test_case['request']['path'], test_case['request']['headers'], test_case['request']['body'])
       @expectation.test_types.each do |test_type|
         result = @expectation.check(test_type, response, test_case)
         if not result.succeeded
@@ -56,8 +56,8 @@ class ApiRunner
   end
 
   # sends http request and fetches response using the given http client
-  def send_request(method, uri, data)
-    @http_client.send_request(method, uri, data)
+  def send_request(method, uri, headers, data)
+    @http_client.send_request(method, uri, headers, data)
   end
 
   # builds target uri from base uri generated of host port and namespace as well as the ressource path
@@ -68,7 +68,7 @@ class ApiRunner
   # returns true if server is available
   def server_is_available?
     return true
-    !@http_client.send_request(:get, "#{@configuration.protocol}://#{@configuration.host}:#{@configuration.port}", {:timeout => 5}).nil?
+    !@http_client.send_request(:get, "#{@configuration.protocol}://#{@configuration.host}:#{@configuration.port}", nil, {:timeout => 5}).nil?
   end
 
   # loads environment config data from yaml file
