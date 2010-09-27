@@ -40,7 +40,7 @@ class ApiRunner
       @expectation.test_types.each do |test_type|
         test = @expectation.check(test_type, response, test_case)
         if not test.succeeded
-          @errors << test.error
+          @errors << test.error_message
           putc "F"
           break
         else

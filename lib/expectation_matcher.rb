@@ -1,4 +1,5 @@
 class ExpectationMatcher
+  require 'result'
   require 'nokogiri'
   require 'JSON'
 
@@ -21,13 +22,12 @@ class ExpectationMatcher
 
   # matches the given response code
   def response_code(response, testcase)
-    result_struct = Struct.new(:succeeded, :error)
-    results = result_struct.new(:succeeded => true, :error => nil)
+    result = Result.new(testcase, response)
     if not testcase['response_expectation']['status_code'].to_s == response.code.to_s
-      results.succeeded = false
-      results.error = "testcase '#{testcase['name']}'\n expected response code --#{testcase['response_expectation']['status_code']}--\n got response code --#{response.code}--"
+      result.succeeded = false
+      result.error_message = "testcase '#{testcase['name']}'\n expected response code --#{testcase['response_expectation']['status_code']}--\n got response code --#{response.code}--"
     end
-    results
+    result
   end
 
   # checks the format of the given data of JSON conformity
@@ -35,55 +35,51 @@ class ExpectationMatcher
   def response_body_format(response, testcase)
     result_struct = Struct.new(:succeeded, :error)
     results = result_struct.new(:succeeded => true, :error => nil)
+    result = Result.new(testcase, response)
     if not valid_json?(response.body)
-      results.succeeded = false
-      results.error = "testcase '#{testcase['name']}'\n expected valid JSON in body\n got --#{response.body[1..400]}--"
+      result.succeeded = false
+      result.error_message = "testcase '#{testcase['name']}'\n expected valid JSON in body\n got --#{response.body[1..400]}--"
     end
-    results
+    result
   end
 
   # matches the given response header
   def response_headers(response, testcase)
-    result_struct = Struct.new(:succeeded, :error)
-    results = result_struct.new(:succeeded => true, :error => nil)
+    result = Result.new(testcase, response)
 
     testcase['response_expectation']['headers'].each_pair do |header_name, header_value|
       if is_regex?(header_value)
         if not (excluded?(header_name) or regex_matches?(header_value, response.headers[header_name]))
-          results.succeeded = false
-          results.error = "testcase '#{testcase['name']}'\n expected header identifier --#{header_name}-- to match regex --#{header_value}--\n got --#{response.headers[header_name]}--"
+          result.succeeded = false
+          result.error_message = "testcase '#{testcase['name']}'\n expected header identifier --#{header_name}-- to match regex --#{header_value}--\n got --#{response.headers[header_name]}--"
         end
       else
         if not (excluded?(header_name) or string_matches?(header_value, response.headers[header_name]))
-          results.succeeded = false
-          results.error = "testcase '#{testcase['name']}'\n expected header identifier --#{header_name}-- to match --#{header_value}--\n got --#{response.headers[header_name]}--"
+          result.succeeded = false
+          result.error_message = "testcase '#{testcase['name']}'\n expected header identifier --#{header_name}-- to match --#{header_value}--\n got --#{response.headers[header_name]}--"
         end
       end
     end unless (testcase['response_expectation']['headers'].nil? or testcase['response_expectation']['headers'].empty?)
-    return results
+    return result
   end
 
   # matches the given attributes and values against the ones from the response body
   def response_body(response, testcase)
-    puts("Testcase #{testcase['name']}\n")
-    puts("got response --#{response.body}--\n\n")
-    puts("exp response --#{testcase['response_expectation']['body']}--\n")
-    puts("___________________________\n\n\n")
-    result_struct = Struct.new(:succeeded, :error)
-    results = result_struct.new(:succeeded => true, :error => nil)
+    result = Result.new(testcase, response)
 
     expected_body_hash = testcase['response_expectation']['body']
 
     # in case we have no body expectation we simply return success
-    return results if expected_body_hash.nil?
+    return result if expected_body_hash.nil?
 
     # in case the response body is nil or damaged we return an error
     begin
       responded_body_hash = JSON.parse(response.body)
     rescue
-      results.succeeded = false
-      results.error = "testcase '#{testcase['name']}'\n expected response to have a body\n got raw body --#{response.body}-- which is nil or an unparseable hash"
-      return results
+      result = Result.new(testcase, response)
+      result.success = false
+      result.error_message = "testcase '#{testcase['name']}'\n expected response to have a body\n got raw body --#{response.body}-- which is nil or an unparseable hash"
+      return result
     end
 
     # else we build trees from both body structures...
@@ -97,25 +93,25 @@ class ExpectationMatcher
 
       # return error if response body does not have the expected entry
       if response_node.nil?
-        results.succeeded = false
-        results.error = "testcase '#{testcase['name']}'\n expected body to have identifier --#{expectation_node.name}--\n got nil"
-        return results
+        result.succeeded = false
+        result.error_message = "testcase '#{testcase['name']}'\n expected body to have identifier --#{expectation_node.name}--\n got nil"
+        return result
       end
 
       # last but not least try the regex or direct match and return errors in case of any
       if is_regex?(expectation_node.text)
         if not (excluded?(expectation_node.name) or regex_matches?(expectation_node.text, response_node.text))
-          results.succeeded = false
-          results.error = "testcase '#{testcase['name']}'\n expected body identifier --#{expectation_node.name}-- to match regex --#{expectation_node.text}--\n got --#{response_node.text}--"
+          result.succeeded = false
+          result.error_message = "testcase '#{testcase['name']}'\n expected body identifier --#{expectation_node.name}-- to match regex --#{expectation_node.text}--\n got --#{response_node.text}--"
         end
       else
         if not (excluded?(expectation_node.name) or string_matches?(expectation_node.text, response_node.text))
-          results.succeeded = false
-          results.error = "testcase '#{testcase['name']}'\n expected body identifier --#{expectation_node.name}-- to match --#{expectation_node.text}--\n got --#{response_node.text}--"
+          result.succeeded = false
+          result.error_message = "testcase '#{testcase['name']}'\n expected body identifier --#{expectation_node.name}-- to match --#{expectation_node.text}--\n got --#{response_node.text}--"
         end
       end
     end
-    results
+    result
   end
 
   # recursively parses the tree and returns a set of relative pathes
