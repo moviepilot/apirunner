@@ -28,26 +28,25 @@ class HttpClient
 
   def get(headers, resource, params)
     request = Net::HTTP::Get.new(resource_path(resource), initheader = headers)
-    response = @http.request(request)
-    return response
+    @http.request(request)
   end
 
   def put(headers, resource, data)
     request = Net::HTTP::Put.new(resource_path(resource), initheader = headers)
     request.body = data.to_json
-    response = @http.request(request)
+    @http.request(request)
   end
 
   def post(headers, resource, data)
     request = Net::HTTP::Post.new(resource_path(resource), initheader = headers)
     request.body = data.to_json
-    response = @http.request(request)
+    @http.request(request)
   end
 
 
   def delete(headers, resource, params)
     request = Net::HTTP::Delete.new(resource_path(resource), initheader = headers)
-    response = @http.request(request)
+    @http.request(request)
   end
 
   def resource_path(resource)
