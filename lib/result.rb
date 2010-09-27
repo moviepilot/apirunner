@@ -45,16 +45,22 @@ class Result
 
   # yields the verbose error messages
   def be_verbose(index)
+    debugger
       puts "\n#{result_case} (#{index+1}) - \"#{@testcase['name']}\""
       puts @error_message
-      puts ("  More more more verbosity\n")
-      puts ("  request method: #{@testcase['request']['method']}")
-      puts ("  resource path: #{@testcase['request']['path']}")
-      puts ("  request headers: #{@testcase['request']['headers']}")
-      puts ("  JSON body sent: #{@testcase['request']['body']}")
-      puts ("  response status code: #{@testcase['response_expectation']['status_code']}")
-      puts ("  response headers: #{@testcase['response_expectation']['headers']}")
-      puts ("  response body: #{@testcase['response_expectation']['body']}")
+      puts("  More more more verbosity\n")
+      puts("  request method: #{@testcase['request']['method']}")
+      puts("  resource path: #{@testcase['request']['path']}")
+      puts("  request headers: #{@testcase['request']['headers']}")
+      puts("  JSON body sent: #{@testcase['request']['body']}")
+      puts("  expectation:")
+      puts("    response status code: #{@testcase['response_expectation']['status_code']}")
+      puts("    response headers: #{@testcase['response_expectation']['headers']}")
+      puts("    response body: #{@testcase['response_expectation']['body']}")
+      puts("  result:")
+      puts("    response status code: #{@response.code}")
+      puts("    response headers: #{@response.headers}")
+      puts("    repsonse body: #{JSON.parse(@response.body)}")
   end
 
   # returns the result case for interpolation in the output message header
