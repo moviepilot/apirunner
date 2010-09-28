@@ -66,6 +66,15 @@ class ExpectationMatcher
   def response_body(response, testcase)
     result = Result.new(testcase, response)
 
+    # special case: the whole body has to be matched via a regular expression
+    if is_regex?(testcase['response_expectation']['body'])
+      if not regex_matches?(testcase['response_expectation']['body'], response.body)
+        result.succeeded = false
+        result.error_message = " expected the whole body to match regex --#{testcase['response_expectation']['body']}--\n got --#{response.body}--"
+      end
+      return result
+    end
+
     expected_body_hash = testcase['response_expectation']['body']
 
     # in case we have no body expectation we simply return success
@@ -87,10 +96,10 @@ class ExpectationMatcher
 
     # retrieve all the leafs pathes and match the leafs values using xpath
     matcher_pathes_from(expectation_tree).each do |path|
-      debugger if testcase['name'] == "Check users watchlist afterwards"
       expectation_node = expectation_tree.xpath(path).first
       response_node = response_tree.xpath(path).first
 
+      debugger
       # in some (not awesome) cases the root node occures as leaf, so we have to skip him here
       next if expectation_node.name == "hash"
 
