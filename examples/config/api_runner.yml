@@ -19,3 +19,4 @@ general:
     - verbose_on_error
     - verbose_on_success
     - verbose_with_curl
+  priority: 0

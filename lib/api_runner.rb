@@ -76,6 +76,7 @@ class ApiRunner
     config = YAML.load_file(self.class.config_file)
     config[env.to_s].each { |key, value| @configuration.instance_variable_set("@#{key}", value) }
     @configuration.verbosity = config['general']['verbosity'].first
+    @configuration.priority = config['general']['priority'] || 0
   end
 
   # loads spec cases from yaml files
@@ -85,7 +86,18 @@ class ApiRunner
     Dir.new(path).entries.each do |dir_entry|
       specs.push *YAML.load_file(path+dir_entry) if not (File.directory? dir_entry or dir_entry.match(/^\./) or dir_entry.match(/excludes/))
     end
-    @spec = partition(specs)
+    @spec = priorize(partition(specs))
+  end
+
+  # returns only spec whose priority level is less or equals configures priority level
+  # if no priority level is configured for the api runner, 0 is assumed
+  # if no priority level ist configured for a story, 0 is assumed
+  def priorize(specs)
+    relevant_specs = []
+    specs.each do |spec|
+      relevant_specs << spec if spec['priority'].nil? or spec['priority'].to_i <= @configuration.priority.to_i
+    end
+    relevant_specs
   end
 
   # partitions the spec if keywords like 'focus', 'until' or 'from exist'

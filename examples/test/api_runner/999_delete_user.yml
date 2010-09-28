@@ -1,0 +1,22 @@
+---
+- name: 'Delete User 1'
+  request:
+    path:        '/users/duffyduck'
+    method:      'DELETE'
+    body:        {}
+  response_expectation:
+    status_code: 202
+- name: 'Delete User 2'
+  request:
+    path:        '/users/duffyduck2'
+    method:      'DELETE'
+    body:        {}
+  response_expectation:
+    status_code: 202
+- name: 'Delete User 3'
+  request:
+    path:        '/users/duffyduck3'
+    method:      'DELETE'
+    body:        {}
+  response_expectation:
+    status_code: 202
