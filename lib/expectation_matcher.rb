@@ -76,7 +76,7 @@ class ExpectationMatcher
       responded_body_hash = JSON.parse(response.body)
     rescue
       result = Result.new(testcase, response)
-      result.success = false
+      result.succeeded = false
       result.error_message = " expected response to have a body\n got raw body --#{response.body}-- which is nil or an unparseable hash"
       return result
     end
@@ -87,8 +87,12 @@ class ExpectationMatcher
 
     # retrieve all the leafs pathes and match the leafs values using xpath
     matcher_pathes_from(expectation_tree).each do |path|
+      debugger if testcase['name'] == "Check users watchlist afterwards"
       expectation_node = expectation_tree.xpath(path).first
       response_node = response_tree.xpath(path).first
+
+      # in some (not awesome) cases the root node occures as leaf, so we have to skip him here
+      next if expectation_node.name == "hash"
 
       # return error if response body does not have the expected entry
       if response_node.nil?
