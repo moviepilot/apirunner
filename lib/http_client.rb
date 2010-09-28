@@ -17,12 +17,15 @@ class HttpClient
   # returns struct containing response.code, headers, body and message
   # this is only for easily interfaceing another http client
   def build_response(raw_response)
+    debugger
     response_struct = Struct.new(:code, :message, :headers, :body)
     response = response_struct.new
     response.code = raw_response.code
     response.message = raw_response.message
     response.body = raw_response.body
-    response.headers = raw_response.header
+    # response.headers = raw_response.header
+    # TODO improve me!
+    response.headers = JSON.parse(raw_response.header.to_json) rescue nil
     response
   end
 

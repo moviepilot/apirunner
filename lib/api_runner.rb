@@ -81,9 +81,31 @@ class ApiRunner
   # loads spec cases from yaml files
   def load_url_spec
     path = self.class.spec_path
+    specs = []
     Dir.new(path).entries.each do |dir_entry|
-      @spec.push *YAML.load_file(path+dir_entry) if not (File.directory? dir_entry or dir_entry.match(/^\./) or dir_entry.match(/excludes/))
+      specs.push *YAML.load_file(path+dir_entry) if not (File.directory? dir_entry or dir_entry.match(/^\./) or dir_entry.match(/excludes/))
     end
+    @spec = partition(specs)
+  end
+
+  # partitions the spec if keywords like 'focus', 'until' or 'from exist'
+  # and returns the relevant subset of specs that have to be tested then
+  def partition(specs)
+    relevant_specs = []
+    specs.each do |spec|
+      if spec['focus']
+        relevant_specs << spec
+        break
+      elsif spec['until']
+        relevant_specs = specs[0..specs.index(spec)]
+        break
+      elsif spec['from']
+        relevant_specs = specs[specs.index(spec)..specs.size+1]
+        break
+      end
+    end
+    relevant_specs = specs if relevant_specs.empty?
+    relevant_specs
   end
 
   # loads and parses items that need to be excluded from the checks in certain environments
