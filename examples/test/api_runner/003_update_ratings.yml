@@ -1,1 +1,27 @@
 ---
+- name: "Without per_page there should come out 1 rateable movie"
+  request:
+    path:           '/users/duffyduck/rateables'
+    method:         'GET'
+    headers:
+      Content-Type: 'application/json'
+    body: {}
+  response_expectation:
+    status_code: 200
+    headers:
+      Last-Modified: /.*/
+    body:            /^\["m\d+"\]$/
+- name: "With per_page 10 there should come out 10 rateable movies"
+  request:
+    path:           '/users/duffyduck/rateables?per_page=10'
+    parameters:
+      per_page: 10
+    method:         'GET'
+    headers:
+      Content-Type: 'application/json'
+    body: {}
+  response_expectation:
+    status_code: 200
+    headers:
+      Last-Modified: /.*/
+    body:            /^\[("m\d+",?){10}\]$/

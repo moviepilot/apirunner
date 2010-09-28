@@ -87,7 +87,6 @@
     method:      'PUT'
     body:
       "m1035": 1
-      "m2087": 0.5
       "m1554": 2
       "m2981": 1.0
       "m1590": 2
@@ -122,7 +121,6 @@
       - m78
       ratings:
         "m1035": "1.0"
-        "m2087": "0.5"
         "m1554": "2.0"
         "m2981": "1.0"
         "m1590": "2.0"
@@ -130,7 +128,7 @@
         "m1875": "5.0"
         "m7258": "2.5"
 - name: 'User creation should fail on wrong username'
-  priority: 2
+  priority: 1
   request:
     headers:
       Content-Type: 'application/json'
@@ -141,7 +139,7 @@
   response_expectation:
     status_code: 409
 - name: 'User creation should fail on wrong fsk'
-  priority: 2
+  priority: 1
   request:
     headers:
       Content-Type: 'application/json'
@@ -153,7 +151,7 @@
   response_expectation:
     status_code: 409
 - name: 'User creation should fail on wrong expiration_date'
-  priority: 2
+  priority: 1
   request:
     headers:
       Content-Type: 'application/json'

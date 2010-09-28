@@ -1,1 +1,237 @@
 ---
+- name: 'Update existing user - update watchlist'
+  request:
+    headers:
+      Content-Type: 'application/json'
+    path:       '/users/duffyduck/watchlist'
+    method:     'PUT'
+    body:
+    - m367
+    - m73
+    - m42
+    - m23
+  response_expectation:
+    status_code: 204
+    body:
+- name: 'Check users watchlist afterwards'
+  request:
+    headers:
+      Content-Type: 'application/json'
+    path:        '/users/duffyduck'
+    method:      'GET'
+  response_expectation:
+    status_code: 200
+    headers:
+      Last-Modified:    /.*/
+    body:
+      username:       'duffyduck'
+      watchlist:
+      - m367
+      - m73
+      - m42
+      - m23
+- name: 'Update existing user - clean watchlist'
+  request:
+    headers:
+      Content-Type: 'application/json'
+    path:       '/users/duffyduck/watchlist'
+    method:     'PUT'
+    body: []
+  response_expectation:
+    status_code: 204
+- name: 'Check users watchlist for emptyness afterwards'
+  request:
+    headers:
+      Content-Type: 'application/json'
+    path:        '/users/duffyduck'
+    method:      'GET'
+  response_expectation:
+    status_code: 200
+    headers:
+      Last-Modified:    /.*/
+    body:
+      username: 'duffyduck'
+      watchlist: []
+- name: 'Update existing user - update skiplist'
+  request:
+    headers:
+      Content-Type: 'application/json'
+    path:       '/users/duffyduck/skiplist'
+    method:     'PUT'
+    body:
+    - m366
+    - m72
+    - m41
+    - m22
+  response_expectation:
+    status_code: 204
+    body:
+- name: 'Check users skiplist afterwards'
+  request:
+    headers:
+      Content-Type: 'application/json'
+    path:        '/users/duffyduck'
+    method:      'GET'
+  response_expectation:
+    status_code: 200
+    headers:
+      Last-Modified:    /.*/
+    body:
+      username:       'duffyduck'
+      skiplist:
+      - m366
+      - m72
+      - m41
+      - m22
+- name: 'Update existing user - clean skiplist'
+  request:
+    headers:
+      Content-Type: 'application/json'
+    path:       '/users/duffyduck/skiplist'
+    method:     'PUT'
+    body: []
+  response_expectation:
+    status_code: 204
+    body:
+- name: 'Check users skiplist emptyness afterwards'
+  request:
+    headers:
+      Content-Type: 'application/json'
+    path:        '/users/duffyduck'
+    method:      'GET'
+  response_expectation:
+    status_code: 200
+    headers:
+      Last-Modified:    /.*/
+    body:
+      username:       'duffyduck'
+      skiplist: []
+- name: 'Update existing user - update blacklist'
+  request:
+    headers:
+      Content-Type: 'application/json'
+    path:       '/users/duffyduck/blacklist'
+    method:     'PUT'
+    body:
+    - m365
+    - m71
+    - m40
+    - m21
+  response_expectation:
+    status_code: 204
+    body:
+- name: 'Check Users blacklist afterwards'
+  request:
+    headers:
+      Content-Type: 'application/json'
+    path:        '/users/duffyduck'
+    method:      'GET'
+  response_expectation:
+    status_code: 200
+    headers:
+      Last-Modified:    /.*/
+    body:
+      username:       'duffyduck'
+      blacklist:
+      - m365
+      - m71
+      - m40
+      - m21
+- name: 'Update existing user - clean blacklist'
+  request:
+    headers:
+      Content-Type: 'application/json'
+    path:       '/users/duffyduck/blacklist'
+    method:     'PUT'
+    body: []
+  response_expectation:
+    status_code: 204
+    body:
+- name: 'Check users blacklist emptyness afterwards'
+  request:
+    headers:
+      Content-Type: 'application/json'
+    path:        '/users/duffyduck'
+    method:      'GET'
+  response_expectation:
+    status_code: 200
+    headers:
+      Last-Modified:    /.*/
+    body:
+      username:       'duffyduck'
+      blacklist: []
+- name : 'Watchlist update of a non existing profile should return 404'
+  request:
+    headers:
+      Content-Type: 'application/json'
+    path: '/users/foobarfooz/watchlist'
+    method: 'PUT'
+    body:
+      watchlist:
+      - m365
+      - m71
+  response_expectation:
+    status_code: 404
+- name : 'Skiplist update of a non existing profile should return 404'
+  request:
+    headers:
+      Content-Type: 'application/json'
+    path: '/users/foobarfooz/skiplist'
+    method: 'PUT'
+    body:
+      skiplist:
+      - m365
+      - m71
+  response_expectation:
+    status_code: 404
+- name : 'Blacklist update of a non existing profile should return 404'
+  request:
+    headers:
+      Content-Type: 'application/json'
+    path: '/users/foobarfooz/blacklist'
+    method: 'PUT'
+    body:
+      blacklist:
+      - m365
+      - m71
+  response_expectation:
+    status_code: 404
+- name : 'Watchlist update with non existing movies should return 409'
+  request:
+    headers:
+      Content-Type: 'application/json'
+    path: '/users/duffyduck/watchlist'
+    method: 'PUT'
+    body:
+      watchlist:
+      - m9999999999999999
+      - m8888888888888888
+      - m7777777777777777
+  response_expectation:
+    status_code: 409
+- name : 'Blacklist update with non existing movies should return 409'
+  request:
+    headers:
+      Content-Type: 'application/json'
+    path: '/users/duffyduck/blacklist'
+    method: 'PUT'
+    body:
+      blacklist:
+      - m9999999999999999
+      - m8888888888888888
+      - m7777777777777777
+  response_expectation:
+    status_code: 409
+- name : 'Skiplist update with non existing movies should return 409'
+  request:
+    headers:
+      Content-Type: 'application/json'
+    path: '/users/duffyduck/skiplist'
+    method: 'PUT'
+    body:
+      skiplist:
+      - m9999999999999999
+      - m8888888888888888
+      - m7777777777777777
+  response_expectation:
+    status_code: 409
