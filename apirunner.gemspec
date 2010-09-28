@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{apirunner}
-  s.version = "0.1.11"
+  s.version = "0.2.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["jan@moviepilot.com"]
-  s.date = %q{2010-09-27}
+  s.date = %q{2010-09-28}
   s.description = %q{apirunner is a testsuite to query your RESTful JSON API and match response with your defined expectations}
   s.email = %q{developers@moviepilot.com}
   s.extra_rdoc_files = [
@@ -29,7 +29,13 @@ Gem::Specification.new do |s|
     "changelog.txt",
     "examples/config/api_runner.yml",
     "examples/test/api_runner/001_create_ressource.yml",
+    "examples/test/api_runner/001_create_user.yml",
+    "examples/test/api_runner/002_update_resources.yml",
+    "examples/test/api_runner/003_update_ratings.yml",
+    "examples/test/api_runner/004_pagination.yml",
+    "examples/test/api_runner/005_cache_operations.yml",
     "examples/test/api_runner/999_delete_ressource.yml",
+    "examples/test/api_runner/999_delete_user.yml",
     "examples/test/api_runner/excludes.yml",
     "features/apirunner.feature",
     "features/step_definitions/apirunner_steps.rb",
