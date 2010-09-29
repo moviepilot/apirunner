@@ -15,8 +15,8 @@ production:
   namespace: api1v0
 general:
   verbosity:
-    - rspec
     - verbose_on_error
     - verbose_on_success
+    - rspec
     - verbose_with_curl
   priority: 0

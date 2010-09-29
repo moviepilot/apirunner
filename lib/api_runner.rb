@@ -37,6 +37,7 @@ class ApiRunner
 
   # runs all testcases that are provided by the testclass an fills errors if there are any
   def run_tests
+    puts "Running exactly #{@spec.size} tests."
     @spec.each do |test_case|
       response = send_request(test_case['request']['method'].downcase.to_sym, test_case['request']['path'], test_case['request']['headers'], test_case['request']['body'], test_case['request']['parameters'])
       @expectation.test_types.each do |test_type|

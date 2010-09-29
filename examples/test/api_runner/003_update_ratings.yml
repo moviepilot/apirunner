@@ -1,27 +1,89 @@
 ---
-- name: "Without per_page there should come out 1 rateable movie"
+- name: "One putted rating should be createable with 204 response"
   request:
-    path:           '/users/duffyduck/rateables'
-    method:         'GET'
     headers:
-      Content-Type: 'application/json'
-    body: {}
+      Content-Type:         'application/json'
+    path:                   '/users/duffyduck/ratings'
+    method:                 'PUT'
+    body:
+      m765: 1.0
+  response_expectation:
+    status_code: 204
+    body:
+- name: "There should be exactly one rating in that profile"
+  request:
+    headers:
+      Content-Type:         'application/json'
+    path:                   '/users/duffyduck'
+    method:                 'GET'
   response_expectation:
     status_code: 200
-    headers:
-      Last-Modified: /.*/
-    body:            /^\["m\d+"\]$/
-- name: "With per_page 10 there should come out 10 rateable movies"
+    body:
+      ratings:
+        m765: 1.0
+- name: "5 putted ratings should be createable with 204 response"
   request:
-    path:           '/users/duffyduck/rateables?per_page=10'
-    parameters:
-      per_page: 10
-    method:         'GET'
     headers:
-      Content-Type: 'application/json'
-    body: {}
+      Content-Type:         'application/json'
+    path:                   '/users/duffyduck/ratings'
+    method:                 'PUT'
+    body:
+      m765: 1.0
+      m42: 2.0
+      m89: 3.0
+      m91: 4.0
+      m98: 5.0
+  response_expectation:
+    status_code: 204
+    body:
+- name: "There should be exactly 5 ratings in that profile"
+  request:
+    headers:
+      Content-Type:         'application/json'
+    path:                   '/users/duffyduck'
+    method:                 'GET'
   response_expectation:
     status_code: 200
+    body:
+      ratings:
+        m765: 1.0
+        m42: 2.0
+        m89: 3.0
+        m91: 4.0
+        m98: 5.0
+- name: "It should return a 404 in case ratings for a non existant user are put"
+  request:
     headers:
-      Last-Modified: /.*/
-    body:            /^\[("m\d+",?){10}\]$/
+      Content-Type:         'application/json'
+    path:                   '/users/daisyduck/ratings'
+    method:                 'PUT'
+    body:
+      m765: 1.0
+      m42: 2.0
+  response_expectation:
+    status_code: 404
+- name: "It should return a 409 in case ratings are put with ambigous moviemaster_id"
+  request:
+    headers:
+      Content-Type:         'application/json'
+    path:                   '/users/duffyduck/ratings'
+    method:                 'PUT'
+    body:
+      m765000000000000: 1.0
+      m420000000000000: 2.0
+  response_expectation:
+    status_code: 409
+    body:
+- name: "It should return a 409 in case ratings are put with ambigous ratings values"
+  priority: 1
+  request:
+    headers:
+      Content-Type:         'application/json'
+    path:                   '/users/duffyduck/ratings'
+    method:                 'PUT'
+    body:
+      m765: 6.0
+      m42: -2.0
+  response_expectation:
+    status_code: 409
+    body:

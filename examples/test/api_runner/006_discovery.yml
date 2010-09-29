@@ -1,0 +1,68 @@
+---
+- name: "There should return recommendations / ratings for a discovery request for genre:20"
+  request:
+    headers:
+      Content-Type:              'application/json'
+    path:                        '/users/duffyduck/predictions/discovery/genre:20'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:                        /^\[({"m\d+":[0-5]\.[05]},)+{"m\d+":[0-5]\.[05]}\]$/
+- name: "There should return exatctly 5 recommendations / ratings for a discovery request for genre:20 with per_page 5"
+  request:
+    headers:
+      Content-Type:              'application/json'
+    path:                        '/users/duffyduck/predictions/discovery/genre:20'
+    parameters:
+      per_page:                  5
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:                        /^\[({"m\d+":[0-5]\.[05]},){4}{"m\d+":[0-5]\.[05]}\]$/
+- name: "There should not return any recommendations / ratings on a dicovery request for genre:20 for a non existing user"
+  request:
+    headers:
+      Content-Type:              'application/json'
+    path:                        '/users/daisyduck/predictions/discovery/genre:20'
+    method:                      'GET'
+  response_expectation:
+    status_code: 404
+    body:
+- name: "There should return recommendations / ratings for a discovery request for plot_keyword:2"
+  request:
+    headers:
+      Content-Type:              'application/json'
+    path:                        '/users/duffyduck/predictions/discovery/plot_keyword:2'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:                        /^\[({"m\d+":[0-5]\.[05]},)+{"m\d+":[0-5]\.[05]}\]$/
+- name: "There should return exactly 5 recommendations / ratings for a discovery request for plot_keyword:2 with per_page 5"
+  request:
+    headers:
+      Content-Type:              'application/json'
+    path:                        '/users/duffyduck/predictions/discovery/plot_keyword:2'
+    parameters:
+      per_page:                  5
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:                        /^\[({"m\d+":[0-5]\.[05]},){4}{"m\d+":[0-5]\.[05]}\]$/
+- name: "There should not return any recommendations / ratings on a dicovery request for plot_keyword:2 for a non existing user"
+  request:
+    headers:
+      Content-Type:              'application/json'
+    path:                        '/users/daisyduck/predictions/discovery/plot_keyword:2'
+    method:                      'GET'
+  response_expectation:
+    status_code: 404
+    body:
+- name: "There should return recommendations / ratings for a discovery request for place_keyword:420"
+  request:
+    headers:
+      Content-Type:              'application/json'
+    path:                        '/users/duffyduck/predictions/discovery/place_keyword:420'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:                        /^\[({"m\d+":[0-5]\.[05]},)+{"m\d+":[0-5]\.[05]}\]$/
