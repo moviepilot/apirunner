@@ -17,7 +17,7 @@ class ApiRunner
     load_config(env)
     load_excludes(env)
     load_url_spec
-    @http_client = HttpClient.new(@configuration.host, @configuration.port, @configuration.namespace)
+    @http_client = HttpClient.new(@configuration.protocol, @configuration.host, @configuration.port, @configuration.namespace)
     @expectation = ExpectationMatcher.new(@excludes)
   end
 
@@ -38,7 +38,7 @@ class ApiRunner
   # runs all testcases that are provided by the testclass an fills errors if there are any
   def run_tests
     @spec.each do |test_case|
-      response = send_request(test_case['request']['method'].downcase.to_sym, test_case['request']['path'], test_case['request']['headers'], test_case['request']['body'])
+      response = send_request(test_case['request']['method'].downcase.to_sym, test_case['request']['path'], test_case['request']['headers'], test_case['request']['body'], test_case['request']['parameters'])
       @expectation.test_types.each do |test_type|
         result = @expectation.check(test_type, response, test_case)
         if not result.succeeded
@@ -56,8 +56,8 @@ class ApiRunner
   end
 
   # sends http request and fetches response using the given http client
-  def send_request(method, uri, headers, data)
-    @http_client.send_request(method, uri, headers, data)
+  def send_request(method, uri, headers, data, params)
+    @http_client.send_request(method, uri, headers, data, params)
   end
 
   # builds target uri from base uri generated of host port and namespace as well as the ressource path

@@ -1,15 +1,16 @@
 class HttpClient
   require 'net/http'
 
-  def initialize(host, port, namespace)
+  def initialize(protocol, host, port, namespace)
     @http = Net::HTTP.new(host, port)
+    @protocol = protocol
     @host = host
     @port = port
     @namespace = namespace
   end
 
-  def send_request(method, resource, headers=nil, data=nil)
-    build_response(self.send(method.to_s.downcase, headers, resource, data))
+  def send_request(method, resource, headers=nil, data=nil, params=nil)
+    build_response(self.send(method.to_s.downcase, headers, resource, data, params))
   end
 
   protected
@@ -22,37 +23,50 @@ class HttpClient
     response.code = raw_response.code
     response.message = raw_response.message
     response.body = raw_response.body
-    # response.headers = raw_response.header
-    # TODO improve me!
     response.headers = JSON.parse(raw_response.header.to_json) rescue nil
     response
   end
 
-  def get(headers, resource, params)
-    request = Net::HTTP::Get.new(resource_path(resource), initheader = headers)
+  # sends GET request and returns response
+  def get(headers, resource, data, params)
+    request = Net::HTTP::Get.new(build_uri(resource, params).request_uri, initheader = headers)
     @http.request(request)
   end
 
-  def put(headers, resource, data)
+  # sends PUT request and returns response
+  def put(headers, resource, data, params)
     request = Net::HTTP::Put.new(resource_path(resource), initheader = headers)
     request.body = data.to_json
     @http.request(request)
   end
 
-  def post(headers, resource, data)
+  # sends POST request and returns response
+  def post(headers, resource, data, params)
     request = Net::HTTP::Post.new(resource_path(resource), initheader = headers)
     request.body = data.to_json
     @http.request(request)
   end
 
-
-  def delete(headers, resource, params)
+  # sends DELETE request and returns response
+  def delete(headers, resource, data, params)
     request = Net::HTTP::Delete.new(resource_path(resource), initheader = headers)
     @http.request(request)
   end
 
+  # redefines the resource path including the namespace
   def resource_path(resource)
+    @namespace.nil? ? resource : "/" + @namespace + resource
     "/" + @namespace + resource
   end
-end
 
+  # rebuild a uri in details, so that another protocol, host, port and GET params can be specified, after Net::HTTP was created
+  def build_uri(resource, params=nil)
+    uri = URI.parse(@protocol + "://" + @host + ((@port.nil? || @port != "80") ? ":#{@port}" : ""))
+    uri.scheme = @protocol
+    uri.host = @host
+    uri.port = @port
+    uri.query = "".concat(params.collect { |k,v| "#{k}=#{CGI::escape(v.to_s)}" }.reverse.join('&')) if not params.nil?
+    uri.path = resource_path(resource)
+    uri
+  end
+end
