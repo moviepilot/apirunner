@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{apirunner}
-  s.version = "0.2.2"
+  s.version = "0.2.3"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["jan@moviepilot.com"]
@@ -28,13 +28,13 @@ Gem::Specification.new do |s|
     "apirunner.gemspec",
     "changelog.txt",
     "examples/config/api_runner.yml",
-    "examples/test/api_runner/001_create_ressource.yml",
     "examples/test/api_runner/001_create_user.yml",
     "examples/test/api_runner/002_update_resources.yml",
     "examples/test/api_runner/003_update_ratings.yml",
-    "examples/test/api_runner/004_pagination.yml",
-    "examples/test/api_runner/005_cache_operations.yml",
-    "examples/test/api_runner/999_delete_ressource.yml",
+    "examples/test/api_runner/004_rateables_and_pagination.yml",
+    "examples/test/api_runner/005_recommendations.yml",
+    "examples/test/api_runner/006_discovery.yml",
+    "examples/test/api_runner/007_cacheable_operations.yml",
     "examples/test/api_runner/999_delete_user.yml",
     "examples/test/api_runner/excludes.yml",
     "features/apirunner.feature",
