@@ -1,4 +1,5 @@
 class ResponseBodyChecker < Checker
+require 'nokogiri'
 
   def check
     result = Result.new(@testcase, @response)

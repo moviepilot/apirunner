@@ -1,7 +1,5 @@
 class ExpectationMatcher
   require 'result'
-  require 'nokogiri'
-  require 'JSON'
   require 'checker'
   require 'plugins/response_json_syntax_checker'
   require 'plugins/response_header_checker'
