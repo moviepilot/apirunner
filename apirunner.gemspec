@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{apirunner}
-  s.version = "0.2.3"
+  s.version = "0.2.4"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["jan@moviepilot.com"]
-  s.date = %q{2010-09-29}
+  s.date = %q{2010-09-30}
   s.description = %q{apirunner is a testsuite to query your RESTful JSON API and match response with your defined expectations}
   s.email = %q{developers@moviepilot.com}
   s.extra_rdoc_files = [
@@ -48,6 +48,7 @@ Gem::Specification.new do |s|
     "lib/http_client.rb",
     "lib/result.rb",
     "lib/tasks/api.rake",
+    "lib/testcase.rb",
     "spec/.rspec",
     "spec/api_runner_spec.rb",
     "spec/expectation_matcher_spec.rb",
