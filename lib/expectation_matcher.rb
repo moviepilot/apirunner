@@ -2,6 +2,8 @@ class ExpectationMatcher
   require 'result'
   require 'nokogiri'
   require 'JSON'
+  require 'checker'
+  require 'json_syntax_checker'
 
   def initialize(excludes=nil)
     @test_types = [:response_code, :response_body_format, :response_headers, :response_body]
@@ -32,14 +34,7 @@ class ExpectationMatcher
 
   # checks the format of the given data of JSON conformity
   def response_body_format(response, testcase)
-    result_struct = Struct.new(:succeeded, :error)
-    results = result_struct.new(:succeeded => true, :error => nil)
-    result = Result.new(testcase, response)
-    if not valid_json?(response.body)
-      result.succeeded = false
-      result.error_message = "expected valid JSON in body\n got --#{response.body[1..400]}--"
-    end
-    result
+    JsonSyntaxChecker.new(testcase, response).check
   end
 
   # matches the given response header
