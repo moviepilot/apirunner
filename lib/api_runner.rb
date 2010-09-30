@@ -13,8 +13,7 @@ class ApiRunner
     @spec = []
     @results = []
     @excludes = []
-    @configuration = ApiConfiguration.new
-    load_config(env)
+    @configuration = ApiConfiguration.new(YAML.load_file(self.class.config_file), env)
     load_excludes(env)
     load_url_spec
     @http_client = HttpClient.new(@configuration.protocol, @configuration.host, @configuration.port, @configuration.namespace)
@@ -70,14 +69,6 @@ class ApiRunner
   def server_is_available?
     return true
     !@http_client.send_request(:get, "#{@configuration.protocol}://#{@configuration.host}:#{@configuration.port}", nil, {:timeout => 5}).nil?
-  end
-
-  # loads environment config data from yaml file
-  def load_config(env)
-    config = YAML.load_file(self.class.config_file)
-    config[env.to_s].each { |key, value| @configuration.instance_variable_set("@#{key}", value) }
-    @configuration.verbosity = config['general']['verbosity'].first
-    @configuration.priority = config['general']['priority'] || 0
   end
 
   # loads spec cases from yaml files
