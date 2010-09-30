@@ -1,4 +1,4 @@
-class JsonSyntaxChecker < Checker
+class ResponseJsonSyntaxChecker < Checker
 
   # checks if the given testcase body represents syntactically valid JSON
   def check

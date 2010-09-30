@@ -1,4 +1,4 @@
-class HeaderChecker < Checker
+class ResponseHeaderChecker < Checker
 
   # checks given header against the given expepctation and returns a result object
   def check

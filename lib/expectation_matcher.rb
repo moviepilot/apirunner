@@ -3,13 +3,13 @@ class ExpectationMatcher
   require 'nokogiri'
   require 'JSON'
   require 'checker'
-  require 'json_syntax_checker'
-  require 'header_checker'
-  require 'response_code_checker'
-  require 'body_checker'
+  require 'plugins/response_json_syntax_checker'
+  require 'plugins/response_header_checker'
+  require 'plugins/response_code_checker'
+  require 'plugins/response_body_checker'
 
   def initialize(excludes=nil)
-    @test_types = [:response_code, :response_body_format, :response_headers, :response_body]
+    @test_types = [:response_code, :response_json_syntax, :response_header, :response_body]
     @excludes = excludes || []
   end
 
@@ -23,7 +23,7 @@ class ExpectationMatcher
     self.send(method, response, testcase)
   end
 
-  protected
+private
 
   # matches the given response code
   def response_code(response, testcase)
@@ -31,17 +31,17 @@ class ExpectationMatcher
   end
 
   # checks the format of the given data of JSON conformity
-  def response_body_format(response, testcase)
-    JsonSyntaxChecker.new(testcase, response).check
+  def response_json_syntax(response, testcase)
+    ResponseJsonSyntaxChecker.new(testcase, response).check
   end
 
   # matches the given response header
-  def response_headers(response, testcase)
-    HeaderChecker.new(testcase, response, @excludes).check
+  def response_header(response, testcase)
+    ResponseHeaderChecker.new(testcase, response, @excludes).check
   end
 
   # matches the given attributes and values against the ones from the response body
   def response_body(response, testcase)
-    BodyChecker.new(testcase, response, @excludes).check
+    ResponseBodyChecker.new(testcase, response, @excludes).check
   end
 end

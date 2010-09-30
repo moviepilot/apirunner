@@ -1,4 +1,4 @@
-class BodyChecker < Checker
+class ResponseBodyChecker < Checker
 
   def check
     result = Result.new(@testcase, @response)
