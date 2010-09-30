@@ -1,8 +1,9 @@
 class Checker
 
-  def initialize(testcase, response)
+  def initialize(testcase, response, excludes=nil)
     @testcase = testcase
     @response = response
+    @excludes = excludes
   end
 
   # executes the checking routine and returns a result object
