@@ -10,7 +10,7 @@ staging:
   namespace: api1v0
 production:
   protocol: http
-  host: www.moviepilot.com
+  host: vtu.premium.moviepilot.com
   port: 80
   namespace: api1v0
 general:

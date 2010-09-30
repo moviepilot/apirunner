@@ -57,12 +57,119 @@
   response_expectation:
     status_code: 404
     body:
-- name: "There should return recommendations / ratings for a discovery request for place_keyword:420"
+- name: "There should return recommendations / ratings for a discovery request for place_keyword:200"
   request:
     headers:
       Content-Type:              'application/json'
-    path:                        '/users/duffyduck/predictions/discovery/place_keyword:420'
+    path:                        '/users/duffyduck/predictions/discovery/place_keyword:200'
     method:                      'GET'
   response_expectation:
     status_code: 200
     body:                        /^\[({"m\d+":[0-5]\.[05]},)+{"m\d+":[0-5]\.[05]}\]$/
+- name: "There should return exactly 5 recommendations / ratings for a discovery request for place_keyword:200 with per_page 5"
+  request:
+    headers:
+      Content-Type:              'application/json'
+    path:                        '/users/duffyduck/predictions/discovery/place_keyword:200'
+    parameters:
+      per_page:                  5
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:                        /^\[({"m\d+":[0-5]\.[05]},){4}{"m\d+":[0-5]\.[05]}\]$/
+- name: "There should not return any recommendations / ratings on a dicovery request for place_keyword:200 for a non existing user"
+  request:
+    headers:
+      Content-Type:              'application/json'
+    path:                        '/users/daisyduck/predictions/discovery/place_keyword:200'
+    method:                      'GET'
+  response_expectation:
+    status_code: 404
+    body:
+- name: "There should return recommendations / ratings for a discovery request for time_keyword:198"
+  request:
+    headers:
+      Content-Type:              'application/json'
+    path:                        '/users/duffyduck/predictions/discovery/time_keyword:198'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:                        /^\[({"m\d+":[0-5]\.[05]},)+{"m\d+":[0-5]\.[05]}\]$/
+- name: "There should return exactly 5 recommendations / ratings for a discovery request for time_keyword:198 with per_page 5"
+  request:
+    headers:
+      Content-Type:              'application/json'
+    path:                        '/users/duffyduck/predictions/discovery/time_keyword:198'
+    parameters:
+      per_page:                  5
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:                        /^\[({"m\d+":[0-5]\.[05]},){4}{"m\d+":[0-5]\.[05]}\]$/
+- name: "There should not return any recommendations / ratings on a dicovery request for time_keyword:198 for a non existing user"
+  request:
+    headers:
+      Content-Type:              'application/json'
+    path:                        '/users/daisyduck/predictions/discovery/place_keyword:198'
+    method:                      'GET'
+  response_expectation:
+    status_code: 404
+    body:
+- name: "There should return recommendations / ratings for a discovery request for emotion_keyword:12"
+  request:
+    headers:
+      Content-Type:              'application/json'
+    path:                        '/users/duffyduck/predictions/discovery/emotion_keyword:12'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:                        /^\[({"m\d+":[0-5]\.[05]},)+{"m\d+":[0-5]\.[05]}\]$/
+- name: "There should return exactly 5 recommendations / ratings for a discovery request for emotion_keyword:12 with per_page 5"
+  request:
+    headers:
+      Content-Type:              'application/json'
+    path:                        '/users/duffyduck/predictions/discovery/emotion_keyword:12'
+    parameters:
+      per_page:                  5
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:                        /^\[({"m\d+":[0-5]\.[05]},){4}{"m\d+":[0-5]\.[05]}\]$/
+- name: "There should not return any recommendations / ratings on a dicovery request for emotion_keyword:12 for a non existing user"
+  request:
+    headers:
+      Content-Type:              'application/json'
+    path:                        '/users/daisyduck/predictions/discovery/emotion_keyword:12'
+    method:                      'GET'
+  response_expectation:
+    status_code: 404
+    body:
+- name: "There should return recommendations / ratings for a discovery request for intended_audience:13"
+  request:
+    headers:
+      Content-Type:              'application/json'
+    path:                        '/users/duffyduck/predictions/discovery/intended_audience:13'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:                        /^\[({"m\d+":[0-5]\.[05]},)+{"m\d+":[0-5]\.[05]}\]$/
+- name: "There should return exactly 5 recommendations / ratings for a discovery request for intended_audience:13 with per_page 5"
+  request:
+    headers:
+      Content-Type:              'application/json'
+    path:                        '/users/duffyduck/predictions/discovery/intended_audience:13'
+    parameters:
+      per_page:                  5
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:                        /^\[({"m\d+":[0-5]\.[05]},){4}{"m\d+":[0-5]\.[05]}\]$/
+- name: "There should not return any recommendations / ratings on a dicovery request for intended_audience:13 for a non existing user"
+  request:
+    headers:
+      Content-Type:              'application/json'
+    path:                        '/users/daisyduck/predictions/discovery/intended_audience:13'
+    method:                      'GET'
+  response_expectation:
+    status_code: 404
+    body:

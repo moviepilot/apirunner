@@ -20,7 +20,7 @@ class Result
   # yields out rspec like error messages only in case of an error
   def rspec(index)
     if not @succeeded
-      puts "\nError (#{index}) - \"#{@testcase['name']}\""
+      puts "\n\033[31mError\033[0m (#{index}) - \"#{@testcase.name}\""
       puts @error_message
     end
   end
@@ -43,7 +43,7 @@ class Result
 
   # yields the verbose error messages
   def be_verbose(index)
-    puts "\n#{result_case} (#{index+1}) - \"#{@testcase.name}\""
+    puts "\n#{result_case} (#{index+1})- \"#{@testcase.name}\""
     puts @error_message
     puts("  More more more verbosity\n")
     puts("  request method: #{@testcase.request['method']}")
@@ -63,9 +63,9 @@ class Result
   # returns the result case for interpolation in the output message header
   def result_case
     if @succeeded
-      "Success"
+      "\033[32mSuccess\033[0m"
     else
-      "Error"
+      "\033[31mError\033[0m"
     end
   end
 
