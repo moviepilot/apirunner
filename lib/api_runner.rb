@@ -3,6 +3,7 @@ class ApiRunner
   require 'expectation_matcher'
   require 'http_client'
   require 'api_configuration'
+  require 'testcase'
 
   CONFIG_FILE = "config/api_runner.yml"
   SPEC_PATH = "test/api_runner/"
@@ -38,7 +39,7 @@ class ApiRunner
   def run_tests
     puts "Running exactly #{@spec.size} tests."
     @spec.each do |test_case|
-      response = send_request(test_case['request']['method'].downcase.to_sym, test_case['request']['path'], test_case['request']['headers'], test_case['request']['body'], test_case['request']['parameters'])
+      response = send_request(test_case.request['method'].downcase.to_sym, test_case.request['path'], test_case.request['headers'], test_case.request['body'], test_case.request['parameters'])
       @expectation.test_types.each do |test_type|
         result = @expectation.check(test_type, response, test_case)
         if not result.succeeded
@@ -78,7 +79,16 @@ class ApiRunner
     Dir.new(path).entries.each do |dir_entry|
       specs.push *YAML.load_file(path+dir_entry) if not (File.directory? dir_entry or dir_entry.match(/^\./) or dir_entry.match(/excludes/))
     end
-    @spec = priorize(partition(specs))
+    @spec = objectize(priorize(partition(specs)))
+  end
+
+  # converts the given array of raw testcases to an array of testcase objects
+  def objectize(raw_specs)
+    specs = []
+    raw_specs.each do |spec|
+      specs << Testcase.new(spec)
+    end
+    specs
   end
 
   # returns only spec whose priority level is less or equals configures priority level

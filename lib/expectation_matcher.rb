@@ -23,9 +23,9 @@ class ExpectationMatcher
   # matches the given response code
   def response_code(response, testcase)
     result = Result.new(testcase, response)
-    if not testcase['response_expectation']['status_code'].to_s == response.code.to_s
+    if not testcase.response_expectation['status_code'].to_s == response.code.to_s
       result.succeeded = false
-      result.error_message = " expected response code --#{testcase['response_expectation']['status_code']}--\n got response code --#{response.code}--"
+      result.error_message = " expected response code --#{testcase.response_expectation['status_code']}--\n got response code --#{response.code}--"
     end
     result
   end
@@ -46,7 +46,7 @@ class ExpectationMatcher
   def response_headers(response, testcase)
     result = Result.new(testcase, response)
 
-    testcase['response_expectation']['headers'].each_pair do |header_name, header_value|
+    testcase.response_expectation['headers'].each_pair do |header_name, header_value|
       if is_regex?(header_value)
         if not (excluded?(header_name) or regex_matches?(header_value, response.headers[header_name]))
           result.succeeded = false
@@ -58,7 +58,7 @@ class ExpectationMatcher
           result.error_message = " expected header identifier --#{header_name}-- to match --#{header_value}--\n got --#{response.headers[header_name]}--"
         end
       end
-    end unless (testcase['response_expectation']['headers'].nil? or testcase['response_expectation']['headers'].empty?)
+    end unless (testcase.response_expectation['headers'].nil? or testcase.response_expectation['headers'].empty?)
     return result
   end
 
@@ -67,15 +67,15 @@ class ExpectationMatcher
     result = Result.new(testcase, response)
 
     # special case: the whole body has to be matched via a regular expression
-    if is_regex?(testcase['response_expectation']['body'])
-      if not regex_matches?(testcase['response_expectation']['body'], response.body)
+    if is_regex?(testcase.response_expectation['body'])
+      if not regex_matches?(testcase.response_expectation['body'], response.body)
         result.succeeded = false
-        result.error_message = " expected the whole body to match regex --#{testcase['response_expectation']['body']}--\n got --#{response.body}--"
+        result.error_message = " expected the whole body to match regex --#{testcase.response_expectation['body']}--\n got --#{response.body}--"
       end
       return result
     end
 
-    expected_body_hash = testcase['response_expectation']['body']
+    expected_body_hash = testcase.response_expectation['body']
 
     # in case we have no body expectation we simply return success
     return result if expected_body_hash.nil?
