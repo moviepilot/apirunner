@@ -71,20 +71,19 @@ class Result
 
   def color_print(message, color)
     case ENV['FORMAT']
-      when 'html'  then "<span style='color:#{color}'>#{message}</span>"
-      when 'plain' then message
-      else
-        prefix, suffix = ansi_colors(color)
-        "#{prefix}#{message}#{suffix}"
-      end
+    when 'html'  then "<span style='color:#{color}'>#{message}</span>"
+    when 'plain' then message
+    else
+      prefix, suffix = ansi_colors(color)
+      "#{prefix}#{message}#{suffix}"
     end
   end
 
   def ansi_colors(color)
     case color
-      when 'green' then ['\033[32m', '\033[0m']
-      when 'red'   then ['\033[31m', '\033[0m']
-      else ['','']
+    when 'green' then ['\033[32m', '\033[0m']
+    when 'red'   then ['\033[31m', '\033[0m']
+    else ['','']
     end
   end
 
