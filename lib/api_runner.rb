@@ -31,6 +31,8 @@ class ApiRunner
     else
       puts("Server #{@configuration.host} seems to be unavailable!")
     end
+    error_count = @results.select{ |r| !r.succeeded }.count
+    exit(error_count)
   end
 
   protected

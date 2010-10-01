@@ -37,7 +37,6 @@ require 'nokogiri'
       expectation_node = expectation_tree.xpath(path).first
       response_node = response_tree.xpath(path).first
 
-      debugger
       # in some (not awesome) cases the root node occures as leaf, so we have to skip him here
       next if expectation_node.name == "hash"
 
