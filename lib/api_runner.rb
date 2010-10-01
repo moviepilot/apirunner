@@ -78,7 +78,7 @@ class ApiRunner
   def load_url_spec
     path = self.class.spec_path
     specs = []
-    Dir.new(path).entries.each do |dir_entry|
+    Dir.new(path).entries.sort.each do |dir_entry|
       specs.push *YAML.load_file(path+dir_entry) if not (File.directory? dir_entry or dir_entry.match(/^\./) or dir_entry.match(/excludes/))
     end
     @spec = objectize(priorize(partition(specs)))
