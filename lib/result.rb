@@ -20,7 +20,7 @@ class Result
   # yields out rspec like error messages only in case of an error
   def rspec(index)
     if not @succeeded
-      puts "\n\033[31mError\033[0m (#{index}) - \"#{@testcase.name}\""
+      puts "\n#{color_print("Error", :red)} (#{index}) - \"#{@testcase.name}\""
       puts @error_message
     end
   end
@@ -63,9 +63,26 @@ class Result
   # returns the result case for interpolation in the output message header
   def result_case
     if @succeeded
-      "\033[32mSuccess\033[0m"
+      color_print("Success", :green)
     else
-      "\033[31mError\033[0m"
+      color_print("Error", :red)
+    end
+  end
+
+  def color_print(message, color)
+    if ENV['FORMAT'] == "html"
+      "<span style='color:#{color}'>#{message}</span>"
+    else
+      prefix, suffix = ansi_colors(color)
+      "#{prefix}#{message}#{suffix}"
+    end
+  end
+
+  def ansi_colors(color)
+    case color
+      when 'green' then ['\033[32m', '\033[0m']
+      when 'red'   then ['\033[31m', '\033[0m']
+      else ['','']
     end
   end
 
