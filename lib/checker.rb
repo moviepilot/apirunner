@@ -1,5 +1,7 @@
 class Checker
 
+  @@children = []
+
   def initialize(testcase, response, excludes=nil)
     @testcase = testcase
     @response = response
@@ -12,7 +14,18 @@ class Checker
     result = Result.new(@testcase, @response)
   end
 
-private
+  # returns a list of symbolized plugin names
+  def self.available_plugins
+    return @@children.map{ |child| child.to_s.underscore.to_sym }
+  end
+
+  private
+
+  # tracks all children of this class
+  # this way plugins can be loaded automagically
+  def self.inherited(child)
+    @@children << child
+  end
 
   # recursively parses the tree and returns a set of relative pathes
   # that can be used to match the both trees leafs

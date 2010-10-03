@@ -4,6 +4,8 @@ class ApiRunner
   require 'http_client'
   require 'api_configuration'
   require 'testcase'
+  require 'core_extensions'
+  include CoreExtensions
 
   CONFIG_FILE = "config/api_runner.yml"
   SPEC_PATH = "test/api_runner/"
@@ -42,14 +44,15 @@ class ApiRunner
     puts "Running exactly #{@spec.size} tests."
     @spec.each do |test_case|
       response = send_request_for(test_case)
-      @expectation.test_types.each do |test_type|
+      Checker.available_plugins.each do |test_type|
+        debugger
         result = @expectation.check(test_type, response, test_case)
         if not result.succeeded
           putc "F"
           @results << result
           break
         else
-          if test_type == @expectation.test_types.last
+          if test_type == Checker.available_plugins.last
             @results << result
             putc "."
           end

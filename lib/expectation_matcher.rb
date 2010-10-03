@@ -7,13 +7,7 @@ class ExpectationMatcher
   require 'plugins/response_body_checker'
 
   def initialize(excludes=nil)
-    @test_types = [:response_code, :response_json_syntax, :response_header, :response_body]
     @excludes = excludes || []
-  end
-
-  # returns the available test types if this matcher class
-  def test_types
-    return @test_types
   end
 
   # dispatches incoming matching requests
@@ -21,25 +15,16 @@ class ExpectationMatcher
     self.send(method, response, testcase)
   end
 
-private
-
-  # matches the given response code
-  def response_code(response, testcase)
-    ResponseCodeChecker.new(testcase, response).check
+  # dynamically generates methods that invoke "check" on all available plugins
+  def self.initialize_plugins
+    Checker.available_plugins.each do |plugin|
+      define_method(plugin) do |response, testcase|
+        eval(plugin.to_s.camelize).new(testcase, response, @excludes).check
+      end
+    end
   end
 
-  # checks the format of the given data of JSON conformity
-  def response_json_syntax(response, testcase)
-    ResponseJsonSyntaxChecker.new(testcase, response).check
-  end
+  initialize_plugins
 
-  # matches the given response header
-  def response_header(response, testcase)
-    ResponseHeaderChecker.new(testcase, response, @excludes).check
-  end
-
-  # matches the given attributes and values against the ones from the response body
-  def response_body(response, testcase)
-    ResponseBodyChecker.new(testcase, response, @excludes).check
-  end
+  private
 end
