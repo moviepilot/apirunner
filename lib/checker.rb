@@ -16,7 +16,7 @@ class Checker
 
   # returns a list of symbolized plugin names
   def self.available_plugins
-    return @@children.map{ |child| child.to_s.underscore.to_sym }
+    return @@children.map{ |child| child.to_s }
   end
 
   private

@@ -45,9 +45,8 @@ class ApiRunner
     @spec.each do |test_case|
       response = send_request_for(test_case)
       Checker.available_plugins.each do |test_type|
-        debugger
         result = @expectation.check(test_type, response, test_case)
-        if not result.succeeded
+        if not result.success?
           putc "F"
           @results << result
           break

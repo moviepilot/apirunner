@@ -15,6 +15,10 @@ class Result
     self.send(verbosity.to_sym, index)
   end
 
+  def success?
+    return @succeeded
+  end
+
   private
 
   # yields out rspec like error messages only in case of an error

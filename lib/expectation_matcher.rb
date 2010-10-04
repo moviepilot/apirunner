@@ -1,10 +1,11 @@
 class ExpectationMatcher
   require 'result'
   require 'checker'
-  require 'plugins/response_json_syntax_checker'
-  require 'plugins/response_header_checker'
-  require 'plugins/response_code_checker'
-  require 'plugins/response_body_checker'
+  
+  # dynamically load plugins
+  dir = File.dirname(__FILE__) + '/plugins/'
+  $LOAD_PATH.unshift(dir)
+  Dir[File.join(dir, "*.rb")].each {|file| require File.basename(file) }
 
   def initialize(excludes=nil)
     @excludes = excludes || []
@@ -19,7 +20,7 @@ class ExpectationMatcher
   def self.initialize_plugins
     Checker.available_plugins.each do |plugin|
       define_method(plugin) do |response, testcase|
-        eval(plugin.to_s.camelize).new(testcase, response, @excludes).check
+        eval(plugin).new(testcase, response, @excludes).check
       end
     end
   end
