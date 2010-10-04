@@ -22,10 +22,9 @@ class ExpectationMatcher
       define_method(plugin) do |response, testcase|
         eval(plugin).new(testcase, response, @excludes).check
       end
+      private plugin.to_sym
     end
   end
 
   initialize_plugins
-
-  private
 end
