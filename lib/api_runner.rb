@@ -44,14 +44,14 @@ class ApiRunner
     puts "Running exactly #{@spec.size} tests."
     @spec.each do |test_case|
       response = send_request_for(test_case)
-      Checker.available_plugins.each do |test_type|
-        result = @expectation.check(test_type, response, test_case)
+      Checker.available_plugins.each do |plugin|
+        result = @expectation.check(plugin, response, test_case)
         if not result.success?
           putc "F"
           @results << result
           break
         else
-          if test_type == Checker.available_plugins.last
+          if plugin == Checker.available_plugins.last
             @results << result
             putc "."
           end

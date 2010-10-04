@@ -1,7 +1,7 @@
 class ExpectationMatcher
   require 'result'
   require 'checker'
-  
+
   # dynamically load plugins
   dir = File.dirname(__FILE__) + '/plugins/'
   $LOAD_PATH.unshift(dir)
@@ -12,17 +12,17 @@ class ExpectationMatcher
   end
 
   # dispatches incoming matching requests
-  def check(method, response, testcase)
-    self.send(method, response, testcase)
+  def check(plugin, response, testcase)
+    self.send(plugin.underscore, response, testcase)
   end
 
   # dynamically generates methods that invoke "check" on all available plugins
   def self.initialize_plugins
     Checker.available_plugins.each do |plugin|
-      define_method(plugin) do |response, testcase|
+      define_method(plugin.underscore) do |response, testcase|
         eval(plugin).new(testcase, response, @excludes).check
       end
-      private plugin.to_sym
+      private plugin.underscore.to_sym
     end
   end
 
