@@ -1,11 +1,11 @@
 class ApiRunner
   require 'yaml'
+  require 'string_ext' if not String.respond_to?(:underscore)
   require 'expectation_matcher'
   require 'http_client'
   require 'api_configuration'
   require 'testcase'
-  require 'core_extensions'
-  include CoreExtensions
+  require 'string_ext'
 
   CONFIG_FILE = "config/api_runner.yml"
   SPEC_PATH = "test/api_runner/"
@@ -41,6 +41,7 @@ class ApiRunner
 
   # runs all testcases that are provided by the testclass an fills errors if there are any
   def run_tests
+    debugger
     puts "Running exactly #{@spec.size} tests."
     @spec.each do |test_case|
       response = send_request_for(test_case)
@@ -147,4 +148,3 @@ class ApiRunner
     EXCLUDES_FILE
   end
 end
-
