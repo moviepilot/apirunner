@@ -43,6 +43,7 @@ class ApiRunner
   def run_tests
     puts "Running exactly #{@spec.size} tests."
     @spec.each do |test_case|
+      sleep test_case.wait_before_request
       response = send_request_for(test_case)
       Checker.available_plugins.each do |plugin|
         result = @expectation.check(plugin, response, test_case)
