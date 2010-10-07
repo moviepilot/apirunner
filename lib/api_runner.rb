@@ -7,6 +7,8 @@ class ApiRunner
   require 'testcase'
   require 'string_ext'
 
+  require 'JSON'
+
   CONFIG_FILE = "config/api_runner.yml"
   SPEC_PATH = "test/api_runner/"
   EXCLUDES_FILE = "test/api_runner/excludes.yml"
@@ -41,7 +43,6 @@ class ApiRunner
 
   # runs all testcases that are provided by the testclass an fills errors if there are any
   def run_tests
-    debugger
     puts "Running exactly #{@spec.size} tests."
     @spec.each do |test_case|
       response = send_request_for(test_case)

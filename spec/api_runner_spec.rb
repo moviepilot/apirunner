@@ -8,11 +8,20 @@ describe 'apirunner' do
     @a = ApiRunner.new(:local)
   end
   describe 'initialize' do
-    it 'should fill all instance variables' do
-      @a.instance_variable_get(:@protocol).should eql "http"
-      @a.instance_variable_get(:@host).should eql "localhost"
-      @a.instance_variable_get(:@port).should eql 3000
-      @a.instance_variable_get(:@namespace).should eql "api1v0"
+    it 'should fill all instance variables properly' do
+      @a.instance_variable_get(:@spec).should be_a(Array)
+      @a.instance_variable_get(:@spec).size.should == 58
+      @a.instance_variable_get(:@results).should be_a(Array)
+      @a.instance_variable_get(:@results).size.should == 0
+      @a.instance_variable_get(:@configuration).should be_a(ApiConfiguration)
+      @a.instance_variable_get(:@configuration).host.should == "localhost"
+      @a.instance_variable_get(:@configuration).port.should == 3000
+      @a.instance_variable_get(:@configuration).protocol.should == "http"
+      @a.instance_variable_get(:@configuration).namespace.should == "api1v0"
+      @a.instance_variable_get(:@configuration).verbosity.should == "verbose_on_error"
+      @a.instance_variable_get(:@configuration).priority.should == 0
+      @a.instance_variable_get(:@http_client).should be_a(HttpClient)
+      @a.instance_variable_get(:@expectation).should be_a(ExpectationMatcher)
     end
     it 'should fill @excludes' do
       @a.instance_variable_get(:@excludes).should_not be_nil
@@ -24,36 +33,41 @@ describe 'apirunner' do
       @a.instance_variable_get(:@spec).should be_a(Array)
       @a.instance_variable_get(:@spec).size.should >= 1
     end
-    it 'should instantiate an http client into @http_client' do
-      @a.instance_variable_get(:@http_client).should be_a(HttpClient)
-    end
-    it 'should instantiate an expectation_matcher into @expectation' do
-      @a.instance_variable_get(:@expectation).should be_a(ExpectationMatcher)
-    end
   end
 
   describe 'run_tests' do
     it 'should send a request for every given testcase' do
-      response_struct = Struct.new(:code, :message, :headers, :body)
-      response = response_struct.new
-      response.code = 404
-      response.message = "Ok"
-      response.body = {}
-      response.headers = {}
+      pending "TODO"
+      response = Result.new({},{})
       @a.should_receive(:server_is_available?).and_return true
       @a.should_receive(:send_request).exactly(@a.instance_variable_get(:@spec).size).times.and_return(response)
       @a.run
     end
-    it 'should run a test for every test_type'
-    it 'should save an error message in @errors if an error occured'
+    it 'should save an error message in @errors if an error occured' do
+      pending "TODO"
+      response = Result.new({},{})
+      @a.should_receive(:server_is_available?).and_return true
+      @a.should_receive(:send_request).exactly(@a.instance_variable_get(:@spec).size).times.and_return(response)
+      @a.run
+      @a.instance_variable_get(:@results).should_not be_nil
+      @a.instance_variable_get(:@results).size.should_not == 0
+    end
   end
 
   describe 'send_request' do
-    it 'should invoke send_request at the @http_client with the appropiate method, uri and data'
+    it "should invoke send_request at the @http_client with appropiate method, path, headers, body and get-parameters" do
+      pending "TODO"
+      @a.instance_variable_get(:@http_client).should_receive(:send_request).and_return(Result.new({},{}))
+      @a.send(:send_request_for,Testcase.new({}))
+    end
   end
 
   describe 'target_uri' do
-    it 'should create a correct target uri from existing instance variables'
+    it 'should create a correct target uri from existing instance variables' do
+      @a.send(:target_uri).match(@a.instance_variable_get(:@configuration).protocol).should be_true
+      @a.send(:target_uri).match(@a.instance_variable_get(:@configuration).host).should be_true
+      @a.send(:target_uri).match("://").should be_true
+    end
   end
 
   describe 'server_is_available?' do

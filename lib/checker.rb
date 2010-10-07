@@ -71,7 +71,7 @@ class Checker
   # parses output into JSON object
   def valid_json?(response_body)
     # responses may be nil, return true then
-    return true if response_body.blank?
+    return true if response_body.nil? or response_body = {}
     # returns true if given response is valid json, else false
     JSON.parse(response_body.to_s) rescue false
   end
