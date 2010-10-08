@@ -66,4 +66,26 @@ class ResponseBodyChecker < Checker
     end
     result
   end
+
+  private
+
+  # recursively parses the tree and returns a set of relative pathes
+  # that can be used to match the both trees leafs
+  def matcher_pathes_from(node, pathes = nil)
+    pathes ||= []
+    if not node.children.blank?
+      node.children.each do |sub_node|
+        matcher_pathes_from(sub_node, pathes)
+      end
+    else
+      pathes << relative_path(node.parent.path)
+    end
+    pathes
+  end
+
+  # returns relative path for matching the target tree of the response body
+  # explicit array adressing is replaced by *
+  def relative_path(path)
+    path.gsub(/\/([^\/]+)\[\d+\]\//i,"/*/")
+  end
 end
