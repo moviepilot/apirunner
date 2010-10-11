@@ -42,7 +42,7 @@ class Result
   # yields a more verbose message in any case and includes a curl command to manually simulate the testcase
   def verbose_with_curl(index)
     be_verbose(index)
-    puts "\n  simulate this call with: \"curl TODO\""
+    puts("\n  simulate this call with: \"curl TODO\"")
   end
 
   # yields the verbose error messages
@@ -85,8 +85,8 @@ class Result
 
   def ansi_colors(color)
     case color
-    when 'green' then ['\033[32m', '\033[0m']
-    when 'red'   then ['\033[31m', '\033[0m']
+    when :green then ['\033[32m', '\033[0m']
+    when :red   then ['\033[31m', '\033[0m']
     else ['','']
     end
   end

@@ -67,8 +67,8 @@ describe 'http_client' do
     end
     it "should add given GET parameters in correct notation" do
       @http_client.send(:build_uri,"/users/duffyduck", {:param1 => "1", :param2 => "a"}).to_s.match(/\?param/).should_not be_nil
-      @http_client.send(:build_uri,"/users/duffyduck", {:param1 => "1", :param2 => "a"}).to_s.match(/\param1=1/).should_not be_nil
-      @http_client.send(:build_uri,"/users/duffyduck", {:param1 => "1", :param2 => "a"}).to_s.match(/\param2=a/).should_not be_nil
+      @http_client.send(:build_uri,"/users/duffyduck", {:param1 => "1", :param2 => "a"}).to_s.match(/param1=1/).should_not be_nil
+      @http_client.send(:build_uri,"/users/duffyduck", {:param1 => "1", :param2 => "a"}).to_s.match(/param2=a/).should_not be_nil
     end
   end
 end
