@@ -5,7 +5,7 @@ class ResponseJsonSyntaxChecker < Checker
     result = Result.new(@testcase, @response)
     if not valid_json?(@response.body)
       result.succeeded = false
-      result.error_message = "expected valid JSON in body\n got --#{@response.body[1..400]}--"
+      result.error_message = "expected valid JSON in body\n got --#{@response.body[1..400]}-- #{@response.body.class}"
     end
     result
   end

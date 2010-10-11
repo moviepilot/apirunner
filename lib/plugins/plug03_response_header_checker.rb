@@ -17,10 +17,11 @@ class ResponseHeaderChecker < Checker
           end
         end
       end unless (@testcase.response_expectation['headers'].nil? or @testcase.response_expectation['headers'].empty?)
-    rescue
-      result.succeeded = false
-      result.error_message = " unexpected error while parsing testcase/response. Check your testcase format!"
-    end
+     rescue Exception => e
+       result.succeeded = false
+       result.error_message = " unexpected error while parsing testcase/response. Check your testcase format!"
+       result.error_message = "\n\nException occured: #{e}"
+     end
     result
   end
 

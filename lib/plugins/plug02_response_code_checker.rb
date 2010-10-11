@@ -8,10 +8,11 @@ class ResponseCodeChecker < Checker
         result.succeeded = false
         result.error_message = " expected response code --#{@testcase.response_expectation['status_code']}--\n got response code --#{@response.code}--"
       end
-    rescue
-      result.succeeded = false
-      result.error_message = " unexpected error while parsing testcase/response. Check your testcase format!"
-    end
+     rescue Exception => e
+       result.succeeded = false
+       result.error_message = " unexpected error while parsing testcase/response. Check your testcase format!"
+       result.error_message = "\n\n Exception occured: #{e}"
+     end
     result
   end
 

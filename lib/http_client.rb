@@ -24,7 +24,7 @@ class HttpClient
     response.code = raw_response.code
     response.message = raw_response.message
     response.body = raw_response.body
-    response.headers = JSON.parse(raw_response.headers.to_json) rescue nil
+    response.headers = JSON.parse(raw_response.headers.to_json) rescue ""
     response
   end
 

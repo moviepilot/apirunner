@@ -26,7 +26,6 @@ class Checker
     @@children << child
   end
 
-
   # returns true if given attributes is an excluded item that does not have to be evaluated in this environment
   def excluded?(item)
     @excludes.include?(item)
@@ -50,9 +49,8 @@ class Checker
 
   # parses output into JSON object
   def valid_json?(response_body)
-    debugger
     # responses may be nil, return true then
-    return true if response_body.nil? or response_body == {}
+    return true if response_body.nil? or response_body == {} or response_body == "" or response_body == " "
     # returns true if given response is valid json, else false
     JSON.parse(response_body.to_s) rescue false
   end
