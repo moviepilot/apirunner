@@ -1,5 +1,6 @@
 class HttpClient
   require 'net/http'
+  require "cgi"
 
   def initialize(protocol, host, port, namespace)
     @http = Net::HTTP.new(host, port)
@@ -23,7 +24,7 @@ class HttpClient
     response.code = raw_response.code
     response.message = raw_response.message
     response.body = raw_response.body
-    response.headers = JSON.parse(raw_response.header.to_json) rescue nil
+    response.headers = JSON.parse(raw_response.headers.to_json) rescue nil
     response
   end
 
@@ -56,7 +57,6 @@ class HttpClient
   # redefines the resource path including the namespace
   def resource_path(resource)
     @namespace.nil? ? resource : "/" + @namespace + resource
-    "/" + @namespace + resource
   end
 
   # rebuild a uri in details, so that another protocol, host, port and GET params can be specified, after Net::HTTP was created
