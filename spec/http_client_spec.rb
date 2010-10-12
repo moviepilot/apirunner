@@ -30,16 +30,18 @@ describe 'http_client' do
   end
   describe 'build_response' do
     it 'should return a struct consisting of 4 symbols: :code, :message, :headers and :body with right types' do
-      raw_response_struct = Struct.new(:code, :message, :headers, :body)
+      raw_response_struct = Struct.new(:code, :message, :headers, :body, :runtime, :fully_qualified_path)
       response = raw_response_struct.new
       response.code    = 404
       response.message = "Hi Duffy Duck"
       response.headers = { :daisy => "duck" }
       response.body    = { :duffy => "duck" }
-      @http_client.send(:build_response, response).code.should_not be_nil
-      @http_client.send(:build_response, response).message.should_not be_nil
-      @http_client.send(:build_response, response).body.should == {:duffy => "duck"}
-      @http_client.send(:build_response, response).headers.should == {"daisy" => "duck"}
+      response.runtime = 0.123456789
+      response.fully_qualified_path = "/path/to/resource"
+      @http_client.send(:build_response, response, 0.0, "GET", "resource", {}).code.should_not be_nil
+      @http_client.send(:build_response, response, 0.0, "GET", "resource", {}).message.should_not be_nil
+      @http_client.send(:build_response, response, 0.0, "GET", "resource", {}).body.should == {:duffy => "duck"}
+      @http_client.send(:build_response, response, 0.0, "GET", "resource", {}).headers.should == {"daisy" => "duck"}
     end
   end
   describe "resource_path" do
