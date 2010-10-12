@@ -21,7 +21,6 @@ class HttpClient
   # returns struct containing response.code, headers, body and message
   # this is only for easily interfaceing another http client
   def build_response(raw_response, runtime, method, resource, params)
-    end_time = Time.now.usec
     response_struct = Struct.new(:code, :message, :headers, :body, :runtime, :fully_qualified_path)
     response = response_struct.new
     response.code = raw_response.code
