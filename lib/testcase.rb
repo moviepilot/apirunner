@@ -11,6 +11,7 @@ class Testcase
     create_resource_substitutes(substitution)
   end
 
+  private
   # substitutes rersource names cause of race conditions in multiple system scenarios
   def create_resource_substitutes(substitution)
     substitution['substitutes'].each do |substitute|
