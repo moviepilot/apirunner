@@ -50,6 +50,7 @@ class Result
     puts "\n#{result_case} (#{index+1})- \"#{@testcase.name}\""
     puts @error_message
     puts("  More more more verbosity\n")
+    puts("  Request runtime: #{@response.runtime}")
     puts("  request method: #{@testcase.request['method']}")
     puts("  resource path: #{@testcase.request['path']}")
     puts("  request headers: #{@testcase.request['headers']}")
@@ -62,6 +63,11 @@ class Result
     puts("    response status code: #{@response.code}")
     puts("    response headers: #{@response.headers}")
     puts("    response body: #{JSON.parse(@response.body) rescue nil}")
+  end
+
+  #  yields out only performance information
+  def performance
+    
   end
 
   # returns the result case for interpolation in the output message header

@@ -1,6 +1,7 @@
 class HttpClient
   require 'net/http'
   require "cgi"
+  require "benchmark"
 
   def initialize(protocol, host, port, namespace)
     @http = Net::HTTP.new(host, port)
@@ -11,47 +12,52 @@ class HttpClient
   end
 
   def send_request(method, resource, headers=nil, data=nil, params=nil)
-    build_response(self.send(method.to_s.downcase, headers, resource, data, params))
+    runtime, response = self.send(method.to_s.downcase, headers, resource, data, params)
+    build_response(response, runtime)
   end
 
   protected
 
   # returns struct containing response.code, headers, body and message
   # this is only for easily interfaceing another http client
-  def build_response(raw_response)
-    response_struct = Struct.new(:code, :message, :headers, :body)
+  def build_response(raw_response, runtime)
+    end_time = Time.now.usec
+    response_struct = Struct.new(:code, :message, :headers, :body, :runtime)
     response = response_struct.new
     response.code = raw_response.code
     response.message = raw_response.message
     response.body = raw_response.body
     response.headers = JSON.parse(raw_response.headers.to_json) rescue ""
+    response.runtime = runtime
     response
   end
 
   # sends GET request and returns response
   def get(headers, resource, data, params)
     request = Net::HTTP::Get.new(build_uri(resource, params).request_uri, initheader = headers)
-    @http.request(request)
+    # runtime = Benchmark.realtime{ @response = @http.request(request) }
+    # return @response, runtime
+    return Benchmark.realtime{ @response = @http.request(request) }, @response
   end
 
   # sends PUT request and returns response
   def put(headers, resource, data, params)
     request = Net::HTTP::Put.new(resource_path(resource), initheader = headers)
     request.body = data.to_json
-    @http.request(request)
+    return Benchmark.realtime { @response = @http.request(request) }, @response
   end
 
   # sends POST request and returns response
   def post(headers, resource, data, params)
     request = Net::HTTP::Post.new(resource_path(resource), initheader = headers)
     request.body = data.to_json
-    @http.request(request)
+    return Benchmark.realtime{ @response = @http.request(request) }, @response
   end
 
   # sends DELETE request and returns response
   def delete(headers, resource, data, params)
     request = Net::HTTP::Delete.new(resource_path(resource), initheader = headers)
-    @http.request(request)
+    return Benchmark.realtime{ @response = @http.request(request) }, @response
   end
 
   # redefines the resource path including the namespace
