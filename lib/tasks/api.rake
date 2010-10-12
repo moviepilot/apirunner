@@ -4,13 +4,24 @@ rescue
 end
 namespace :api do
   namespace :run do
-    config.each_key do |env|
+    config.delete_if{ |key| key == "general" }.each_key do |env|
       desc "runs a series of nessecary api calls and parses their response in environment #{env}"
       task env.to_sym => :environment do
         puts "Running API tests in environment #{env}"
         api_runner = ApiRunner.new(env)
         api_runner.run
         puts "\nTestrun finished\n\n"
+      end
+    end unless config.nil?
+  end
+  namespace:performance do
+    config.delete_if{ |key| key == "general" }.each_key do |env|
+      desc "runs a series of nessecary api calls for performance measuring and parses their response in environment #{env}"
+      task env.to_sym => :environment do
+        puts "Running API performance tests in environment #{env}"
+        api_runner = ApiRunner.new(env, performance=true)
+        api_runner.run
+        puts "\nPerformance testrun finished\n\n"
       end
     end unless config.nil?
   end

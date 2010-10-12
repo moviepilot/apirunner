@@ -14,11 +14,12 @@ class ApiRunner
   EXCLUDES_FILE = "test/api_runner/excludes.yml"
 
   # initializes the object, loads environment, build base_uri
-  def initialize(env)
+  def initialize(env, performance=nil)
     @spec = []
     @results = []
     @excludes = []
     @configuration = ApiConfiguration.new(YAML.load_file(self.class.config_file), env)
+    @configuration.verbosity = "performance" if performance
     load_excludes(env)
     load_url_spec
     @http_client = HttpClient.new(@configuration.protocol, @configuration.host, @configuration.port, @configuration.namespace)
