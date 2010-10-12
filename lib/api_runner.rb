@@ -7,7 +7,7 @@ class ApiRunner
   require 'testcase'
   require 'string_ext'
 
-  require 'JSON'
+  # require 'JSON'
 
   CONFIG_FILE = "config/api_runner.yml"
   SPEC_PATH = "test/api_runner/"

@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{apirunner}
-  s.version = "0.3.6"
+  s.version = "0.3.8"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["jan@moviepilot.com"]
@@ -51,6 +51,7 @@ Gem::Specification.new do |s|
     "lib/plugins/plug02_response_code_checker.rb",
     "lib/plugins/plug03_response_header_checker.rb",
     "lib/plugins/plug04_response_body_checker.rb",
+    "lib/plugins/plug05_response_time_checker.rb",
     "lib/result.rb",
     "lib/string_ext.rb",
     "lib/tasks/api.rake",
