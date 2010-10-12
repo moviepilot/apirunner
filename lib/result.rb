@@ -67,8 +67,8 @@ class Result
 
   #  yields out only performance information
   def performance(index)
-    puts "\n" if index == 0
-    puts "%-10s %-8s %-30s %-120s %-10s" % ["#{@response.runtime.to_s[0..6]}s", @testcase.request['method'], @testcase.request['path'], @testcase.name, result_case]
+    puts "\n#{@testcase.name}\n"
+    puts "  %-10s %-20s %-8s %s " % ["#{@response.runtime.to_s[0..6]}s", "[#{result_case}]", @testcase.request['method'], @testcase.request['path']]
   end
 
   # returns the result case for interpolation in the output message header
@@ -92,8 +92,8 @@ class Result
 
   def ansi_colors(color)
     case color
-    when :green then ['\033[32m', '\033[0m']
-    when :red   then ['\033[31m', '\033[0m']
+    when :green then ["\033[32m", "\033[0m"]
+    when :red   then ["\033[31m", "\033[0m"]
     else ['','']
     end
   end
