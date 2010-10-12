@@ -16,7 +16,7 @@ class Testcase
     substitution['substitutes'].each do |substitute|
       @request = JSON.parse(@request.to_json.gsub(substitute, substitution['prefix'] + substitute))
       @response_expectation = JSON.parse(@response_expectation.to_json.gsub(substitute, substitution['prefix'] + substitute))
-    end
+    end unless substitution.nil?
   end
 
 end
