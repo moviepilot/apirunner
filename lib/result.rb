@@ -49,8 +49,8 @@ class Result
   def be_verbose(index)
     puts "\n#{result_case} (#{index+1})- \"#{@testcase.name}\""
     puts @error_message
+    puts("Request runtime: #{@response.runtime}")
     puts("  More more more verbosity\n")
-    puts("  Request runtime: #{@response.runtime}")
     puts("  request method: #{@testcase.request['method']}")
     puts("  resource path: #{@testcase.request['path']}")
     puts("  request headers: #{@testcase.request['headers']}")
@@ -66,8 +66,9 @@ class Result
   end
 
   #  yields out only performance information
-  def performance
-    
+  def performance(index)
+    puts "\n" if index == 0
+    puts "%-10s %-8s %-30s %-120s %-10s" % ["#{@response.runtime.to_s[0..6]}s", @testcase.request['method'], @testcase.request['path'], @testcase.name, result_case]
   end
 
   # returns the result case for interpolation in the output message header

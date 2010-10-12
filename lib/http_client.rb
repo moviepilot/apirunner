@@ -35,8 +35,6 @@ class HttpClient
   # sends GET request and returns response
   def get(headers, resource, data, params)
     request = Net::HTTP::Get.new(build_uri(resource, params).request_uri, initheader = headers)
-    # runtime = Benchmark.realtime{ @response = @http.request(request) }
-    # return @response, runtime
     return Benchmark.realtime{ @response = @http.request(request) }, @response
   end
 
