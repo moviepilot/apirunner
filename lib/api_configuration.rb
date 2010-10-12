@@ -7,8 +7,8 @@ class ApiConfiguration
     raw_config[env.to_s].each { |key, value| self.instance_variable_set("@#{key}", value) }
     self.verbosity = raw_config['general']['verbosity'].first
     self.priority = raw_config['general']['priority'] || 0
+    self.substitution = raw_config['general']['substitution']
     self
   end
-
 end
 
