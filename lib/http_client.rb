@@ -13,22 +13,23 @@ class HttpClient
 
   def send_request(method, resource, headers=nil, data=nil, params=nil)
     runtime, response = self.send(method.to_s.downcase, headers, resource, data, params)
-    build_response(response, runtime)
+    build_response(response, runtime, method, resource, params)
   end
 
   protected
 
   # returns struct containing response.code, headers, body and message
   # this is only for easily interfaceing another http client
-  def build_response(raw_response, runtime)
+  def build_response(raw_response, runtime, method, resource, params)
     end_time = Time.now.usec
-    response_struct = Struct.new(:code, :message, :headers, :body, :runtime)
+    response_struct = Struct.new(:code, :message, :headers, :body, :runtime, :fully_qualified_path)
     response = response_struct.new
     response.code = raw_response.code
     response.message = raw_response.message
     response.body = raw_response.body
     response.headers = JSON.parse(raw_response.headers.to_json) rescue ""
     response.runtime = runtime
+    response.fully_qualified_path = (method == "GET" ? build_uri(resource, params).request_uri : resource_path(resource))
     response
   end
 

@@ -68,7 +68,7 @@ class Result
   #  yields out only performance information
   def performance(index)
     puts "\n#{@testcase.name}\n"
-    puts "  %-10s %-20s %-8s %s " % ["#{@response.runtime.to_s[0..6]}s", "[#{result_case}]", @testcase.request['method'], @testcase.request['path']]
+    puts "  %-10s %-20s %-8s %s " % ["#{@response.runtime.to_s[0..6]}s", "[#{result_case}]", @testcase.request['method'], @response.fully_qualified_path]
   end
 
   # returns the result case for interpolation in the output message header
