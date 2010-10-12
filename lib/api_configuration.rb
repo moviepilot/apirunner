@@ -1,6 +1,6 @@
 class ApiConfiguration
 
-  attr_accessor :protocol, :host, :namespace, :port, :verbosity, :priority
+  attr_accessor :protocol, :host, :namespace, :port, :verbosity, :priority, :substitution
 
   # initializes a configuration object from given YAML file for given environment
   def initialize(raw_config, env)

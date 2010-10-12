@@ -94,7 +94,7 @@ class ApiRunner
   def objectize(raw_specs)
     specs = []
     raw_specs.each do |spec|
-      specs << Testcase.new(spec)
+      specs << Testcase.new(spec, @configuration.substitution)
     end
     specs
   end
