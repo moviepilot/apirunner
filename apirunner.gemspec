@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{apirunner}
-  s.version = "0.3.5"
+  s.version = "0.3.6"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["jan@moviepilot.com"]
-  s.date = %q{2010-10-07}
+  s.date = %q{2010-10-12}
   s.description = %q{apirunner is a testsuite to query your RESTful JSON API and match response with your defined expectations}
   s.email = %q{developers@moviepilot.com}
   s.extra_rdoc_files = [
@@ -45,7 +45,6 @@ Gem::Specification.new do |s|
     "lib/apirunner.rb",
     "lib/apirunner/railtie.rb",
     "lib/checker.rb",
-    "lib/core_extensions.rb",
     "lib/expectation_matcher.rb",
     "lib/http_client.rb",
     "lib/plugins/plug01_response_json_syntax_checker.rb",
@@ -53,12 +52,16 @@ Gem::Specification.new do |s|
     "lib/plugins/plug03_response_header_checker.rb",
     "lib/plugins/plug04_response_body_checker.rb",
     "lib/result.rb",
+    "lib/string_ext.rb",
     "lib/tasks/api.rake",
     "lib/testcase.rb",
     "spec/.rspec",
+    "spec/api_configuration_spec.rb",
     "spec/api_runner_spec.rb",
+    "spec/checker_spec.rb",
     "spec/expectation_matcher_spec.rb",
     "spec/http_client_spec.rb",
+    "spec/result_spec.rb",
     "spec/spec_helper.rb"
   ]
   s.homepage = %q{http://github.com/moviepilot/apirunner}
@@ -66,9 +69,12 @@ Gem::Specification.new do |s|
   s.rubygems_version = %q{1.3.7}
   s.summary = %q{one-line summary of your gem}
   s.test_files = [
+    "spec/api_configuration_spec.rb",
     "spec/api_runner_spec.rb",
+    "spec/checker_spec.rb",
     "spec/expectation_matcher_spec.rb",
     "spec/http_client_spec.rb",
+    "spec/result_spec.rb",
     "spec/spec_helper.rb"
   ]
 
