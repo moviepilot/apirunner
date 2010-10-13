@@ -42,7 +42,7 @@ class HttpClient
   def put(headers, resource, data, params)
     request = Net::HTTP::Put.new(resource_path(resource), initheader = headers)
     request.body = data.to_json
-    return Benchmark.realtime { @response = @http.request(request) }, @response
+    return Benchmark.realtime{ @response = @http.request(request) }, @response
   end
 
   # sends POST request and returns response
@@ -69,7 +69,7 @@ class HttpClient
     uri.scheme = @protocol
     uri.host = @host
     uri.port = @port
-    uri.query = "".concat(params.collect { |k,v| "#{k}=#{CGI::escape(v.to_s)}" }.reverse.join('&')) if not params.nil?
+    uri.query = params.collect{ |k,v| "#{k}=#{CGI::escape(v.to_s)}" }.reverse.join('&') if not params.nil?
     uri.path = resource_path(resource)
     uri
   end

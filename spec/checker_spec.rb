@@ -9,26 +9,16 @@ describe "Checker" do
       Checker.available_plugins.size.should_not == 0
     end
   end
-  describe "relative_path" do
-    it 'should substitute an absolute addressing in a given path' do
-      pending "Move me"
-      path = "/bla/foo/values[6]/duffy/duck"
-      Checker.new({},{}).send(:relative_path, path).should eql "/bla/foo/*/duffy/duck"
-    end
-    it 'should substitute more than one absolute adressing in a given path' do
-      pending "Move me"
-      path = "/bla/foo/values[6]/duffy/friends[1]/duck"
-      Checker.new({},{}).send(:relative_path, path).should eql "/bla/foo/*/duffy/*/duck"
-    end
-    it 'should return a string' do
-      pending "Move me"
-      path = "/bla/foo/values[6]/duffy/friends[1]/duck"
-      Checker.new({},{}).send(:relative_path, path).should be_a(String)
-    end
-  end
   describe "excluded?" do
-    it "should return true if a given item is not part of the instances exludes"
-    it "should return false if a given item is part of the instances excludes"
+    it "should return true if a given item is not part of the instances exludes" do
+      c = Checker.new({}, {}, ["exclude_1", "exclude_2"])
+      c.send(:excluded?, "exclude_1").should be_true
+      c.send(:excluded?, "exclude_2").should be_true
+    end
+    it "should return false if a given item is part of the instances excludes" do
+      c = Checker.new({}, {}, ["exclude_1", "exclude_2"])
+      c.send(:excluded?, "no_exclude").should be_false
+    end
   end
   describe "is_regex?" do
     it 'should return true if the given string seems to be a regular expression' do
