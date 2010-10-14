@@ -37,6 +37,7 @@ class ApiRunner
       puts("Server #{@configuration.host} seems to be unavailable!")
     end
     error_count = @results.select{ |r| !r.succeeded }.count
+    puts "\n\nResults: I greatfully ran #{ @spec.size } test(s), \033[32m#{ @spec.size - error_count }\033[0m succeeded, \033[31m#{ error_count }\033[0m failed."
     exit(error_count)
   end
 
