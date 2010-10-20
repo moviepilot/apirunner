@@ -87,10 +87,10 @@ class ApiRunner
     Dir.new(path).entries.sort.each do |dir_entry|
       specs.push *YAML.load_file(path+dir_entry) if not (File.directory? dir_entry or dir_entry.match(/^\./) or dir_entry.match(/excludes/))
     end
-    specs = explode_iterations(specs)
-    @spec = objectize(priorize(partition(specs)))
+    @spec = objectize(priorize(partition(explode_iterations(specs))))
   end
 
+  # explodes specs that include iterations and interpolates the iteration variable into all occuring @@ placeholders
   def explode_iterations(specs)
     return specs unless specs.detect{ |s| s['iterations']}
     exploded_specs = []
