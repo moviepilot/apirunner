@@ -6,8 +6,7 @@ class ApiRunner
   require 'api_configuration'
   require 'testcase'
   require 'string_ext'
-
-  # require 'JSON'
+  require 'JSON'
 
   CONFIG_FILE = "config/api_runner.yml"
   SPEC_PATH = "test/api_runner/"
@@ -88,7 +87,23 @@ class ApiRunner
     Dir.new(path).entries.sort.each do |dir_entry|
       specs.push *YAML.load_file(path+dir_entry) if not (File.directory? dir_entry or dir_entry.match(/^\./) or dir_entry.match(/excludes/))
     end
+    specs = explode_iterations(specs)
     @spec = objectize(priorize(partition(specs)))
+  end
+
+  def explode_iterations(specs)
+    return specs unless specs.detect{ |s| s['iterations']}
+    exploded_specs = []
+    specs.each do |spec|
+      if spec['iterations'].nil?
+        exploded_specs << spec
+      else
+        1.upto(spec['iterations'].to_i) do |i|
+          exploded_specs << JSON.parse(spec.to_json.gsub(/@@/, "%07d" % i.to_s))
+        end
+      end
+    end
+    return exploded_specs
   end
 
   # converts the given array of raw testcases to an array of testcase objects
