@@ -7,6 +7,7 @@ source "http://rubygems.org"
 # Include everything needed to run rake, tests, features, etc.
 
 gem 'nokogiri', '~> 1.4.3.1'
+gem 'json'
 
 group :development do
   gem "rspec", ">= 2.0.0.beta.19"
