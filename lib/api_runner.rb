@@ -87,63 +87,7 @@ class ApiRunner
     Dir.new(path).entries.sort.each do |dir_entry|
       specs.push *YAML.load_file(path+dir_entry) if not (File.directory? dir_entry or dir_entry.match(/^\./) or dir_entry.match(/excludes/))
     end
-    @spec = objectize(priorize(partition(explode_iterations(specs))))
-  end
-
-  # explodes specs that include iterations and interpolates the iteration variable into all occuring @@ placeholders
-  def explode_iterations(specs)
-    return specs unless specs.detect{ |s| s['iterations']}
-    exploded_specs = []
-    specs.each do |spec|
-      if spec['iterations'].nil?
-        exploded_specs << spec
-      else
-        1.upto(spec['iterations'].to_i) do |i|
-          exploded_specs << JSON.parse(spec.to_json.gsub(/@@/, "%07d" % i.to_s))
-        end
-      end
-    end
-    return exploded_specs
-  end
-
-  # converts the given array of raw testcases to an array of testcase objects
-  def objectize(raw_specs)
-    specs = []
-    raw_specs.each do |spec|
-      specs << Testcase.new(spec, @configuration.substitution)
-    end
-    specs
-  end
-
-  # returns only spec whose priority level is less or equals configures priority level
-  # if no priority level is configured for the api runner, 0 is assumed
-  # if no priority level ist configured for a story, 0 is assumed
-  def priorize(specs)
-    relevant_specs = []
-    specs.each do |spec|
-      relevant_specs << spec if spec['priority'].nil? or spec['priority'].to_i <= @configuration.priority.to_i
-    end
-    relevant_specs
-  end
-
-  # partitions the spec if keywords like 'focus', 'until' or 'from exist'
-  # and returns the relevant subset of specs that have to be tested then
-  def partition(specs)
-    relevant_specs = []
-    specs.each do |spec|
-      if spec['focus']
-        relevant_specs << spec
-        break
-      elsif spec['until']
-        relevant_specs = specs[0..specs.index(spec)]
-        break
-      elsif spec['from']
-        relevant_specs = specs[specs.index(spec)..specs.size+1]
-        break
-      end
-    end
-    relevant_specs = specs if relevant_specs.empty?
-    relevant_specs
+    @spec = Testcase.expand_specs(specs, @configuration)
   end
 
   # loads and parses items that need to be excluded from the checks in certain environments
