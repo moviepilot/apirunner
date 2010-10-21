@@ -16,7 +16,7 @@ class Testcase
   # to prepare the specs, automagically create the ierting ones and partition them
   def self.expand_specs(specs, configuration)
     @@configuration = configuration
-    objectize(priorize(partition(explode_iterations(specs))))
+    objectize(partition(explode_iterations(priorize(specs))))
   end
 
 
@@ -41,7 +41,7 @@ class Testcase
   def self.objectize(raw_specs)
     specs = []
     raw_specs.each do |spec|
-      specs << Testcase.new(spec, @@configuration.substitution)
+      specs << self.new(spec, @@configuration.substitution)
     end
     specs
   end
