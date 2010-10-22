@@ -1,6 +1,6 @@
 class ApiRunner
   require 'yaml'
-  # require 'csv_writer'
+  require 'csv_writer'
   require 'string_ext' if not String.respond_to?(:underscore)
   require 'expectation_matcher'
   require 'http_client'
@@ -11,7 +11,7 @@ class ApiRunner
   CONFIG_FILE = "config/api_runner.yml"
   SPEC_PATH = "test/api_runner/"
   EXCLUDES_FILE = "test/api_runner/excludes.yml"
-  # CSV_FILE = "tmp/apirunner.csv"
+  CSV_FILE = "tmp/apirunner.csv"
 
   # initializes the object, loads environment, build base_uri
   def initialize(env, performance=nil)
@@ -24,14 +24,14 @@ class ApiRunner
     load_url_spec
     @http_client = HttpClient.new(@configuration.protocol, @configuration.host, @configuration.port, @configuration.namespace)
     @expectation = ExpectationMatcher.new(@excludes)
-    # @csv_writer = CsvWriter.new(self.class.csv_file)
+    @csv_writer = CsvWriter.new(self.class.csv_file)
   end
 
   # checks servers availability and invokes test cases
   def run
     if server_is_available?
       run_tests
-      # @csv_writer.write(@configuration.csv_mode, @results) unless @results.empty?
+      @csv_writer.write(@configuration.csv_mode, @results) unless @results.empty?
       @results.each_with_index do |result, index|
         result.honk_in(@configuration.verbosity, index)
       end unless @results.empty?
@@ -40,7 +40,7 @@ class ApiRunner
     end
     error_count = @results.select{ |r| !r.succeeded }.count
     puts "\n\nResults: I greatfully ran #{ @spec.size } test(s), \033[32m#{ @spec.size - error_count }\033[0m succeeded, \033[31m#{ error_count }\033[0m failed."
-    exit(error_count)
+    return (error_count)
   end
 
   protected
@@ -114,8 +114,8 @@ class ApiRunner
     EXCLUDES_FILE
   end
   
-  # # returns csv file path that can be stubbed
-  # def self.csv_file
-  #   CSV_FILE
-  # end
+  # returns csv file path that can be stubbed
+  def self.csv_file
+    CSV_FILE
+  end
 end

@@ -1,7 +1,6 @@
 class Result
 
-  attr_accessor :succeeded
-  attr_accessor :error_message
+  attr_accessor :succeeded, :error_message, :testcase, :response
 
   def initialize(testcase, response)
     @succeeded = true
