@@ -1,4 +1,5 @@
 class Testcase
+  require 'digest/md5'
 
   attr_reader :raw, :name, :request, :response_expectation, :wait_before_request
   @@configuration ||= nil
@@ -19,6 +20,10 @@ class Testcase
     objectize(partition(explode_iterations(priorize(specs))))
   end
 
+  # returns an identifier of that testcase that should be unique
+  def unique_identifier
+   Digest::MD5.hexdigest(@name.to_s + @request.to_json)[0..9]
+  end
 
   private
   # explodes specs that include iterations and interpolates the iteration variable into all occuring @@ placeholders

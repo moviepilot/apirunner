@@ -1,16 +1,17 @@
 class ApiRunner
   require 'yaml'
+  # require 'csv_writer'
   require 'string_ext' if not String.respond_to?(:underscore)
   require 'expectation_matcher'
   require 'http_client'
   require 'api_configuration'
   require 'testcase'
-  require 'string_ext'
   require 'json'
 
   CONFIG_FILE = "config/api_runner.yml"
   SPEC_PATH = "test/api_runner/"
   EXCLUDES_FILE = "test/api_runner/excludes.yml"
+  # CSV_FILE = "tmp/apirunner.csv"
 
   # initializes the object, loads environment, build base_uri
   def initialize(env, performance=nil)
@@ -23,12 +24,14 @@ class ApiRunner
     load_url_spec
     @http_client = HttpClient.new(@configuration.protocol, @configuration.host, @configuration.port, @configuration.namespace)
     @expectation = ExpectationMatcher.new(@excludes)
+    # @csv_writer = CsvWriter.new(self.class.csv_file)
   end
 
   # checks servers availability and invokes test cases
   def run
     if server_is_available?
       run_tests
+      # @csv_writer.write(@configuration.csv_mode, @results) unless @results.empty?
       @results.each_with_index do |result, index|
         result.honk_in(@configuration.verbosity, index)
       end unless @results.empty?
@@ -110,4 +113,9 @@ class ApiRunner
   def self.excludes_file
     EXCLUDES_FILE
   end
+  
+  # # returns csv file path that can be stubbed
+  # def self.csv_file
+  #   CSV_FILE
+  # end
 end
