@@ -5,6 +5,7 @@ class CsvWriter
     @file = file
   end
 
+  # dispatches the configured CSV create style to the matching method
   def write(method, data)
     self.send(method.to_sym, convert_to_hash_array(data))
   end
@@ -69,10 +70,9 @@ class CsvWriter
 
   # does not write any data ... for convenience only
   def none(data)
-    STDERR.puts("doing nothing wit CSV")
-    return
   end
 
+  # converts array of testcases into array of hashes containing only identifier and runtime of the testcases
   def convert_to_hash_array(data)
     hash_array = []
     data.each do |result|
