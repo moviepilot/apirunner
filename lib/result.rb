@@ -46,7 +46,7 @@ class Result
 
   # yields the verbose error messages
   def be_verbose(index)
-    puts "\n#{result_case} (#{index+1})- \"#{@testcase.name}\""
+    puts "\n#{result_case} (#{index+1})- #{@testcase.unique_identifier} - \"#{@testcase.name}\""
     puts @error_message
     puts("Request runtime: #{@response.runtime}")
     puts("  More more more verbosity\n")

@@ -22,7 +22,7 @@ class Testcase
 
   # returns an identifier of that testcase that should be unique
   def unique_identifier
-   Digest::MD5.hexdigest(@name.to_s + @request.to_json)[0..9]
+   Digest::MD5.hexdigest(@name.to_s)[0..9]
   end
 
   private

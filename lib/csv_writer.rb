@@ -18,41 +18,24 @@ class CsvWriter
 
   # appends given data to an existing CSV file
   # if new testcases come in, their data is appended to the right of the csv
-  # if one or more testcases are missing but were known before, the structure stays clean
+  # if one or more testcases are missing but were known before, the structure of the csv stays clean
   # and empty entries are made for these cases
   # to be refactored!
   def append(data)
     STDERR.puts("appending #{data} to file #{@file}")
     begin
-      old_data = CSV.read(@file, headers: true, header_converters: :symbol)
-
-      # delete_if deletes in referenced object too, therefore I need to clone data by hand
-      data_copy = Array.new
-      data.each do |value|
-        data_copy << value
-      end
-      # isolate new results that need a new column to be appended to the right
-      old_data.headers.each do |header|
-        data_copy.delete_if{ |field| field[:identifier] == header.to_s }
-      end
-
       # convert old data to array
-      old_data_array = old_data.to_a
+      old_data_array = CSV.read(@file, headers: true, header_converters: :symbol).to_a
 
-      # create a new header for every unknown result identifier
-      data_copy.each do |result|
-        old_data_array[0]  << result[:identifier]
-      end unless data_copy.empty?
+      # extend the headers by the ones for new testcases
+      data.each do |result|
+        old_data_array[0] << result[:identifier] if not old_data_array[0].include?(result[:identifier].to_sym)
+      end unless data.empty?
 
       # create the new line column by column in the right order
       line = []
       old_data_array[0].each do |header|
-        debugger
-        begin
-          line << data.detect{ |field| field[:identifier] == header.to_s }[:runtime]
-        rescue
-          line << nil
-        end
+        line << (data.detect{ |field| field[:identifier] == header.to_s }[:runtime] rescue nil)
       end unless old_data_array[0].empty?
 
       # append the new line of data to existing data
