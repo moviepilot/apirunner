@@ -11,7 +11,7 @@ class ApiRunner
   CONFIG_FILE = "config/api_runner.yml"
   SPEC_PATH = "test/api_runner/"
   EXCLUDES_FILE = "test/api_runner/excludes.yml"
-  CSV_FILE = "tmp/apirunner.csv"
+  CSV_PATH = "tmp"
 
   # initializes the object, loads environment, build base_uri
   def initialize(env, performance=nil)
@@ -24,7 +24,7 @@ class ApiRunner
     load_url_spec
     @http_client = HttpClient.new(@configuration.protocol, @configuration.host, @configuration.port, @configuration.namespace)
     @expectation = ExpectationMatcher.new(@excludes)
-    @csv_writer = CsvWriter.new(self.class.csv_file)
+    @csv_writer = CsvWriter.new(self.class.csv_path, env)
   end
 
   # checks servers availability and invokes test cases
@@ -115,7 +115,7 @@ class ApiRunner
   end
   
   # returns csv file path that can be stubbed
-  def self.csv_file
-    CSV_FILE
+  def self.csv_path
+    CSV_PATH
   end
 end
