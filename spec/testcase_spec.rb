@@ -19,12 +19,12 @@ describe 'testcase' do
     end
     it 'should create a certian md5 hash for a certain testcase' do
       t = Testcase.new(@testcase_hash, nil)
-      t.unique_identifier.should == "eb46f75b6a"
+      t.unique_identifier.should == "03819e4c7c"
     end
     it 'should create a different md5 hash for a the same testcase with minimum changes' do
       testcase_hash2 = @testcase_hash.merge({"name" => "Create new User with different hash this time"})
       t = Testcase.new(testcase_hash2, nil)
-      t.unique_identifier.should_not == "eb46f75b6a"
+      t.unique_identifier.should_not == "03819e4c7c"
     end
     it 'should return a string with length 10' do
       t = Testcase.new(@testcase_hash, nil)
