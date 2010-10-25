@@ -22,7 +22,6 @@ class CsvWriter
   # and empty entries are made for these cases
   # to be refactored!
   def append(data)
-    STDERR.puts("appending #{data} to file #{@file}")
     begin
       # convert old data to array
       old_data_array = CSV.read(@file, headers: true, header_converters: :symbol).to_a
