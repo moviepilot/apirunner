@@ -86,6 +86,9 @@ class ResponseBodyChecker < Checker
   # returns relative path for matching the target tree of the response body
   # explicit array adressing is replaced by *
   def relative_path(path)
-    path.gsub(/\/([^\/]+)\[\d+\]\//i,"/*/")
+    # replace array referenced IN the path
+    first_pass = path.gsub(/\/([^\/]+)\[\d+\]\//i,"/*/")
+    # replace array references AT THE END of the path too
+    first_pass.gsub(/\/([^\/]+)\[\d+\]$/,"/*")
   end
 end
