@@ -34,14 +34,14 @@ describe 'http_client' do
       response = raw_response_struct.new
       response.code    = 404
       response.message = "Hi Duffy Duck"
-      response.headers = { :daisy => "duck" }
+      response.stub!(:to_hash).and_return({ :daisy => ["duck"] })
       response.body    = { :duffy => "duck" }
       response.runtime = 0.123456789
       response.fully_qualified_path = "/path/to/resource"
       @http_client.send(:build_response, response, 0.0, "GET", "resource", {}).code.should_not be_nil
       @http_client.send(:build_response, response, 0.0, "GET", "resource", {}).message.should_not be_nil
       @http_client.send(:build_response, response, 0.0, "GET", "resource", {}).body.should == {:duffy => "duck"}
-      @http_client.send(:build_response, response, 0.0, "GET", "resource", {}).headers.should == {"daisy" => "duck"}
+      @http_client.send(:build_response, response, 0.0, "GET", "resource", {}).headers.should == {:daisy => "duck"}
     end
   end
   describe "resource_path" do

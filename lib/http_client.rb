@@ -26,7 +26,7 @@ class HttpClient
     response.code = raw_response.code
     response.message = raw_response.message
     response.body = raw_response.body
-    response.headers = JSON.parse(raw_response.headers.to_json) rescue ""
+    response.headers = raw_response.to_hash.keys.inject({}){|hash, key| hash[key] = raw_response.to_hash[key][0]; hash}
     response.runtime = runtime
     response.fully_qualified_path = (method == "GET" ? build_uri(resource, params).request_uri : resource_path(resource))
     response

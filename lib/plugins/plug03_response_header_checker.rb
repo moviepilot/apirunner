@@ -10,6 +10,11 @@ class ResponseHeaderChecker < Checker
             result.succeeded = false
             result.error_message = " expected header identifier --#{header_name}-- to match regex --#{header_value}--\n got --#{@response.headers[header_name]}--"
           end
+        elsif is_number_comparison?(header_value)
+          if not (excluded?(header_name) or compare_number(header_value, @response.headers[header_name]))
+            result.succeeded = false
+            result.error_message = " expected header identifier --#{header_name}-- to match number comparison --#{header_value}--\n got --#{@response.headers[header_name]}--"
+          end
         else
           if not (excluded?(header_name) or string_matches?(header_value, @response.headers[header_name]))
             result.succeeded = false
