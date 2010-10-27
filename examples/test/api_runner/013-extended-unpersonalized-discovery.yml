@@ -1,0 +1,711 @@
+---
+- name: "Unpersonalized discovery should return between 4 and 600 movies for a certain keyword category place_keyword:63"
+  priority: 2
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/discovery/place_keyword:63'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:                        /^\[("m\d+",){3,600}"m\d+"\]$/
+- name: "Unpersonalized discovery should return between 4 and 600 movies for a certain keyword category place_keyword:206"
+  priority: 2
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/discovery/place_keyword:206'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:                        /^\[("m\d+",){3,600}"m\d+"\]$/
+- name: "Unpersonalized discovery should return between 4 and 600 movies for a certain keyword category place_keyword:356"
+  priority: 2
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/discovery/place_keyword:356'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:                        /^\[("m\d+",){3,600}"m\d+"\]$/
+- name: "Unpersonalized discovery should return between 4 and 600 movies for a certain keyword category place_keyword:15"
+  priority: 2
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/discovery/place_keyword:15'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:                        /^\[("m\d+",){3,600}"m\d+"\]$/
+- name: "Unpersonalized discovery should return between 4 and 600 movies for a certain keyword category place_keyword:97"
+  priority: 2
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/discovery/place_keyword:97'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:                        /^\[("m\d+",){3,600}"m\d+"\]$/
+- name: "Unpersonalized discovery should return between 4 and 600 movies for a certain keyword category place_keyword:21"
+  priority: 2
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/discovery/place_keyword:21'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:                        /^\[("m\d+",){3,600}"m\d+"\]$/
+- name: "Unpersonalized discovery should return between 4 and 600 movies for a certain keyword category place_keyword:462"
+  priority: 2
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/discovery/place_keyword:462'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:                        /^\[("m\d+",){3,600}"m\d+"\]$/
+- name: "Unpersonalized discovery should return between 4 and 600 movies for a certain keyword category place_keyword:16"
+  priority: 2
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/discovery/place_keyword:16'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:                        /^\[("m\d+",){3,600}"m\d+"\]$/
+- name: "Unpersonalized discovery should return between 4 and 600 movies for a certain keyword category place_keyword:26"
+  priority: 2
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/discovery/place_keyword:26'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:                        /^\[("m\d+",){3,600}"m\d+"\]$/
+- name: "Unpersonalized discovery should return between 4 and 600 movies for a certain keyword category place_keyword:29"
+  priority: 2
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/discovery/place_keyword:29'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:                        /^\[("m\d+",){3,600}"m\d+"\]$/
+- name: "Unpersonalized discovery should return between 4 and 600 movies for a certain keyword category place_keyword:36"
+  priority: 2
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/discovery/place_keyword:36'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:                        /^\[("m\d+",){3,600}"m\d+"\]$/
+- name: "Unpersonalized discovery should return between 4 and 600 movies for a certain keyword category place_keyword:17"
+  priority: 2
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/discovery/place_keyword:17'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:                        /^\[("m\d+",){3,600}"m\d+"\]$/
+- name: "Unpersonalized discovery should return between 4 and 600 movies for a certain keyword category place_keyword:20"
+  priority: 2
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/discovery/place_keyword:20'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:                        /^\[("m\d+",){3,600}"m\d+"\]$/
+- name: "Unpersonalized discovery should return between 4 and 600 movies for a certain keyword category intended_audience:5"
+  priority: 2
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/discovery/intended_audience:5'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:                        /^\[("m\d+",){3,600}"m\d+"\]$/
+- name: "Unpersonalized discovery should return between 4 and 600 movies for a certain keyword category intended_audience:4"
+  priority: 2
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/discovery/intended_audience:4'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:                        /^\[("m\d+",){3,600}"m\d+"\]$/
+- name: "Unpersonalized discovery should return between 4 and 600 movies for a certain keyword category intended_audience:13"
+  priority: 2
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/discovery/intended_audience:13'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:                        /^\[("m\d+",){3,600}"m\d+"\]$/
+- name: "Unpersonalized discovery should return between 4 and 600 movies for a certain keyword category intended_audience:3"
+  priority: 2
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/discovery/intended_audience:3'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:                        /^\[("m\d+",){3,600}"m\d+"\]$/
+- name: "Unpersonalized discovery should return between 4 and 600 movies for a certain keyword category intended_audience:2"
+  priority: 2
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/discovery/intended_audience:2'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:                        /^\[("m\d+",){3,600}"m\d+"\]$/
+- name: "Unpersonalized discovery should return between 4 and 600 movies for a certain keyword category intended_audience:12"
+  priority: 2
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/discovery/intended_audience:12'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:                        /^\[("m\d+",){3,600}"m\d+"\]$/
+- name: "Unpersonalized discovery should return between 4 and 600 movies for a certain keyword category time_keyword:3"
+  priority: 2
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/discovery/time_keyword:3'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:                        /^\[("m\d+",){3,600}"m\d+"\]$/
+- name: "Unpersonalized discovery should return between 4 and 600 movies for a certain keyword category time_keyword:161"
+  priority: 2
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/discovery/time_keyword:161'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:                        /^\[("m\d+",){3,600}"m\d+"\]$/
+- name: "Unpersonalized discovery should return between 4 and 600 movies for a certain keyword category time_keyword:17"
+  priority: 2
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/discovery/time_keyword:17'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:                        /^\[("m\d+",){3,600}"m\d+"\]$/
+- name: "Unpersonalized discovery should return between 4 and 600 movies for a certain keyword category time_keyword:118"
+  priority: 2
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/discovery/time_keyword:118'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:                        /^\[("m\d+",){3,600}"m\d+"\]$/
+- name: "Unpersonalized discovery should return between 4 and 600 movies for a certain keyword category time_keyword:149"
+  priority: 2
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/discovery/time_keyword:149'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:                        /^\[("m\d+",){3,600}"m\d+"\]$/
+- name: "Unpersonalized discovery should return between 4 and 600 movies for a certain keyword category time_keyword:10"
+  priority: 2
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/discovery/time_keyword:10'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:                        /^\[("m\d+",){3,600}"m\d+"\]$/
+- name: "Unpersonalized discovery should return between 4 and 600 movies for a certain keyword category time_keyword:128"
+  priority: 2
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/discovery/time_keyword:128'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:                        /^\[("m\d+",){3,600}"m\d+"\]$/
+- name: "Unpersonalized discovery should return between 4 and 600 movies for a certain keyword category time_keyword:90"
+  priority: 2
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/discovery/time_keyword:90'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:                        /^\[("m\d+",){3,600}"m\d+"\]$/
+- name: "Unpersonalized discovery should return between 4 and 600 movies for a certain keyword category time_keyword:191"
+  priority: 2
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/discovery/time_keyword:191'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:                        /^\[("m\d+",){3,600}"m\d+"\]$/
+- name: "Unpersonalized discovery should return between 4 and 600 movies for a certain keyword category time_keyword:47"
+  priority: 2
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/discovery/time_keyword:47'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:                        /^\[("m\d+",){3,600}"m\d+"\]$/
+- name: "Unpersonalized discovery should return between 4 and 600 movies for a certain keyword category time_keyword:5"
+  priority: 2
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/discovery/time_keyword:5'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:                        /^\[("m\d+",){3,600}"m\d+"\]$/
+- name: "Unpersonalized discovery should return between 4 and 600 movies for a certain keyword category time_keyword:188"
+  priority: 2
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/discovery/time_keyword:188'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:                        /^\[("m\d+",){3,600}"m\d+"\]$/
+- name: "Unpersonalized discovery should return between 4 and 600 movies for a certain keyword category time_keyword:160"
+  priority: 2
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/discovery/time_keyword:160'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:                        /^\[("m\d+",){3,600}"m\d+"\]$/
+- name: "Unpersonalized discovery should return between 4 and 600 movies for a certain keyword category plot_keyword:493"
+  priority: 2
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/discovery/plot_keyword:493'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:                        /^\[("m\d+",){3,600}"m\d+"\]$/
+- name: "Unpersonalized discovery should return between 4 and 600 movies for a certain keyword category plot_keyword:2716"
+  priority: 2
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/discovery/plot_keyword:2716'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:                        /^\[("m\d+",){3,600}"m\d+"\]$/
+- name: "Unpersonalized discovery should return between 4 and 600 movies for a certain keyword category plot_keyword:2261"
+  priority: 2
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/discovery/plot_keyword:2261'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:                        /^\[("m\d+",){3,600}"m\d+"\]$/
+- name: "Unpersonalized discovery should return between 4 and 600 movies for a certain keyword category plot_keyword:4233"
+  priority: 2
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/discovery/plot_keyword:4233'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:                        /^\[("m\d+",){3,600}"m\d+"\]$/
+- name: "Unpersonalized discovery should return between 4 and 600 movies for a certain keyword category plot_keyword:2101"
+  priority: 2
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/discovery/plot_keyword:2101'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:                        /^\[("m\d+",){3,600}"m\d+"\]$/
+- name: "Unpersonalized discovery should return between 4 and 600 movies for a certain keyword category plot_keyword:722"
+  priority: 2
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/discovery/plot_keyword:722'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:                        /^\[("m\d+",){3,600}"m\d+"\]$/
+- name: "Unpersonalized discovery should return between 4 and 600 movies for a certain keyword category plot_keyword:3897"
+  priority: 2
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/discovery/plot_keyword:3897'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:                        /^\[("m\d+",){3,600}"m\d+"\]$/
+- name: "Unpersonalized discovery should return between 4 and 600 movies for a certain keyword category plot_keyword:2016"
+  priority: 2
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/discovery/plot_keyword:2016'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:                        /^\[("m\d+",){3,600}"m\d+"\]$/
+- name: "Unpersonalized discovery should return between 4 and 600 movies for a certain keyword category plot_keyword:1787"
+  priority: 2
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/discovery/plot_keyword:1787'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:                        /^\[("m\d+",){3,600}"m\d+"\]$/
+- name: "Unpersonalized discovery should return between 4 and 600 movies for a certain keyword category plot_keyword:1373"
+  priority: 2
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/discovery/plot_keyword:1373'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:                        /^\[("m\d+",){3,600}"m\d+"\]$/
+- name: "Unpersonalized discovery should return between 4 and 600 movies for a certain keyword category plot_keyword:773"
+  priority: 2
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/discovery/plot_keyword:773'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:                        /^\[("m\d+",){3,600}"m\d+"\]$/
+- name: "Unpersonalized discovery should return between 4 and 600 movies for a certain keyword category plot_keyword:1178"
+  priority: 2
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/discovery/plot_keyword:1178'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:                        /^\[("m\d+",){3,600}"m\d+"\]$/
+- name: "Unpersonalized discovery should return between 4 and 600 movies for a certain keyword category plot_keyword:1928"
+  priority: 2
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/discovery/plot_keyword:1928'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:                        /^\[("m\d+",){3,600}"m\d+"\]$/
+- name: "Unpersonalized discovery should return between 4 and 600 movies for a certain keyword category genre:2"
+  priority: 2
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/discovery/genre:2'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:                        /^\[("m\d+",){3,600}"m\d+"\]$/
+- name: "Unpersonalized discovery should return between 4 and 600 movies for a certain keyword category genre:15"
+  priority: 2
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/discovery/genre:15'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:                        /^\[("m\d+",){3,600}"m\d+"\]$/
+- name: "Unpersonalized discovery should return between 4 and 600 movies for a certain keyword category genre:99"
+  priority: 2
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/discovery/genre:99'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:                        /^\[("m\d+",){3,600}"m\d+"\]$/
+- name: "Unpersonalized discovery should return between 4 and 600 movies for a certain keyword category genre:61"
+  priority: 2
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/discovery/genre:61'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:                        /^\[("m\d+",){3,600}"m\d+"\]$/
+- name: "Unpersonalized discovery should return between 4 and 600 movies for a certain keyword category genre:142"
+  priority: 2
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/discovery/genre:142'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:                        /^\[("m\d+",){3,600}"m\d+"\]$/
+- name: "Unpersonalized discovery should return between 4 and 600 movies for a certain keyword category genre:155"
+  priority: 2
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/discovery/genre:155'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:                        /^\[("m\d+",){3,600}"m\d+"\]$/
+- name: "Unpersonalized discovery should return between 4 and 600 movies for a certain keyword category genre:90"
+  priority: 2
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/discovery/genre:90'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:                        /^\[("m\d+",){3,600}"m\d+"\]$/
+- name: "Unpersonalized discovery should return between 4 and 600 movies for a certain keyword category genre:7"
+  priority: 2
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/discovery/genre:7'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:                        /^\[("m\d+",){3,600}"m\d+"\]$/
+- name: "Unpersonalized discovery should return between 4 and 600 movies for a certain keyword category genre:94"
+  priority: 2
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/discovery/genre:94'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:                        /^\[("m\d+",){3,600}"m\d+"\]$/
+- name: "Unpersonalized discovery should return between 4 and 600 movies for a certain keyword category genre:20"
+  priority: 2
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/discovery/genre:20'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:                        /^\[("m\d+",){3,600}"m\d+"\]$/
+- name: "Unpersonalized discovery should return between 4 and 600 movies for a certain keyword category genre:43"
+  priority: 2
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/discovery/genre:43'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:                        /^\[("m\d+",){3,600}"m\d+"\]$/
+- name: "Unpersonalized discovery should return between 4 and 600 movies for a certain keyword category genre:67"
+  priority: 2
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/discovery/genre:67'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:                        /^\[("m\d+",){3,600}"m\d+"\]$/
+- name: "Unpersonalized discovery should return between 4 and 600 movies for a certain keyword category genre:105"
+  priority: 2
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/discovery/genre:105'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:                        /^\[("m\d+",){3,600}"m\d+"\]$/
+- name: "Unpersonalized discovery should return between 4 and 600 movies for a certain keyword category emotion_keyword:13"
+  priority: 2
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/discovery/emotion_keyword:13'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:                        /^\[("m\d+",){3,600}"m\d+"\]$/
+- name: "Unpersonalized discovery should return between 4 and 600 movies for a certain keyword category emotion_keyword:7"
+  priority: 2
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/discovery/emotion_keyword:7'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:                        /^\[("m\d+",){3,600}"m\d+"\]$/
+- name: "Unpersonalized discovery should return between 4 and 600 movies for a certain keyword category emotion_keyword:14"
+  priority: 2
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/discovery/emotion_keyword:14'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:                        /^\[("m\d+",){3,600}"m\d+"\]$/
+- name: "Unpersonalized discovery should return between 4 and 600 movies for a certain keyword category emotion_keyword:9"
+  priority: 2
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/discovery/emotion_keyword:9'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:                        /^\[("m\d+",){3,600}"m\d+"\]$/
+- name: "Unpersonalized discovery should return between 4 and 600 movies for a certain keyword category emotion_keyword:11"
+  priority: 2
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/discovery/emotion_keyword:11'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:                        /^\[("m\d+",){3,600}"m\d+"\]$/
+- name: "Unpersonalized discovery should return between 4 and 600 movies for a certain keyword category emotion_keyword:4"
+  priority: 2
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/discovery/emotion_keyword:4'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:                        /^\[("m\d+",){3,600}"m\d+"\]$/
+- name: "Unpersonalized discovery should return between 4 and 600 movies for a certain keyword category emotion_keyword:8"
+  priority: 2
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/discovery/emotion_keyword:8'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:                        /^\[("m\d+",){3,600}"m\d+"\]$/
+- name: "Unpersonalized discovery should return between 4 and 600 movies for a certain keyword category emotion_keyword:10"
+  priority: 2
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/discovery/emotion_keyword:10'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:                        /^\[("m\d+",){3,600}"m\d+"\]$/
+- name: "Unpersonalized discovery should return between 4 and 600 movies for a certain keyword category emotion_keyword:3"
+  priority: 2
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/discovery/emotion_keyword:3'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:                        /^\[("m\d+",){3,600}"m\d+"\]$/
+- name: "Unpersonalized discovery should return between 4 and 600 movies for a certain keyword category emotion_keyword:16"
+  priority: 2
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/discovery/emotion_keyword:16'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:                        /^\[("m\d+",){3,600}"m\d+"\]$/
+- name: "Unpersonalized discovery should return between 4 and 600 movies for a certain keyword category emotion_keyword:5"
+  priority: 2
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/discovery/emotion_keyword:5'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:                        /^\[("m\d+",){3,600}"m\d+"\]$/
+- name: "Unpersonalized discovery should return between 4 and 600 movies for a certain keyword category emotion_keyword:6"
+  priority: 2
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/discovery/emotion_keyword:6'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:                        /^\[("m\d+",){3,600}"m\d+"\]$/
+- name: "Unpersonalized discovery should return between 4 and 600 movies for a certain keyword category emotion_keyword:12"
+  priority: 2
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/discovery/emotion_keyword:12'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:                        /^\[("m\d+",){3,600}"m\d+"\]$/

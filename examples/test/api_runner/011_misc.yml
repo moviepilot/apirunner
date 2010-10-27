@@ -1,0 +1,116 @@
+---
+- name: 'Creation of the first user in a double creation test should succeed'
+  request:
+    headers:
+      Content-Type: 'application/json'
+    path:        '/users/roadrunner'
+    method:      'PUT'
+    body:
+      watchlist:
+      - m1035
+      - m2087
+      blacklist:
+      - m1554
+      - m2981
+      skiplist:
+      - m1590
+      - m1056
+      ratings:
+        m12493: 4.0
+        m1875: 2.5
+        m7258: 3.0
+        m7339: 4.0
+        m3642: 5.0
+      expires_at: 2011-09-09T22:41:50+00:00
+  response_expectation:
+    status_code: 201
+    headers:
+      Last-Modified:    /.*/
+    body:
+      username:       'roadrunner'
+      watchlist:
+      - m1035
+      - m2087
+      blacklist:
+      - m1554
+      - m2981
+      skiplist:
+      - m1590
+      - m1056
+      ratings:
+        m12493: 4.0
+        m1875: 2.5
+        m7258: 3.0
+        m7339: 4.0
+        m3642: 5.0
+      fsk:            "18"
+- name: 'Creation of the same user directly after first creation attempt should succeed too'
+  wait_before_request: 5
+  request:
+    headers:
+      Content-Type: 'application/json'
+    path:        '/users/roadrunner'
+    method:      'PUT'
+    body:
+      watchlist:
+      - m1035
+      - m2087
+      blacklist:
+      - m1554
+      - m2981
+      skiplist:
+      - m1590
+      - m1056
+      ratings:
+        m12493: 4.0
+        m1875: 2.5
+        m7258: 3.0
+        m7339: 4.0
+        m3642: 5.0
+      expires_at: 2011-09-09T22:41:50+00:00
+  response_expectation:
+    status_code: 204
+    headers:
+      Last-Modified:    /.*/
+- name: 'Creation of the same user for a third time should succeed too'
+  wait_before_request: 5
+  request:
+    headers:
+      Content-Type: 'application/json'
+    path:        '/users/roadrunner'
+    method:      'PUT'
+    body:
+      watchlist:
+      - m1035
+      - m2087
+      blacklist:
+      - m1554
+      - m2981
+      skiplist:
+      - m1590
+      - m1056
+      ratings:
+        m12493: 4.0
+        m1875: 2.5
+        m7258: 3.0
+        m7339: 4.0
+        m3642: 5.0
+      expires_at: 2011-09-09T22:41:50+00:00
+  response_expectation:
+    status_code: 204
+    headers:
+      Last-Modified:    /.*/
+- name: 'Deletion of twice created user roadrunner should succeed'
+  request:
+    path:        '/users/roadrunner'
+    method:      'DELETE'
+    body:        {}
+  response_expectation:
+    status_code: 202
+- name: 'User roadrunner should not be existant any more after deletion'
+  request:
+    path:          '/users/roadrunner'
+    method:        'GET'
+    body:          {}
+  response_expectation:
+    status_code: 404

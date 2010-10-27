@@ -1,0 +1,43 @@
+---
+- name: 'Create new User'
+  iterations: 10000
+  priority: 4
+  request:
+    headers:
+      Content-Type: 'application/json'
+    path:        '/users/duffyduck@@'
+    method:      'PUT'
+    body:
+      watchlist:
+      - m1035
+      - m2087
+      blacklist:
+      - m1554
+      - m2981
+      skiplist:
+      - m1590
+      - m1056
+      ratings:
+        m10506: 1.0
+        m462: 2.0
+        m5968: 3.0
+        m7511: 4.0
+        m11995: 5.0
+        m2274: 1.0
+        m25796: 2.0
+        m9698: 3.0
+        m6289: 4.0
+        m4350: 5.0
+        m10735: 1.0
+        m3492: 2.0
+        m645: 3.0
+        m24772: 4.0
+        m1880: 5.0
+        m6434: 1.0
+        m6538: 2.0
+        m10009: 3.0
+        m5900: 4.0
+        m22668: 5.0
+      expires_at: 2011-09-09T22:41:50+00:00
+  response_expectation:
+    status_code: 201

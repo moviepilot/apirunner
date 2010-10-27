@@ -5,8 +5,8 @@ local:
   namespace: api1v0
 staging:
   protocol: http
-  host: staging.moviepilot.dom
-  port: 8976
+  host: staging.premium.moviepilot.com
+  port: 80
   namespace: api1v0
 production:
   protocol: http
@@ -18,5 +18,24 @@ general:
     - verbose_on_error
     - verbose_on_success
     - rspec
+    - performance
     - verbose_with_curl
   priority: 0
+  substitution:
+    substitutes:
+      - duffybasic
+      - daisyduck
+      - duffyduck
+      - duffyduck2
+      - duffyduck3
+      - duffydad
+      - duffykid
+      - roadrunner
+      - teletubby
+      - luckyluke
+      - wileecoyote
+    prefix: abc_
+  csv_mode:
+    - append
+    - create
+    - none

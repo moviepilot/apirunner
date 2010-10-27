@@ -10,6 +10,11 @@
     - m73
     - m42
     - m23
+    - s70
+    - s71
+    - s86
+    - s87
+    - s88
   response_expectation:
     status_code: 204
     body:
@@ -30,6 +35,11 @@
       - m73
       - m42
       - m23
+      - s70
+      - s71
+      - s86
+      - s87
+      - s88
 - name: 'Update existing user - clean watchlist'
   request:
     headers:
@@ -63,6 +73,11 @@
     - m72
     - m41
     - m22
+    - s101
+    - s100
+    - s99
+    - s69
+    - s70
   response_expectation:
     status_code: 204
     body:
@@ -83,6 +98,11 @@
       - m72
       - m41
       - m22
+      - s101
+      - s100
+      - s99
+      - s69
+      - s70
 - name: 'Update existing user - clean skiplist'
   request:
     headers:
@@ -117,6 +137,11 @@
     - m71
     - m40
     - m21
+    - s87
+    - s88
+    - s51
+    - s52
+    - s99
   response_expectation:
     status_code: 204
     body:
@@ -137,6 +162,11 @@
       - m71
       - m40
       - m21
+      - s87
+      - s88
+      - s51
+      - s52
+      - s99
 - name: 'Update existing user - clean blacklist'
   request:
     headers:
@@ -170,6 +200,8 @@
       watchlist:
       - m365
       - m71
+      - s70
+      - s88
   response_expectation:
     status_code: 404
 - name : 'Skiplist update of a non existing profile should return 404'
@@ -182,6 +214,8 @@
       skiplist:
       - m365
       - m71
+      - s99
+      - s100
   response_expectation:
     status_code: 404
 - name : 'Blacklist update of a non existing profile should return 404'
@@ -194,6 +228,8 @@
       blacklist:
       - m365
       - m71
+      - s71
+      - s70
   response_expectation:
     status_code: 404
 - name : 'Watchlist update with non existing movies should return 409'
@@ -209,6 +245,35 @@
       - m7777777777777777
   response_expectation:
     status_code: 409
+- name : 'Watchlist update with non existing series should return 409'
+  request:
+    headers:
+      Content-Type: 'application/json'
+    path: '/users/duffyduck/watchlist'
+    method: 'PUT'
+    body:
+      watchlist:
+      - s9999999999999999
+      - s8888888888888888
+      - s7777777777777777
+  response_expectation:
+    status_code: 409
+- name : 'Watchlist update with non existing movies AND series should return 409'
+  request:
+    headers:
+      Content-Type: 'application/json'
+    path: '/users/duffyduck/watchlist'
+    method: 'PUT'
+    body:
+      watchlist:
+      - m9999999999999999
+      - m8888888888888888
+      - m7777777777777777
+      - s9999999999999999
+      - s8888888888888888
+      - s7777777777777777
+  response_expectation:
+    status_code: 409
 - name : 'Blacklist update with non existing movies should return 409'
   request:
     headers:
@@ -222,6 +287,35 @@
       - m7777777777777777
   response_expectation:
     status_code: 409
+- name : 'Blacklist update with non existing series should return 409'
+  request:
+    headers:
+      Content-Type: 'application/json'
+    path: '/users/duffyduck/blacklist'
+    method: 'PUT'
+    body:
+      blacklist:
+      - s9999999999999999
+      - s8888888888888888
+      - s7777777777777777
+  response_expectation:
+    status_code: 409
+- name : 'Blacklist update with non existing movies AND series should return 409'
+  request:
+    headers:
+      Content-Type: 'application/json'
+    path: '/users/duffyduck/blacklist'
+    method: 'PUT'
+    body:
+      blacklist:
+      - m9999999999999999
+      - m8888888888888888
+      - m7777777777777777
+      - s9999999999999999
+      - s8888888888888888
+      - s7777777777777777
+  response_expectation:
+    status_code: 409
 - name : 'Skiplist update with non existing movies should return 409'
   request:
     headers:
@@ -233,5 +327,34 @@
       - m9999999999999999
       - m8888888888888888
       - m7777777777777777
+  response_expectation:
+    status_code: 409
+- name : 'Skiplist update with non existing series should return 409'
+  request:
+    headers:
+      Content-Type: 'application/json'
+    path: '/users/duffyduck/skiplist'
+    method: 'PUT'
+    body:
+      skiplist:
+      - s9999999999999999
+      - s8888888888888888
+      - s7777777777777777
+  response_expectation:
+    status_code: 409
+- name : 'Skiplist update with non existing movies AND series should return 409'
+  request:
+    headers:
+      Content-Type: 'application/json'
+    path: '/users/duffyduck/skiplist'
+    method: 'PUT'
+    body:
+      skiplist:
+      - m9999999999999999
+      - m8888888888888888
+      - m7777777777777777
+      - s9999999999999999
+      - s8888888888888888
+      - s7777777777777777
   response_expectation:
     status_code: 409

@@ -1,0 +1,1831 @@
+---
+- name: "Telekom: create user for extended error report testing"
+  request:
+    headers:
+      Content-Type: 'application/json'
+    path:        '/users/teletubby'
+    method:      'PUT'
+    body:
+      expires_at: 2011-09-09T22:41:50+00:00
+  response_expectation:
+    status_code: 201
+    headers:
+      Last-Modified:    /.*/
+    body:
+      username:       'teletubby'
+- name: 'Update existing user - update watchlist including VOD movies'
+  request:
+    headers:
+      Content-Type: 'application/json'
+    path:       '/users/teletubby/watchlist'
+    method:     'PUT'
+    body:
+    - m3747
+    - m5662
+    - m3794
+    - m13122
+    - m7253
+    - m20586
+    - m3805
+    - m9058
+    - m4616
+    - m1766
+  response_expectation:
+    status_code: 204
+    body:
+- name: 'Check users watchlist afterwards - should include VOD movies'
+  request:
+    headers:
+      Content-Type: 'application/json'
+    path:        '/users/teletubby'
+    method:      'GET'
+  response_expectation:
+    status_code: 200
+    headers:
+      Last-Modified:    /.*/
+    body:
+      username:       'teletubby'
+      watchlist:
+      - m3747
+      - m5662
+      - m3794
+      - m13122
+      - m7253
+      - m20586
+      - m3805
+      - m9058
+      - m4616
+      - m1766
+- name: 'Update existing user - update skiplist including VOD movies'
+  request:
+    headers:
+      Content-Type: 'application/json'
+    path:       '/users/teletubby/skiplist'
+    method:     'PUT'
+    body:
+    - m5761
+    - m9251
+    - m5397
+    - m3452
+    - m26802
+    - m6782
+    - m9656
+    - m2392
+    - m4666
+    - m29020
+  response_expectation:
+    status_code: 204
+    body:
+- name: 'Check users skiplist afterwards - should include VOD movies'
+  request:
+    headers:
+      Content-Type: 'application/json'
+    path:        '/users/teletubby'
+    method:      'GET'
+  response_expectation:
+    status_code: 200
+    headers:
+      Last-Modified:    /.*/
+    body:
+      username:       'teletubby'
+      skiplist:
+      - m5761
+      - m9251
+      - m5397
+      - m3452
+      - m26802
+      - m6782
+      - m9656
+      - m2392
+      - m4666
+      - m29020
+- name: 'Update existing user - update blacklist including VOD movies'
+  request:
+    headers:
+      Content-Type: 'application/json'
+    path:       '/users/teletubby/blacklist'
+    method:     'PUT'
+    body:
+    - m3010
+    - m2945
+    - m4280
+    - m3880
+    - m2881
+    - m14219
+    - m3536
+    - m5285
+    - m25041
+    - m9989
+  response_expectation:
+    status_code: 204
+    body:
+- name: 'Check Users blacklist afterwards - should include VOD movies'
+  request:
+    headers:
+      Content-Type: 'application/json'
+    path:        '/users/teletubby'
+    method:      'GET'
+  response_expectation:
+    status_code: 200
+    headers:
+      Last-Modified:    /.*/
+    body:
+      username:       'teletubby'
+      blacklist:
+      - m3010
+      - m2945
+      - m4280
+      - m3880
+      - m2881
+      - m14219
+      - m3536
+      - m5285
+      - m25041
+      - m9989
+- name: "Performance: 50 putted movie ratings should be createable reasonably fast"
+  priority: 2
+  request:
+    headers:
+      Content-Type:         'application/json'
+    path:                   '/users/teletubby/ratings'
+    method:                 'PUT'
+    body:
+      m4545: 4.5
+      m1902: 4.5
+      m2040: 4.5
+      m1757: 4.5
+      m1084: 4.5
+      m17333: 4.5
+      m3895: 4.5
+      m17755: 4.5
+      m2195: 4.5
+      m1258: 4.5
+      m1918: 4.5
+      m996: 4.5
+      m5134: 4.5
+      m1149: 4.5
+      m6135: 4.5
+      m2001: 4.5
+      m2547: 4.5
+      m2383: 4.5
+      m5527: 4.5
+      m4780: 4.5
+      m19442: 4.5
+      m24324: 4.5
+      m9269: 4.5
+      m2270: 4.5
+      m2884: 4.5
+      m6835: 4.5
+      m3712: 4.5
+      m5009: 4.5
+      m6738: 4.5
+      m202: 4.5
+      m5973: 4.5
+      m3817: 4.5
+      m9164: 4.5
+      m10629: 4.5
+      m4167: 4.5
+      m4941: 4.5
+      m4854: 4.5
+      m10077: 4.5
+      m9247: 4.5
+      m5161: 4.5
+      m2859: 4.5
+      m8576: 4.5
+      m4380: 4.5
+      m14966: 4.5
+      m2988: 4.5
+      m2482: 4.5
+      m1805: 4.5
+      m1836: 4.5
+      m3678: 4.5
+      m14649: 4.5
+  response_expectation:
+    runtime: 0.5
+    status_code: 204
+    body:
+- name: "Performance: 100 putted movie ratings should be createable reasonably fast"
+  priority: 2
+  request:
+    headers:
+      Content-Type:         'application/json'
+    path:                   '/users/teletubby/ratings'
+    method:                 'PUT'
+    body:
+      m9030: 4.5
+      m3748: 4.5
+      m14465: 4.5
+      m1766: 4.5
+      m6293: 4.5
+      m5393: 4.5
+      m3005: 4.5
+      m6337: 4.5
+      m2345: 4.5
+      m4484: 4.5
+      m5345: 4.5
+      m5395: 4.5
+      m25526: 4.5
+      m3311: 4.5
+      m316: 4.5
+      m2071: 4.5
+      m3758: 4.5
+      m3184: 4.5
+      m1735: 4.5
+      m570: 4.5
+      m14670: 4.5
+      m6710: 4.5
+      m4313: 4.5
+      m2490: 4.5
+      m3000: 4.5
+      m33940: 4.5
+      m4872: 4.5
+      m6063: 4.5
+      m6188: 4.5
+      m5781: 4.5
+      m4470: 4.5
+      m6895: 4.5
+      m245: 4.5
+      m3313: 4.5
+      m6718: 4.5
+      m3022: 4.5
+      m5782: 4.5
+      m8120: 4.5
+      m2772: 4.5
+      m3728: 4.5
+      m2336: 4.0
+      m3314: 4.0
+      m2004: 4.0
+      m24006: 4.0
+      m5163: 4.0
+      m4264: 4.0
+      m2398: 4.0
+      m3146: 4.0
+      m13287: 4.0
+      m4683: 4.0
+      m5712: 4.0
+      m4802: 4.0
+      m6704: 4.0
+      m1376: 4.0
+      m5181: 4.0
+      m145: 4.0
+      m2676: 4.0
+      m9524: 4.0
+      m821: 4.0
+      m4356: 4.0
+      m5209: 4.0
+      m3457: 4.0
+      m4527: 4.0
+      m5482: 4.0
+      m1754: 4.0
+      m1790: 4.0
+      m4583: 4.0
+      m21171: 4.0
+      m3175: 4.0
+      m2251: 4.0
+      m5118: 4.0
+      m3043: 4.0
+      m4660: 4.0
+      m474: 4.0
+      m9656: 4.0
+      m4526: 4.0
+      m4271: 4.0
+      m21549: 4.0
+      m1781: 4.0
+      m6041: 4.0
+      m15374: 4.0
+      m4331: 4.0
+      m14946: 4.0
+      m15790: 4.0
+      m5228: 4.0
+      m2565: 4.0
+      m1789: 4.0
+      m5647: 4.0
+      m8611: 4.0
+      m4249: 4.0
+      m1246: 4.0
+      m1804: 4.0
+      m16711: 4.0
+      m6711: 4.0
+      m2923: 4.0
+      m2287: 4.0
+      m2222: 4.0
+      m6010: 4.0
+      m4415: 4.0
+      m2132: 4.0
+  response_expectation:
+    runtime: 0.5
+    status_code: 204
+    body:
+- name: "Performance: 400 putted movie ratings should be createable reasonably fast"
+  priority: 2
+  request:
+    headers:
+      Content-Type:         'application/json'
+    path:                   '/users/teletubby/ratings'
+    method:                 'PUT'
+    body:
+      m3346: 4.0
+      m3423: 4.0
+      m3532: 4.0
+      m2719: 4.0
+      m5076: 4.0
+      m4568: 4.0
+      m16655: 4.0
+      m9969: 4.0
+      m14263: 4.0
+      m3147: 4.0
+      m7511: 4.0
+      m5729: 4.0
+      m2104: 4.0
+      m5812: 4.0
+      m3799: 4.0
+      m3794: 4.0
+      m3514: 4.0
+      m4499: 4.0
+      m37: 4.0
+      m5563: 4.0
+      m3543: 4.0
+      m2924: 4.0
+      m5320: 4.0
+      m3125: 4.0
+      m14677: 4.0
+      m5155: 4.0
+      m3833: 4.0
+      m3583: 4.0
+      m4269: 4.0
+      m7795: 4.0
+      m4803: 4.0
+      m25525: 4.0
+      m5662: 4.0
+      m3547: 4.0
+      m193: 4.0
+      m12418: 4.0
+      m4413: 4.0
+      m4783: 4.0
+      m4837: 4.0
+      m1457: 4.0
+      m3852: 4.0
+      m11285: 4.0
+      m6490: 4.0
+      m6025: 4.0
+      m1215: 4.0
+      m2284: 4.0
+      m2256: 4.0
+      m8238: 4.0
+      m11035: 4.0
+      m25: 4.0
+      m5110: 4.0
+      m2742: 4.0
+      m3073: 4.0
+      m11061: 4.0
+      m1878: 4.0
+      m2787: 4.0
+      m4426: 4.0
+      m4552: 4.0
+      m2203: 4.0
+      m4049: 4.0
+      m3741: 4.0
+      m5279: 4.0
+      m6029: 4.0
+      m6203: 4.0
+      m5061: 4.0
+      m3861: 4.0
+      m3391: 4.0
+      m20586: 4.0
+      m10354: 4.0
+      m25041: 4.0
+      m8222: 4.0
+      m20884: 4.0
+      m2585: 3.5
+      m2030: 3.5
+      m4502: 3.5
+      m3620: 3.5
+      m3990: 3.5
+      m5292: 3.5
+      m1957: 3.5
+      m5570: 3.5
+      m4850: 3.5
+      m287: 3.5
+      m2397: 3.5
+      m1956: 3.5
+      m734: 3.5
+      m34674: 3.5
+      m12501: 3.5
+      m3060: 3.5
+      m18798: 3.5
+      m2738: 3.5
+      m13823: 3.5
+      m17909: 3.5
+      m3536: 3.5
+      m6368: 3.5
+      m3441: 3.5
+      m2074: 3.5
+      m1791: 3.5
+      m4422: 3.5
+      m9613: 3.5
+      m2495: 3.5
+      m18682: 3.5
+      m3647: 3.5
+      m5974: 3.5
+      m7782: 3.5
+      m9286: 3.5
+      m3464: 3.5
+      m1140: 3.5
+      m26960: 3.5
+      m1783: 3.5
+      m3859: 3.5
+      m9620: 3.5
+      m3675: 3.5
+      m2635: 3.5
+      m23545: 3.5
+      m5097: 3.5
+      m29648: 3.5
+      m2161: 3.5
+      m3612: 3.5
+      m10774: 3.5
+      m29006: 3.5
+      m19703: 3.5
+      m6536: 3.5
+      m2274: 3.5
+      m5047: 3.5
+      m1910: 3.5
+      m4386: 3.5
+      m9910: 3.5
+      m30093: 3.5
+      m5803: 3.5
+      m2523: 3.0
+      m1219: 3.0
+      m888: 3.0
+      m4632: 3.0
+      m5164: 3.0
+      m2715: 3.0
+      m6017: 3.0
+      m2509: 3.0
+      m1792: 3.0
+      m3324: 3.0
+      m5581: 3.0
+      m5710: 3.0
+      m5055: 3.0
+      m2354: 3.0
+      m2672: 3.0
+      m2608: 3.0
+      m5587: 3.0
+      m5420: 3.0
+      m3962: 3.0
+      m22539: 3.0
+      m7964: 3.0
+      m4721: 3.0
+      m6341: 3.0
+      m6734: 3.0
+      m1885: 3.0
+      m6075: 3.0
+      m2392: 3.0
+      m3652: 3.0
+      m2042: 3.0
+      m15256: 3.0
+      m5308: 3.0
+      m4377: 3.0
+      m3827: 3.0
+      m4841: 3.0
+      m19518: 3.0
+      m3257: 3.0
+      m2387: 3.0
+      m5246: 3.0
+      m4565: 3.0
+      m220: 3.0
+      m12419: 3.0
+      m29032: 3.0
+      m4835: 3.0
+      m2778: 3.0
+      m30109: 3.0
+      m4193: 3.0
+      m6444: 3.0
+      m27132: 3.0
+      m345: 3.0
+      m3228: 3.0
+      m2653: 3.0
+      m2313: 3.0
+      m4792: 3.0
+      m4730: 3.0
+      m2406: 3.0
+      m4435: 3.0
+      m4673: 3.0
+      m2214: 3.0
+      m4482: 3.0
+      m8057: 3.0
+      m4367: 3.0
+      m15073: 3.0
+      m3746: 3.0
+      m5285: 3.0
+      m20536: 3.0
+      m3113: 3.0
+      m4939: 3.0
+      m5427: 3.0
+      m2311: 3.0
+      m3319: 3.0
+      m11995: 3.0
+      m2630: 3.0
+      m2659: 3.0
+      m3665: 3.0
+      m2548: 3.0
+      m3501: 3.0
+      m3143: 3.0
+      m5494: 3.0
+      m2248: 2.5
+      m3611: 2.5
+      m492: 2.5
+      m2464: 2.5
+      m311: 2.5
+      m3615: 2.5
+      m4215: 2.5
+      m1779: 2.5
+      m5006: 2.5
+      m1305: 2.5
+      m8439: 2.5
+      m4472: 2.5
+      m2961: 2.5
+      m5336: 2.5
+      m2250: 2.5
+      m4639: 2.5
+      m7988: 2.5
+      m13134: 2.5
+      m6793: 2.5
+      m12344: 2.5
+      m5692: 2.5
+      m3610: 2.5
+      m6281: 2.5
+      m23699: 2.5
+      m3326: 2.5
+      m9721: 2.5
+      m6785: 2.5
+      m9984: 2.5
+      m658: 2.5
+      m4600: 2.5
+      m22396: 2.5
+      m6278: 2.5
+      m5269: 2.5
+      m5328: 2.5
+      m5495: 2.5
+      m5012: 2.5
+      m3076: 2.5
+      m1105: 2.5
+      m5743: 2.5
+      m4423: 2.5
+      m2558: 2.5
+      m2470: 2.5
+      m31975: 2.5
+      m198: 2.5
+      m1471: 2.5
+      m82: 2.5
+      m2355: 2.5
+      m5798: 2.5
+      m4689: 2.5
+      m4654: 2.5
+      m5795: 2.5
+      m968: 2.5
+      m7070: 2.5
+      m17751: 2.5
+      m16038: 2.5
+      m3263: 2.5
+      m4572: 2.5
+      m5475: 2.5
+      m10052: 2.5
+      m3565: 2.5
+      m4986: 2.5
+      m3884: 2.5
+      m689: 2.5
+      m20: 2.5
+      m4132: 2.5
+      m22115: 2.5
+      m17277: 2.5
+      m6540: 2.5
+      m3443: 2.5
+      m7051: 2.5
+      m4366: 2.5
+      m4329: 2.5
+      m3828: 2.5
+      m3296: 2.5
+      m5765: 2.5
+      m2714: 2.5
+      m4856: 2.5
+      m2072: 2.5
+      m2977: 2.5
+      m3765: 2.5
+      m4292: 2.5
+      m2743: 2.5
+      m2153: 2.5
+      m1793: 2.5
+      m6527: 2.5
+      m4365: 2.5
+      m3559: 2.5
+      m2101: 2.5
+      m917: 2.5
+      m7868: 2.5
+      m2076: 2.5
+      m6347: 2.5
+      m17746: 2.5
+      m640: 2.5
+      m5851: 2.5
+      m3669: 2.5
+      m4391: 2.5
+      m2600: 2.5
+      m5547: 2.5
+      m4105: 2.5
+      m2373: 2.5
+      m5081: 2.5
+      m3029: 2.5
+      m4376: 2.5
+      m252: 2.5
+      m5375: 2.5
+      m1245: 2.5
+      m1531: 2.5
+      m8650: 2.5
+      m23616: 2.5
+      m3766: 2.5
+      m5935: 2.5
+      m13122: 2.5
+      m5463: 2.5
+      m5342: 2.5
+      m1753: 2.5
+      m3805: 2.5
+      m3658: 2.5
+      m3028: 2.5
+      m6168: 2.5
+      m4065: 2.5
+      m3979: 2.5
+      m5089: 2.5
+      m4828: 2.5
+      m4546: 2.5
+      m25644: 2.5
+      m3814: 2.5
+      m5755: 2.5
+      m305: 2.5
+      m7509: 2.5
+      m4213: 2.5
+      m3657: 2.5
+      m2919: 2.5
+      m2182: 2.5
+      m1288: 2.5
+      m6273: 2.5
+      m1521: 2.5
+      m3212: 2.5
+      m523: 2.5
+      m284: 2.5
+      m4976: 2.5
+      m5025: 2.5
+      m6847: 2.5
+      m3564: 2.5
+      m3045: 2.5
+      m723: 2.5
+      m4017: 2.5
+      m4796: 2.5
+      m4126: 2.5
+      m15216: 2.5
+      m3150: 2.5
+      m81: 2.5
+      m6954: 2.5
+      m1884: 2.5
+      m2205: 2.5
+      m1926: 2.5
+      m2632: 2.5
+      m2577: 2.5
+      m5995: 2.5
+      m24750: 2.5
+      m6296: 2.5
+      m8005: 2.5
+      m3734: 2.5
+      m6791: 2.5
+      m6137: 2.5
+      m2316: 2.5
+      m7253: 2.5
+      m3309: 2.5
+      m2013: 2.5
+      m127: 2.5
+      m2677: 2.5
+      m14341: 2.5
+      m4395: 2.5
+      m15997: 2.5
+      m5344: 2.5
+      m24751: 2.0
+      m3223: 2.0
+      m10471: 2.0
+      m4198: 2.0
+      m7936: 2.0
+      m8785: 2.0
+      m9011: 2.0
+      m5287: 2.0
+      m3926: 2.0
+      m2434: 2.0
+      m5694: 2.0
+      m2955: 2.0
+      m4866: 2.0
+      m3452: 2.0
+      m5567: 2.0
+      m3606: 2.0
+      m20151: 2.0
+      m5789: 2.0
+  response_expectation:
+    runtime: 0.5
+    status_code: 204
+    body:
+- name: 'Telekom: delete formerly created teletubby user'
+  request:
+    path:        '/users/teletubby'
+    method:      'DELETE'
+    body:        {}
+  response_expectation:
+    status_code: 202
+- name: 'Create new user - sending watchlist including VOD movies'
+  request:
+    headers:
+      Content-Type: 'application/json'
+    path:        '/users/teletubby'
+    method:      'PUT'
+    body:
+      username:  'teletubby'
+      watchlist:
+      - m16655
+      - m9544
+      - m4881
+      - m4786
+      - m21199
+      - m8988
+      - m6341
+      - m12179
+      - m7861
+      - m4482
+      blacklist:
+      - m16177
+      - m15774
+      - m7667
+      - m13388
+      skiplist:
+      - m7667
+      - m13388
+      ratings:
+        m26527: 4.0
+        m1958: 2.5
+        m22378: 3.0
+        m5527: 4.0
+        m22396: 5.0
+      expires_at: 2011-09-09T22:41:50+00:00
+  response_expectation:
+    status_code: 201
+    headers:
+      Last-Modified:    /.*/
+    body:
+      username:       'teletubby'
+      watchlist:
+      - m16655
+      - m9544
+      - m4881
+      - m4786
+      - m21199
+      - m8988
+      - m6341
+      - m12179
+      - m7861
+      - m4482
+      blacklist:
+      - m16177
+      - m15774
+      - m7667
+      - m13388
+      skiplist:
+      - m7667
+      - m13388
+      ratings:
+        m26527: 4.0
+        m1958: 2.5
+        m22378: 3.0
+        m5527: 4.0
+        m22396: 5.0
+      fsk:            "18"
+- name: 'Check users watchlist afterwards - should include VOD movies'
+  request:
+    headers:
+      Content-Type: 'application/json'
+    path:        '/users/teletubby'
+    method:      'GET'
+  response_expectation:
+    status_code: 200
+    headers:
+      Last-Modified:    /.*/
+    body:
+      username:       'teletubby'
+      watchlist:
+      - m16655
+      - m9544
+      - m4881
+      - m4786
+      - m21199
+      - m8988
+      - m6341
+      - m12179
+      - m7861
+      - m4482
+- name: 'Telekom: delete formerly created teletubby user'
+  request:
+    path:        '/users/teletubby'
+    method:      'DELETE'
+    body:        {}
+  response_expectation:
+    status_code: 202
+- name: 'Create new user - sending skiplist including VOD movies'
+  request:
+    headers:
+      Content-Type: 'application/json'
+    path:        '/users/teletubby'
+    method:      'PUT'
+    body:
+      username:  'teletubby'
+      watchlist:
+      - m2695
+      - m4362
+      blacklist:
+      - m1902
+      - m1910
+      skiplist:
+      - m1915
+      - m1875
+      - m4376
+      - m4392
+      - m4395
+      - m4398
+      - m4423
+      - m4465
+      - m4506
+      - m4526
+      ratings:
+        m4541: 2.0
+        m7498: 3.0
+        m2213: 4.0
+        m14649: 5.0
+        m14677: 2.5
+      expires_at: 2011-09-09T22:41:50+00:00
+  response_expectation:
+    status_code: 201
+    headers:
+      Last-Modified:    /.*/
+    body:
+      username:       'teletubby'
+      watchlist:
+      - m2695
+      - m4362
+      blacklist:
+      - m1902
+      - m1910
+      skiplist:
+      - m1915
+      - m1875
+      - m4376
+      - m4392
+      - m4395
+      - m4398
+      - m4423
+      - m4465
+      - m4506
+      - m4526
+      ratings:
+        m4541: 2.0
+        m7498: 3.0
+        m2213: 4.0
+        m14649: 5.0
+        m14677: 2.5
+      fsk:            "18"
+- name: 'Check users skiplist afterwards - should include VOD movies'
+  request:
+    headers:
+      Content-Type: 'application/json'
+    path:        '/users/teletubby'
+    method:      'GET'
+  response_expectation:
+    status_code: 200
+    headers:
+      Last-Modified:    /.*/
+    body:
+      username:       'teletubby'
+      skiplist:
+      - m1915
+      - m1875
+      - m4376
+      - m4392
+      - m4395
+      - m4398
+      - m4423
+      - m4465
+      - m4506
+      - m4526
+- name 'Telekom: delete formerly created teletubby user'
+  request:
+    path:        '/users/teletubby'
+    method:      'DELETE'
+    body:        {}
+  response_expectation:
+    status_code: 202
+- name: 'Create new user - sending blacklist including VOD movies'
+  request:
+    headers:
+      Content-Type: 'application/json'
+    path:        '/users/teletubby'
+    method:      'PUT'
+    body:
+      username:  'teletubby'
+      watchlist:
+      - m2072
+      - m2738
+      blacklist:
+      - m2889
+      - m4721
+      - m2934
+      - m5454
+      - m3795
+      - m7774
+      - m7782
+      - m2923
+      - m5529
+      - m5530
+      skiplist:
+      - m9030
+      - m2804
+      ratings:
+        m5567: 2.0
+        m82: 3.0
+        m3043: 4.0
+        m8611: 5.0
+        m1768: 2.5
+      expires_at: 2011-09-09T22:41:50+00:00
+  response_expectation:
+    status_code: 201
+    headers:
+      Last-Modified:    /.*/
+    body:
+      username:       'teletubby'
+      watchlist:
+      - m2072
+      - m2738
+      blacklist:
+      - m2889
+      - m4721
+      - m2934
+      - m5454
+      - m3795
+      - m7774
+      - m7782
+      - m2923
+      - m5529
+      - m5530
+      skiplist:
+      - m9030
+      - m2804
+      ratings:
+        m5567: 2.0
+        m82: 3.0
+        m3043: 4.0
+        m8611: 5.0
+        m1768: 2.5
+      fsk:            "18"
+- name: 'Check users blacklist afterwards - should include VOD movies'
+  request:
+    headers:
+      Content-Type: 'application/json'
+    path:        '/users/teletubby'
+    method:      'GET'
+  response_expectation:
+    status_code: 200
+    headers:
+      Last-Modified:    /.*/
+    body:
+      username:       'teletubby'
+      blacklist:
+      - m2889
+      - m4721
+      - m2934
+      - m5454
+      - m3795
+      - m7774
+      - m7782
+      - m2923
+      - m5529
+      - m5530
+- name: 'Telekom: delete formerly created teletubby user'
+  request:
+    path:        '/users/teletubby'
+    method:      'DELETE'
+    body:        {}
+  response_expectation:
+    status_code: 202
+- name: "Telekom: create user with 50 initial ratings"
+  priority: 2
+  request:
+    headers:
+      Content-Type: 'application/json'
+    path:        '/users/teletubby'
+    method:      'PUT'
+    body:
+      ratings:
+        m4545: 4.5
+        m1902: 4.5
+        m2040: 4.5
+        m1757: 4.5
+        m1084: 4.5
+        m17333: 4.5
+        m3895: 4.5
+        m17755: 4.5
+        m2195: 4.5
+        m1258: 4.5
+        m1918: 4.5
+        m996: 4.5
+        m5134: 4.5
+        m1149: 4.5
+        m6135: 4.5
+        m2001: 4.5
+        m2547: 4.5
+        m2383: 4.5
+        m5527: 4.5
+        m4780: 4.5
+        m19442: 4.5
+        m24324: 4.5
+        m9269: 4.5
+        m2270: 4.5
+        m2884: 4.5
+        m6835: 4.5
+        m3712: 4.5
+        m5009: 4.5
+        m6738: 4.5
+        m202: 4.5
+        m5973: 4.5
+        m3817: 4.5
+        m9164: 4.5
+        m10629: 4.5
+        m4167: 4.5
+        m4941: 4.5
+        m4854: 4.5
+        m10077: 4.5
+        m9247: 4.5
+        m5161: 4.5
+        m2859: 4.5
+        m8576: 4.5
+        m4380: 4.5
+        m14966: 4.5
+        m2988: 4.5
+        m2482: 4.5
+        m1805: 4.5
+        m1836: 4.5
+        m3678: 4.5
+        m14649: 4.5
+      expires_at: 2011-09-09T22:41:50+00:00
+  response_expectation:
+    runtime: 0.5
+    status_code: 201
+    headers:
+      Last-Modified:    /.*/
+    body:
+      username:       'teletubby'
+- name: 'Telekom: delete formerly created teletubby user'
+  priority: 2
+  request:
+    path:        '/users/teletubby'
+    method:      'DELETE'
+    body:        {}
+  response_expectation:
+    status_code: 202
+- name: "Telekom: create user with 100 initial ratings"
+  priority: 2
+  request:
+    headers:
+      Content-Type: 'application/json'
+    path:        '/users/teletubby'
+    method:      'PUT'
+    body:
+      ratings:
+        m9030: 4.5
+        m3748: 4.5
+        m14465: 4.5
+        m1766: 4.5
+        m6293: 4.5
+        m5393: 4.5
+        m3005: 4.5
+        m6337: 4.5
+        m2345: 4.5
+        m4484: 4.5
+        m5345: 4.5
+        m5395: 4.5
+        m25526: 4.5
+        m3311: 4.5
+        m316: 4.5
+        m2071: 4.5
+        m3758: 4.5
+        m3184: 4.5
+        m1735: 4.5
+        m570: 4.5
+        m14670: 4.5
+        m6710: 4.5
+        m4313: 4.5
+        m2490: 4.5
+        m3000: 4.5
+        m33940: 4.5
+        m4872: 4.5
+        m6063: 4.5
+        m6188: 4.5
+        m5781: 4.5
+        m4470: 4.5
+        m6895: 4.5
+        m245: 4.5
+        m3313: 4.5
+        m6718: 4.5
+        m3022: 4.5
+        m5782: 4.5
+        m8120: 4.5
+        m2772: 4.5
+        m3728: 4.5
+        m2336: 4.0
+        m3314: 4.0
+        m2004: 4.0
+        m24006: 4.0
+        m5163: 4.0
+        m4264: 4.0
+        m2398: 4.0
+        m3146: 4.0
+        m13287: 4.0
+        m4683: 4.0
+        m5712: 4.0
+        m4802: 4.0
+        m6704: 4.0
+        m1376: 4.0
+        m5181: 4.0
+        m145: 4.0
+        m2676: 4.0
+        m9524: 4.0
+        m821: 4.0
+        m4356: 4.0
+        m5209: 4.0
+        m3457: 4.0
+        m4527: 4.0
+        m5482: 4.0
+        m1754: 4.0
+        m1790: 4.0
+        m4583: 4.0
+        m21171: 4.0
+        m3175: 4.0
+        m2251: 4.0
+        m5118: 4.0
+        m3043: 4.0
+        m4660: 4.0
+        m474: 4.0
+        m9656: 4.0
+        m4526: 4.0
+        m4271: 4.0
+        m21549: 4.0
+        m1781: 4.0
+        m6041: 4.0
+        m15374: 4.0
+        m4331: 4.0
+        m14946: 4.0
+        m15790: 4.0
+        m5228: 4.0
+        m2565: 4.0
+        m1789: 4.0
+        m5647: 4.0
+        m8611: 4.0
+        m4249: 4.0
+        m1246: 4.0
+        m1804: 4.0
+        m16711: 4.0
+        m6711: 4.0
+        m2923: 4.0
+        m2287: 4.0
+        m2222: 4.0
+        m6010: 4.0
+        m4415: 4.0
+        m2132: 4.0
+      expires_at: 2011-09-09T22:41:50+00:00
+  response_expectation:
+    runtime: 0.5
+    status_code: 201
+    headers:
+      Last-Modified:    /.*/
+    body:
+      username:       'teletubby'
+- name: 'Telekom: delete formerly created teletubby user'
+  priority: 2
+  request:
+    path:        '/users/teletubby'
+    method:      'DELETE'
+    body:        {}
+  response_expectation:
+    status_code: 202
+- name: "Telekom: create user with 400 initial ratings"
+  priority: 2
+  request:
+    headers:
+      Content-Type: 'application/json'
+    path:        '/users/teletubby'
+    method:      'PUT'
+    body:
+      ratings:
+        m3346: 4.0
+        m3423: 4.0
+        m3532: 4.0
+        m2719: 4.0
+        m5076: 4.0
+        m4568: 4.0
+        m16655: 4.0
+        m9969: 4.0
+        m14263: 4.0
+        m3147: 4.0
+        m7511: 4.0
+        m5729: 4.0
+        m2104: 4.0
+        m5812: 4.0
+        m3799: 4.0
+        m3794: 4.0
+        m3514: 4.0
+        m4499: 4.0
+        m37: 4.0
+        m5563: 4.0
+        m3543: 4.0
+        m2924: 4.0
+        m5320: 4.0
+        m3125: 4.0
+        m14677: 4.0
+        m5155: 4.0
+        m3833: 4.0
+        m3583: 4.0
+        m4269: 4.0
+        m7795: 4.0
+        m4803: 4.0
+        m25525: 4.0
+        m5662: 4.0
+        m3547: 4.0
+        m193: 4.0
+        m12418: 4.0
+        m4413: 4.0
+        m4783: 4.0
+        m4837: 4.0
+        m1457: 4.0
+        m3852: 4.0
+        m11285: 4.0
+        m6490: 4.0
+        m6025: 4.0
+        m1215: 4.0
+        m2284: 4.0
+        m2256: 4.0
+        m8238: 4.0
+        m11035: 4.0
+        m25: 4.0
+        m5110: 4.0
+        m2742: 4.0
+        m3073: 4.0
+        m11061: 4.0
+        m1878: 4.0
+        m2787: 4.0
+        m4426: 4.0
+        m4552: 4.0
+        m2203: 4.0
+        m4049: 4.0
+        m3741: 4.0
+        m5279: 4.0
+        m6029: 4.0
+        m6203: 4.0
+        m5061: 4.0
+        m3861: 4.0
+        m3391: 4.0
+        m20586: 4.0
+        m10354: 4.0
+        m25041: 4.0
+        m8222: 4.0
+        m20884: 4.0
+        m2585: 3.5
+        m2030: 3.5
+        m4502: 3.5
+        m3620: 3.5
+        m3990: 3.5
+        m5292: 3.5
+        m1957: 3.5
+        m5570: 3.5
+        m4850: 3.5
+        m287: 3.5
+        m2397: 3.5
+        m1956: 3.5
+        m734: 3.5
+        m34674: 3.5
+        m12501: 3.5
+        m3060: 3.5
+        m18798: 3.5
+        m2738: 3.5
+        m13823: 3.5
+        m17909: 3.5
+        m3536: 3.5
+        m6368: 3.5
+        m3441: 3.5
+        m2074: 3.5
+        m1791: 3.5
+        m4422: 3.5
+        m9613: 3.5
+        m2495: 3.5
+        m18682: 3.5
+        m3647: 3.5
+        m5974: 3.5
+        m7782: 3.5
+        m9286: 3.5
+        m3464: 3.5
+        m1140: 3.5
+        m26960: 3.5
+        m1783: 3.5
+        m3859: 3.5
+        m9620: 3.5
+        m3675: 3.5
+        m2635: 3.5
+        m23545: 3.5
+        m5097: 3.5
+        m29648: 3.5
+        m2161: 3.5
+        m3612: 3.5
+        m10774: 3.5
+        m29006: 3.5
+        m19703: 3.5
+        m6536: 3.5
+        m2274: 3.5
+        m5047: 3.5
+        m1910: 3.5
+        m4386: 3.5
+        m9910: 3.5
+        m30093: 3.5
+        m5803: 3.5
+        m2523: 3.0
+        m1219: 3.0
+        m888: 3.0
+        m4632: 3.0
+        m5164: 3.0
+        m2715: 3.0
+        m6017: 3.0
+        m2509: 3.0
+        m1792: 3.0
+        m3324: 3.0
+        m5581: 3.0
+        m5710: 3.0
+        m5055: 3.0
+        m2354: 3.0
+        m2672: 3.0
+        m2608: 3.0
+        m5587: 3.0
+        m5420: 3.0
+        m3962: 3.0
+        m22539: 3.0
+        m7964: 3.0
+        m4721: 3.0
+        m6341: 3.0
+        m6734: 3.0
+        m1885: 3.0
+        m6075: 3.0
+        m2392: 3.0
+        m3652: 3.0
+        m2042: 3.0
+        m15256: 3.0
+        m5308: 3.0
+        m4377: 3.0
+        m3827: 3.0
+        m4841: 3.0
+        m19518: 3.0
+        m3257: 3.0
+        m2387: 3.0
+        m5246: 3.0
+        m4565: 3.0
+        m220: 3.0
+        m12419: 3.0
+        m29032: 3.0
+        m4835: 3.0
+        m2778: 3.0
+        m30109: 3.0
+        m4193: 3.0
+        m6444: 3.0
+        m27132: 3.0
+        m345: 3.0
+        m3228: 3.0
+        m2653: 3.0
+        m2313: 3.0
+        m4792: 3.0
+        m4730: 3.0
+        m2406: 3.0
+        m4435: 3.0
+        m4673: 3.0
+        m2214: 3.0
+        m4482: 3.0
+        m8057: 3.0
+        m4367: 3.0
+        m15073: 3.0
+        m3746: 3.0
+        m5285: 3.0
+        m20536: 3.0
+        m3113: 3.0
+        m4939: 3.0
+        m5427: 3.0
+        m2311: 3.0
+        m3319: 3.0
+        m11995: 3.0
+        m2630: 3.0
+        m2659: 3.0
+        m3665: 3.0
+        m2548: 3.0
+        m3501: 3.0
+        m3143: 3.0
+        m5494: 3.0
+        m2248: 2.5
+        m3611: 2.5
+        m492: 2.5
+        m2464: 2.5
+        m311: 2.5
+        m3615: 2.5
+        m4215: 2.5
+        m1779: 2.5
+        m5006: 2.5
+        m1305: 2.5
+        m8439: 2.5
+        m4472: 2.5
+        m2961: 2.5
+        m5336: 2.5
+        m2250: 2.5
+        m4639: 2.5
+        m7988: 2.5
+        m13134: 2.5
+        m6793: 2.5
+        m12344: 2.5
+        m5692: 2.5
+        m3610: 2.5
+        m6281: 2.5
+        m23699: 2.5
+        m3326: 2.5
+        m9721: 2.5
+        m6785: 2.5
+        m9984: 2.5
+        m658: 2.5
+        m4600: 2.5
+        m22396: 2.5
+        m6278: 2.5
+        m5269: 2.5
+        m5328: 2.5
+        m5495: 2.5
+        m5012: 2.5
+        m3076: 2.5
+        m1105: 2.5
+        m5743: 2.5
+        m4423: 2.5
+        m2558: 2.5
+        m2470: 2.5
+        m31975: 2.5
+        m198: 2.5
+        m1471: 2.5
+        m82: 2.5
+        m2355: 2.5
+        m5798: 2.5
+        m4689: 2.5
+        m4654: 2.5
+        m5795: 2.5
+        m968: 2.5
+        m7070: 2.5
+        m17751: 2.5
+        m16038: 2.5
+        m3263: 2.5
+        m4572: 2.5
+        m5475: 2.5
+        m10052: 2.5
+        m3565: 2.5
+        m4986: 2.5
+        m3884: 2.5
+        m689: 2.5
+        m20: 2.5
+        m4132: 2.5
+        m22115: 2.5
+        m17277: 2.5
+        m6540: 2.5
+        m3443: 2.5
+        m7051: 2.5
+        m4366: 2.5
+        m4329: 2.5
+        m3828: 2.5
+        m3296: 2.5
+        m5765: 2.5
+        m2714: 2.5
+        m4856: 2.5
+        m2072: 2.5
+        m2977: 2.5
+        m3765: 2.5
+        m4292: 2.5
+        m2743: 2.5
+        m2153: 2.5
+        m1793: 2.5
+        m6527: 2.5
+        m4365: 2.5
+        m3559: 2.5
+        m2101: 2.5
+        m917: 2.5
+        m7868: 2.5
+        m2076: 2.5
+        m6347: 2.5
+        m17746: 2.5
+        m640: 2.5
+        m5851: 2.5
+        m3669: 2.5
+        m4391: 2.5
+        m2600: 2.5
+        m5547: 2.5
+        m4105: 2.5
+        m2373: 2.5
+        m5081: 2.5
+        m3029: 2.5
+        m4376: 2.5
+        m252: 2.5
+        m5375: 2.5
+        m1245: 2.5
+        m1531: 2.5
+        m8650: 2.5
+        m23616: 2.5
+        m3766: 2.5
+        m5935: 2.5
+        m13122: 2.5
+        m5463: 2.5
+        m5342: 2.5
+        m1753: 2.5
+        m3805: 2.5
+        m3658: 2.5
+        m3028: 2.5
+        m6168: 2.5
+        m4065: 2.5
+        m3979: 2.5
+        m5089: 2.5
+        m4828: 2.5
+        m4546: 2.5
+        m25644: 2.5
+        m3814: 2.5
+        m5755: 2.5
+        m305: 2.5
+        m7509: 2.5
+        m4213: 2.5
+        m3657: 2.5
+        m2919: 2.5
+        m2182: 2.5
+        m1288: 2.5
+        m6273: 2.5
+        m1521: 2.5
+        m3212: 2.5
+        m523: 2.5
+        m284: 2.5
+        m4976: 2.5
+        m5025: 2.5
+        m6847: 2.5
+        m3564: 2.5
+        m3045: 2.5
+        m723: 2.5
+        m4017: 2.5
+        m4796: 2.5
+        m4126: 2.5
+        m15216: 2.5
+        m3150: 2.5
+        m81: 2.5
+        m6954: 2.5
+        m1884: 2.5
+        m2205: 2.5
+        m1926: 2.5
+        m2632: 2.5
+        m2577: 2.5
+        m5995: 2.5
+        m24750: 2.5
+        m6296: 2.5
+        m8005: 2.5
+        m3734: 2.5
+        m6791: 2.5
+        m6137: 2.5
+        m2316: 2.5
+        m7253: 2.5
+        m3309: 2.5
+        m2013: 2.5
+        m127: 2.5
+        m2677: 2.5
+        m14341: 2.5
+        m4395: 2.5
+        m15997: 2.5
+        m5344: 2.5
+        m24751: 2.0
+        m3223: 2.0
+        m10471: 2.0
+        m4198: 2.0
+        m7936: 2.0
+        m8785: 2.0
+        m9011: 2.0
+        m5287: 2.0
+        m3926: 2.0
+        m2434: 2.0
+        m5694: 2.0
+        m2955: 2.0
+        m4866: 2.0
+        m3452: 2.0
+        m5567: 2.0
+        m3606: 2.0
+        m20151: 2.0
+        m5789: 2.0
+      expires_at: 2011-09-09T22:41:50+00:00
+  response_expectation:
+    runtime: 0.5
+    status_code: 201
+    headers:
+      Last-Modified:    /.*/
+    body:
+      username:       'teletubby'
+- name: 'Telekom: delete formerly created teletubby user'
+  priority: 2
+  request:
+    path:        '/users/teletubby'
+    method:      'DELETE'
+    body:        {}
+  response_expectation:
+    status_code: 202
+- name: "Telekom: create user for checking the fixed test rateables"
+  request:
+    headers:
+      Content-Type: 'application/json'
+    path:        '/users/teletubby'
+    method:      'PUT'
+    body:
+      expires_at: 2011-09-09T22:41:50+00:00
+  response_expectation:
+    status_code: 201
+    headers:
+      Last-Modified:    /.*/
+    body:
+      username:       'teletubby'
+- name: "Telekom: for a special Telekom testcase a new user should receive the following x rateables"
+  request:
+    path:           '/users/teletubby/rateables'
+    parameters:
+      per_page: 40
+    method:         'GET'
+    headers:
+      Content-Type: 'application/json'
+  response_expectation:
+    status_code: 200
+    headers:
+      Last-Modified: /.*/
+    body:
+      - m367
+      - m711
+      - m329
+      - m2632
+      - m342
+      - m1083
+      - m4374
+      - m1183
+      - m1074
+      - m1956
+      - m1011
+      - m4886
+      - m1409
+      - m270
+      - m997
+      - m2311
+      - m15216
+      - m5564
+      - m1056
+      - m286
+      - m3828
+      - m874
+      - m4660
+      - m3441
+      - m4692
+      - m3134
+      - m5118
+      - m229
+      - m5561
+      - m1267
+      - m434
+      - m3467
+      - m3751
+      - m4901
+      - m7056
+      - m5954
+      - m1443
+      - m4142
+      - m4802
+      - m1444
+- name: 'Telekom: delete formerly created teletubby user'
+  request:
+    path:        '/users/teletubby'
+    method:      'DELETE'
+    body:        {}
+  response_expectation:
+    status_code: 202
+- name: "Telekom: create another user with 10 defined ratings for checking the fixed test recommendations afterwards"
+  request:
+    headers:
+      Content-Type: 'application/json'
+    path:        '/users/teletubby'
+    method:      'PUT'
+    body:
+      ratings:
+       "m367" : 5.0
+       "m711" : 5.0
+       "m329" : 5.0
+       "m2632": 5.0
+       "m342" : 5.0
+       "m1083": 5.0
+       "m4374": 5.0
+       "m1183": 5.0
+       "m1074": 5.0
+       "m1956": 5.0
+      expires_at: 2011-09-09T22:41:50+00:00
+  response_expectation:
+    status_code: 201
+    headers:
+      Last-Modified:    /.*/
+    body:
+      username:       'teletubby'
+- name: 'Telekom: after defined rating there should come out well defined recommendations for Telekom test purpose'
+  wait_before_request: 5
+  request:
+    path:                               "/users/teletubby/recommendations"
+    method:                             "GET"
+  response_expectation:
+    status_code:                        200
+    body:
+    - m9999001: 1
+    - m9999002: 1
+    - m9999003: 1
+    - m9999004: 1
+    - m9999005: 1
+    - m9999006: 1
+    - m9999007: 1
+    - m9999008: 1.5
+    - m9999009: 1.5
+    - m9999010: 3
+    - m9999011: 3.5
+    - m9999012: 4.5
+    - m9999013: 5
+    - m9999014: 5
+    - m9999015: 5
+    - m9999016: 5
+    - m9999023: 5
+    - m9999024: 5
+    - m9999025: 5
+    - m9999026: 5
+    - m9999027: 1
+    - m9999028: 2
+    - m9999029: 3
+    - m9999030: 5
+    - m9999031: 1
+    - m9999032: 2
+    - m9999033: 5
+    - m9999034: 3
+    - m9999035: 5
+    - m9999036: 1
+    - m9999037: 2
+    - m9999038: 3
+- name: 'Telekom: delete formerly created teletubby user'
+  request:
+    path:        '/users/teletubby'
+    method:      'DELETE'
+    body:        {}
+  response_expectation:
+    status_code: 202
+- name: "Telekom: create another user with 10 defined ratings for checking discovery movies for genre Action"
+  request:
+    headers:
+      Content-Type: 'application/json'
+    path:        '/users/teletubby'
+    method:      'PUT'
+    body:
+      ratings:
+       "m367" : 5.0
+       "m711" : 5.0
+       "m329" : 5.0
+       "m2632": 5.0
+       "m342" : 5.0
+       "m1083": 5.0
+       "m4374": 5.0
+       "m1183": 5.0
+       "m1074": 5.0
+       "m1956": 5.0
+      expires_at: 2011-09-09T22:41:50+00:00
+  response_expectation:
+    status_code: 201
+    headers:
+      Last-Modified:    /.*/
+    body:
+      username:       'teletubby'
+- name: 'Telekom: after defined rating there should be some discovery output for genre Action'
+  wait_before_request: 5
+  request:
+    path:                               '/users/teletubby/predictions/discovery/genre:61'
+    method:                             "GET"
+  response_expectation:
+    status_code:                        200
+    body:
+    - m9999038: 3.0
+    - m9999039: 4.5
+    - m9999040: 5.0
+- name: 'Telekom: delete formerly created teletubby user'
+  request:
+    path:        '/users/teletubby'
+    method:      'DELETE'
+    body:        {}
+  response_expectation:
+    status_code: 202

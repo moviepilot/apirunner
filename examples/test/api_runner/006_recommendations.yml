@@ -18,26 +18,6 @@
   response_expectation:
     status_code: 204
     body:
-- name: "There should not be any recommendations and a 204 because there are too few ratings"
-  priority: 1
-  request:
-    headers:
-      Content-Type:           'application/json'
-    path:                    '/users/duffyduck/recommendations'
-    method:                  'GET'
-  response_expectation:
-    status_code: 204
-    body: {}
-- name: "There should NOT be a prediction for a certain item"
-  priority: 1
-  request:
-    headers:
-      Content-Type:            'application/json'
-    path:                      '/users/duffyduck/predictions/items/m965'
-    method:                    'GET'
-  response_expectation:
-    status_code: 204
-    body:
 - name: "10 ratings in preparation for recommendation check should return a 204"
   request:
     headers:
@@ -68,7 +48,6 @@
     status_code: 200
     body:                     /^\[(\{"m\d+":[0-5]\.[05]\},)*\{"m\d+":[0-5]\.[05]\}\]$/
 - name: "There should be only 10 recommendations if per_page parameter is set"
-  priority: 1
   request:
     headers:
       Content-Type:           'application/json'
@@ -88,21 +67,12 @@
   response_expectation:
     status_code: 404
     body:
-- name: "There should be a prediction for a certain item"
+- name: "There should be less than 2000 recommendations at all otherwise filtering does not apply"
   request:
     headers:
       Content-Type:            'application/json'
-    path:                      '/users/duffyduck/predictions/items/m965'
+    path:                      '/users/duffyduck/recommendations'
     method:                    'GET'
   response_expectation:
-    status_code: 200
-    body:                    /^\[{"m\d+":[0-5]\.[05]}\]$/
-- name: "There should occure a 404 if a prediction for y certain item is requested for an unknown user"
-  request:
-    headers:
-      Content-Type:            'application/json'
-    path:                      '/users/daisyduck/predictions/items/m965'
-    method:                    'GET'
-  response_expectation:
-    status_code: 404
-    body:
+   status_code:                 200
+   body:                        /^\[(\{"m\d+":[0-5]\.[05]\},){1,1999}\{"m\d+":[0-5]\.[05]\}\]$/

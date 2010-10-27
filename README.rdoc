@@ -1,8 +1,8 @@
 = apirunner
 
-*apirunner* let's you test your _JSON_ _API_ from the outside. Sometimes model-, controlle-r and routing-test's are not enough, you want to send requests to your application and validate the response in ganular detail. Then apirunner will be your best friend.
+*apirunner* let's you test your _JSON_ _API_ from the outside. Sometimes model-, controller and routing-test's are not enough, you want to send requests to your application and validate the response in ganular detail. Then apirunner will be your best friend.
 
-apirunner is no replacement to rspec or cucumber tests, nor does it replace webrat or capable tools like that. It's an addition that lets you query you API, specify your queries in detail, parse the expected response code, message, header and body and compare all (or any) of 'em to your expectation.
+apirunner is no replacement to rspec or cucumber tests, nor does it replace webrat or capable tools like that. It's an addition that lets you query you API, specify your queries in detail, parse the expected response code, message, header and body and compare all (or any) of 'em to your expectation, as well as check and document every testcases performance.
 
 The request and expectation can (and have to be) written down in easily createable YAML Files. The provided expectation matchers can match strings, integers and regular expressions. So apirunner provides you with a simple but powerful tool to examine your api's bugs.
 
@@ -14,16 +14,23 @@ apirunner was initially developed for testing of the mighty (m8ty) i18n recommen
 
 * be configured for as many environemnts as you wish (your local machine, you staging environment, your production boxes, your wifes handbag)
 * send GET, POST, PUT and DELETE requests via HTTP
+* wait arbitrary but well specifief amount of time before sending a request
 * read as many testcases as you wish from YAML files and execute them in the order of file appearance
+* generate iterational testcases at runtime (for mass/performance test')
 * read more then one testcase from a file
 * match the response code's of your applications responses
 * match the syntactical correctnes of the response format (as long as it is JSON)
-* proof the occurance and match the content of your app's HTTP header
-* proof the occurence and match the content of your app's Body (as long as it responds JSON)
+* proof the occurance and match the content of your app's HTTP headers
+* proof the occurence and match the content of your app's body (as long as it responds JSON)
 * optionally match only parts of header / body (you dont have to specify them in more detail than you are interested in)
 * exclude certain value test's from certain environments (by reading excludes from excludes.yml)
+* build several priority layers, so that you can run only parts of your testspec
 * provide you with some nice feedback at the console .... yeah sexy dots (".") and fancy F's ("F") ....
 * print out a nice error report (that you as a awesome ruby coder will never see)
+* print out a nice success report if you wish
+* measure the performance of your api from the outsite (no concurrency provided today, sry)
+* print out a nice performance report
+* substitute defined resource names of you testcases (resource namespacing) so that several testruns on the same box dont interfere (Hudson vs. developer)
 * be invoked from within rake to generate some example configuration and testcase files
 * be invoked also from within rake to run your test's
 * not travel to Ibiza
@@ -31,6 +38,28 @@ apirunner was initially developed for testing of the mighty (m8ty) i18n recommen
 == Installation
 
   gem install apirunner
+
+== Prerequisites
+
+Until today apirunner runs only in connection with a rails application itself. In the future it (hopefully) will be able to run even isolated without a Rails environment. Releases of Rails prior to 3.0.0.rc are untested and will likely fail. Please don't blame the author put submit you patches.
+
+== Invocation
+
+Assuming you defined your environments as seen in the following section "Configuration", apirunner provides you with the following rake tasks:
+
+  rake -T api
+
+should result in:
+
+  rake api:performance:local       # runs a series of nessecary api calls for performance measuring and parses their response in environment local
+  rake api:performance:production  # runs a series of nessecary api calls for performance measuring and parses their response in environment production
+  rake api:performance:staging     # runs a series of nessecary api calls for performance measuring and parses their response in environment staging
+  rake api:run:local               # runs a series of nessecary api calls and parses their response in environment local
+  rake api:run:production          # runs a series of nessecary api calls and parses their response in environment production
+  rake api:run:staging             # runs a series of nessecary api calls and parses their response in environment staging
+  rake api:scaffold                # generates configuration and a skeleton for apirunner tests as well as excludes
+
+Tasks are speaking so far ... 
 
 == Configuration
 
@@ -42,9 +71,25 @@ The latter one generates a starter configuration file in your config directory:
 
 Additionally there will be some example testcases which can be found in:
 
-  test/apirunner/001_create_ressource.yml
-  test/apirunner/002_delete_ressource.yml
-  test/apirunner/excludes.yml
+  /test/apirunner/001_create_user.yml
+  /test/apirunner/002_update_resources.yml
+  /test/apirunner/003_update_ratings.yml
+  /test/apirunner/004_update_series_ratings.yml
+  /test/apirunner/005_rateables_and_pagination.yml
+  /test/apirunner/006_recommendations.yml
+  /test/apirunner/007_item_predictions.yml
+  /test/apirunner/008_discovery.yml
+  /test/apirunner/009_cacheable_operations.yml
+  /test/apirunner/010_fsk.yml
+  /test/apirunner/011_misc.yml
+  /test/apirunner/012_telekom_error_reports.yml
+  /test/apirunner/013-extended-unpersonalized-discovery.yml
+  /test/apirunner/014-extended-personalized-discovery.yml
+  /test/apirunner/015_create_10000_users.yml
+  /test/apirunner/999_delete_user.yml
+  /test/apirunner/excludes.yml
+
+These testcases are specific to recent requirements regarding the moviepilot API but can be helpful to understand, how the YAML expectation files have to be created.
 
 At first take some time and change config/api_runner.yml to your needs. You might for example want to test your app locally on localhost:3000, on staging machine and on production environment too. So your api_runner.yml could look like that:
 
@@ -52,31 +97,58 @@ At first take some time and change config/api_runner.yml to your needs. You migh
     protocol: http
     host: localhost
     port: 3000
-    namespace: api
+    namespace: api1v0
   staging:
     protocol: http
-    host: staging.yourstagingdomain.dom
+    host: staging.moviepilot.com
     port: 80
-    namespace: api
+    namespace: api1v0
   production:
-    protocol: https
-    host: www.yourproductiondomain.dom
+    protocol: http
+    host: production.moviepilot.com
     port: 80
-    namespace: prod_api
+    namespace: api1v0
+  general:
+    verbosity:
+      - verbose_on_error
+      - verbose_on_success
+      - rspec
+      - performance
+      - verbose_with_curl
+    priority: 0
+    substitution:
+      substitutes:
+        - duffybasic
+        - daisyduck
+        - duffyduck
+        - duffyduck2
+        - duffyduck3
+        - duffydad
+        - duffykid
+        - roadrunner
+        - teletubby
+        - luckyluke
+        - wileecoyote
+      prefix: abc_
+    csv_mode:
+      - append
+      - create
+      - none
 
-Take a look at "namespace" here. It makes the expectation matcher build ressource URI's like so:
+The configuration options above need some explanation (uuuuugh) but have to follow the YAML standard, so BE CAREFUL(!) about proper indentation (two spaces).
+So far you can define as many environments as you would like to query. The example above specifies 3 of them [:local, :staging, :production].
 
-  http://localhost:3000/api
-  http://staging.yourstagingdomain.dom/api
-  http://www.yourproductiondomain.dom/prod_api
+You can specify a :protocol, :host, :port as well as a (URL) :namespace per environment. The namespace option is mandatory, so you can omit it. We introduced it, so we can support different versions of our api at the same time and question different versions on different boxes with one setup.
+
+The option makes the expectation matcher build ressource URI's like so:
+
+  http://localhost:3000/api1v0
+  http://staging.moviepilot.com/api1v0
+  http://production.moviepilot.com/api1v0
 
 The ressource pathes are simply appended before the request is sent.
 
-The file also generates your rake tasks dynamically. The above config will generate 3 new tasks:
-
-  api:run:local
-  api:run:staging
-  api:run:production
+TODO
 
 == Excludes
 
@@ -84,15 +156,6 @@ You may also want to define some excludes for some of your environment. Imageine
 
 Simply define your story to check "Last-Modified" generally and exclude it for 
 
-== Invocation
-
-Assuming you defined an environment "local" and "staging" you can invoke your masterpiece with:
-
-  rake api:run:local
-
-and
-
-  rake api:run:staging
 
 == Testing
 

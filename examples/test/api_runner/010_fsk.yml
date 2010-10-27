@@ -1,0 +1,168 @@
+---
+- name: 'Create new adult user duffydad'
+  request:
+    headers:
+      Content-Type: 'application/json'
+    path:        '/users/duffydad'
+    method:      'PUT'
+    body:
+      username:  'duffydad'
+      watchlist:
+      - m1035
+      - m2087
+      blacklist:
+      - m1554
+      - m2981
+      skiplist:
+      - m1590
+      - m1056
+      ratings:
+        m12493: 4.0
+        m1875: 2.5
+        m7258: 3.0
+        m7339: 4.0
+        m3642: 5.0
+      expires_at: 2011-09-09T22:41:50+00:00
+  response_expectation:
+    status_code: 201
+    headers:
+      Last-Modified:    /.*/
+    body:
+      username:       'duffydad'
+      watchlist:
+      - m1035
+      - m2087
+      blacklist:
+      - m1554
+      - m2981
+      skiplist:
+      - m1590
+      - m1056
+      ratings:
+        m12493: 4.0
+        m1875: 2.5
+        m7258: 3.0
+        m7339: 4.0
+        m3642: 5.0
+      fsk:            "18"
+- name: 'Expect the number of movies of genre horror for adult duffydad to be between 33 and 200'
+  wait_before_request: 5
+  request:
+    headers:
+      Content-Type:     'application/json'
+    path:               '/users/duffydad/predictions/discovery/genre:43'
+    method:             'GET'
+  response_expectation:
+    status_code:        200
+    body:               /^\[(\{"m\d+":[0-5]\.[05]\},){33,199}\{"m\d+":[0-5]\.[05]\}\]$/
+- name: 'Create new non-adult user duffykid with ratings'
+  request:
+    headers:
+      Content-Type: 'application/json'
+    path:        '/users/duffykid'
+    method:      'PUT'
+    body:
+      username:  'duffykid'
+      fsk: "0"
+      ratings:
+        m12493: 4.0
+        m1875: 2.5
+        m7258: 3.0
+        m7339: 4.0
+        m3642: 5.0
+      expires_at: 2011-09-09T22:41:50+00:00
+  response_expectation:
+    status_code: 201
+    headers:
+      Last-Modified:    /.*/
+    body:
+      username:       'duffykid'
+      ratings:
+        m12493: 4.0
+        m1875: 2.5
+        m7258: 3.0
+        m7339: 4.0
+        m3642: 5.0
+      fsk:            "0"
+- name: 'Expect the number of movies of genre horror for non-adult duffykid to be between 0 and 33'
+  wait_before_request: 5
+  request:
+    headers:
+      Content-Type:     'application/json'
+    path:               '/users/duffykid/predictions/discovery/genre:43'
+    method:             'GET'
+  response_expectation:
+    status_code:        200
+    body:               /^\[(\{"m\d+":[0-5]\.[05]\},){0,33}\{"m\d+":[0-5]\.[05]\}\]$/
+- name: 'Create new FSK Check User'
+  request:
+    headers:
+      Content-Type: 'application/json'
+    path:        '/users/teletubby'
+    method:      'PUT'
+    body:
+      username:  'teletubby'
+      fsk: 12
+      expires_at: 2011-09-09T22:41:50+00:00
+  response_expectation:
+    status_code: 201
+    headers:
+      Last-Modified:    /.*/
+    body:
+      username:       'teletubby'
+      fsk:             12
+- name: "We put one rating in expectation that fsk 12 does not change"
+  request:
+    headers:
+      Content-Type:         'application/json'
+    path:                   '/users/teletubby/ratings'
+    method:                 'PUT'
+    body:
+      m765: 1.0
+  response_expectation:
+    status_code: 204
+    body:
+- name: 'Check users fsk after rating - should be still 12'
+  request:
+    headers:
+      Content-Type: 'application/json'
+    path:        '/users/teletubby'
+    method:      'GET'
+  response_expectation:
+    status_code: 200
+    headers:
+      Last-Modified:    /.*/
+    body:
+      username:       'teletubby'
+      fsk:            "12"
+- name: "We put another rating in expectation that fsk 12 does not change"
+  request:
+    headers:
+      Content-Type:         'application/json'
+    path:                   '/users/teletubby/ratings'
+    method:                 'PUT'
+    body:
+      m42: 1.0
+  response_expectation:
+    status_code: 204
+    body:
+- name: 'Check users fsk after rating - should be still 12'
+  request:
+    headers:
+      Content-Type: 'application/json'
+    path:        '/users/teletubby'
+    method:      'GET'
+  response_expectation:
+    status_code: 200
+    headers:
+      Last-Modified:    /.*/
+    body:
+      username:       'teletubby'
+      fsk:            "12"
+- name: 'Delete fsk testuser'
+  request:
+    path:        '/users/teletubby'
+    method:      'DELETE'
+    body:        {}
+  response_expectation:
+    status_code: 202

@@ -1,4 +1,19 @@
 ---
+- name: 'Create new Basic User'
+  request:
+    headers:
+      Content-Type: 'application/json'
+    path:        '/users/duffybasic'
+    method:      'PUT'
+    body:
+      username:  'duffybasic'
+      expires_at: 2011-09-09T22:41:50+00:00
+  response_expectation:
+    status_code: 201
+    headers:
+      Last-Modified:    /.*/
+    body:
+      username:       'duffybasic'
 - name: 'Create new User'
   request:
     headers:
@@ -8,20 +23,20 @@
     body:
       username:  'duffyduck'
       watchlist:
-      - m333
-      - m79
+      - m1035
+      - m2087
       blacklist:
-      - m334
-      - m77
+      - m1554
+      - m2981
       skiplist:
-      - m335
-      - m78
+      - m1590
+      - m1056
       ratings:
-        m336: 4
-        m79: 2.5
-        m777: 3.0
-        m567: 4.0
-        m354: 5.0
+        m12493: 4.0
+        m1875: 2.5
+        m7258: 3.0
+        m7339: 4.0
+        m3642: 5.0
       expires_at: 2011-09-09T22:41:50+00:00
   response_expectation:
     status_code: 201
@@ -30,17 +45,20 @@
     body:
       username:       'duffyduck'
       watchlist:
-      - m333
-      - m79
+      - m1035
+      - m2087
       blacklist:
-      - m334
-      - m77
+      - m1554
+      - m2981
       skiplist:
-      - m335
-      - m78
+      - m1590
+      - m1056
       ratings:
-        m336: 4.0
-        m79: 2.5
+        m12493: 4.0
+        m1875: 2.5
+        m7258: 3.0
+        m7339: 4.0
+        m3642: 5.0
       fsk:            "18"
 - name: 'Update existing User - Update watchlist'
   request:
@@ -71,14 +89,17 @@
       - m367
       - m73
       blacklist:
-      - m334
-      - m77
+      - m1554
+      - m2981
       skiplist:
-      - m335
-      - m78
+      - m1590
+      - m1056
       ratings:
-        m336: 4.0
-        m79: 2.5
+        m12493: 4.0
+        m1875: 2.5
+        m7258: 3.0
+        m7339: 4.0
+        m3642: 5.0
 - name: 'Set 10 Ratings'
   request:
     headers:
@@ -110,15 +131,6 @@
     body:
       username:       'duffyduck'
       fsk:            "18"
-      watchlist:
-      - m367
-      - m73
-      blacklist:
-      - m334
-      - m77
-      skiplist:
-      - m335
-      - m78
       ratings:
         "m1035": "1.0"
         "m1554": "2.0"
@@ -127,19 +139,17 @@
         "m12493": "4.0"
         "m1875": "5.0"
         "m7258": "2.5"
-- name: 'User creation should fail on wrong username'
-  priority: 1
+- name: 'User creation should fail on bogus characters in username'
+  priority: 3
   request:
     headers:
       Content-Type: 'application/json'
-    path:        '/users/duffyduck'
+    path:        '/users/duffyduck_fix_me'
     method:      'PUT'
     body:
-     username: '!"§$%&/()=?QWERTZUI"§$%&      /('
   response_expectation:
     status_code: 409
 - name: 'User creation should fail on wrong fsk'
-  priority: 1
   request:
     headers:
       Content-Type: 'application/json'
@@ -151,7 +161,6 @@
   response_expectation:
     status_code: 409
 - name: 'User creation should fail on wrong expiration_date'
-  priority: 1
   request:
     headers:
       Content-Type: 'application/json'

@@ -1,16 +1,16 @@
 ---
-- name: "One putted movie rating should be createable with 204 response"
+- name: "One putted series rating should be createable with 204 response"
   request:
     headers:
       Content-Type:         'application/json'
     path:                   '/users/duffyduck/ratings'
     method:                 'PUT'
     body:
-      m765: 1.0
+      s50: 1.0
   response_expectation:
     status_code: 204
     body:
-- name: "There should be exactly one movie rating in that profile"
+- name: "There should be exactly one series rating in that profile"
   request:
     headers:
       Content-Type:         'application/json'
@@ -20,23 +20,23 @@
     status_code: 200
     body:
       ratings:
-        m765: 1.0
-- name: "5 putted movie ratings should be createable with 204 response"
+        s50: 1.0
+- name: "5 putted series ratings should be createable with 204 response"
   request:
     headers:
       Content-Type:         'application/json'
     path:                   '/users/duffyduck/ratings'
     method:                 'PUT'
     body:
-      m765: 1.0
-      m42: 2.0
-      m89: 3.0
-      m91: 4.0
-      m98: 5.0
+      s69: 1.0
+      s70: 2.0
+      s71: 3.0
+      s86: 4.0
+      s87: 5.0
   response_expectation:
     status_code: 204
     body:
-- name: "There should be exactly 5 movie ratings in that profile"
+- name: "There should be exactly 5 series ratings in that profile"
   request:
     headers:
       Content-Type:         'application/json'
@@ -46,43 +46,43 @@
     status_code: 200
     body:
       ratings:
-        m765: 1.0
-        m42: 2.0
-        m89: 3.0
-        m91: 4.0
-        m98: 5.0
-- name: "It should return a 404 in case movie ratings for a non existant user are put"
+        s69: 1.0
+        s70: 2.0
+        s71: 3.0
+        s86: 4.0
+        s87: 5.0
+- name: "It should return a 404 in case series ratings for a non existant user are put"
   request:
     headers:
       Content-Type:         'application/json'
     path:                   '/users/daisyduck/ratings'
     method:                 'PUT'
     body:
-      m765: 1.0
-      m42: 2.0
+      s99: 1.0
+      s100: 2.0
   response_expectation:
     status_code: 404
-- name: "It should return a 409 in case movie ratings are put with ambigous moviemaster_id"
+- name: "It should return a 409 in case series ratings are put with ambigous moviemaster_id"
   request:
     headers:
       Content-Type:         'application/json'
     path:                   '/users/duffyduck/ratings'
     method:                 'PUT'
     body:
-      m765000000000000: 1.0
-      m420000000000000: 2.0
+      s765000000000000: 1.0
+      s420000000000000: 2.0
   response_expectation:
     status_code: 409
     body:
-- name: "It should return a 409 in case movie ratings are put with ambigous ratings values"
+- name: "It should return a 409 in case series ratings are put with ambigous ratings values"
   request:
     headers:
       Content-Type:         'application/json'
     path:                   '/users/duffyduck/ratings'
     method:                 'PUT'
     body:
-      m765: 6.0
-      m42: -2.0
+      s765: 6.0
+      s42: -2.0
   response_expectation:
     status_code: 409
     body:
