@@ -34,6 +34,90 @@ describe "Checker" do
       Checker.new({},{}).send(:is_regex?, string).should be_false
     end
   end
+
+  describe "is_number_comparison?" do
+    it "should return true when expectation starts with <=, >=, >,<, ==" do
+      [">", ">=", "<", "<=", "=="].each do |comp|
+        string = "#{comp}4"
+        Checker.new({}, {}).send(:is_number_comparison?, string).should be_true
+        string = "#{comp} 4"
+        Checker.new({}, {}).send(:is_number_comparison?, string).should be_true
+        string = "#{comp} 4                                                           "
+        Checker.new({}, {}).send(:is_number_comparison?, string).should be_true
+      end
+    end
+
+    it "should return false when expectation does not start with >,<, =" do
+      [">", ">=", "<", "<=", "=="].each do |comp|
+        string = "#{comp}hallo"
+        Checker.new({}, {}).send(:is_number_comparison?, string).should be_false
+        string = "#{comp} hallo"
+        Checker.new({}, {}).send(:is_number_comparison?, string).should be_false
+        string = "#{comp}"
+        Checker.new({}, {}).send(:is_number_comparison?, string).should be_false
+        string = "#{comp} 4 hihihihihihi"
+        Checker.new({}, {}).send(:is_number_comparison?, string).should be_false
+      end
+
+      string = "/hallo/"
+      Checker.new({}, {}).send(:is_number_comparison?, string).should be_false
+      string = "hallo"
+      Checker.new({}, {}).send(:is_number_comparison?, string).should be_false
+      string = ""
+      Checker.new({}, {}).send(:is_number_comparison?, string).should be_false
+      string = nil
+      Checker.new({}, {}).send(:is_number_comparison?, string).should be_false
+    end
+
+  end
+
+  describe "compare_number" do
+    it "should compare lt and lte correctly" do
+      Checker.new({}, {}).send(:compare_number, "<4", "5").should be_false
+      Checker.new({}, {}).send(:compare_number, "< 4", "5").should be_false
+
+      Checker.new({}, {}).send(:compare_number, "< 4", "3").should be_true
+      Checker.new({}, {}).send(:compare_number, "<4", "3").should be_true
+
+      Checker.new({}, {}).send(:compare_number, "<=4", "4").should be_true
+      Checker.new({}, {}).send(:compare_number, "<= 4", "4").should be_true
+      Checker.new({}, {}).send(:compare_number, "<=4", "5").should be_false
+      Checker.new({}, {}).send(:compare_number, "<= 4", "5").should be_false
+      Checker.new({}, {}).send(:compare_number, "<=4", "3").should be_true
+      Checker.new({}, {}).send(:compare_number, "<= 4", "3").should be_true
+    end
+
+    it "should compare gt and gte correctly" do
+      Checker.new({}, {}).send(:compare_number, ">4", "5").should be_true
+      Checker.new({}, {}).send(:compare_number, "> 4", "5").should be_true
+
+      Checker.new({}, {}).send(:compare_number, "> 4", "3").should be_false
+      Checker.new({}, {}).send(:compare_number, ">4", "3").should be_false
+
+      Checker.new({}, {}).send(:compare_number, ">=4", "4").should be_true
+      Checker.new({}, {}).send(:compare_number, ">= 4", "4").should be_true
+      Checker.new({}, {}).send(:compare_number, ">=4", "5").should be_true
+      Checker.new({}, {}).send(:compare_number, ">= 4", "5").should be_true
+      Checker.new({}, {}).send(:compare_number, ">=4", "3").should be_false
+      Checker.new({}, {}).send(:compare_number, ">= 4", "3").should be_false
+    end
+
+    it "should compare ==" do
+      Checker.new({}, {}).send(:compare_number, "==4", "5").should be_false
+      Checker.new({}, {}).send(:compare_number, "== 4", "5").should be_false
+
+      Checker.new({}, {}).send(:compare_number, "==4", "4").should be_true
+      Checker.new({}, {}).send(:compare_number, "==4", "4").should be_true
+    end
+
+    it "should return false when it gets unexpected header values" do
+      Checker.new({}, {}).send(:compare_number, "==4", nil).should be_false
+      Checker.new({}, {}).send(:compare_number, "== 4", "Exception").should be_false
+      Checker.new({}, {}).send(:compare_number, "== 4", "q").should be_false
+    end
+
+  end
+
   describe "regex_matches?" do
     it 'should return true if the given regular expression matches the given value' do
       regex = "^\\d{2}$"

@@ -31,6 +31,16 @@ class Checker
     @excludes.include?(item)
   end
 
+  def is_number_comparison?(string)
+    return false unless string
+    string.match(/^[><]\s*\d+\s*$/) || string.match(/^[<>=]=\s*\d+\s*$/)
+  end
+
+  def compare_number(expectation, value)
+    return false unless value && value.match(/[\d\.]+/)
+    eval "#{value}#{expectation}"
+  end
+
   # returns true if given string seems to be a regular expression
   def is_regex?(string)
     string.to_s.match(/^\/.+\/$/)
