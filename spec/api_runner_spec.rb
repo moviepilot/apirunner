@@ -10,7 +10,7 @@ describe 'apirunner' do
   describe 'initialize' do
     it 'should fill all instance variables properly' do
       @a.instance_variable_get(:@spec).should be_a(Array)
-      @a.instance_variable_get(:@spec).size.should == 58
+      @a.instance_variable_get(:@spec).size.should == 165
       @a.instance_variable_get(:@results).should be_a(Array)
       @a.instance_variable_get(:@results).size.should == 0
       @a.instance_variable_get(:@configuration).should be_a(ApiConfiguration)
