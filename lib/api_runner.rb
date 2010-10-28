@@ -83,15 +83,25 @@ class ApiRunner
     !@http_client.send_request(:get, "#{@configuration.protocol}://#{@configuration.host}:#{@configuration.port}", nil, {:timeout => 5}).nil?
   end
 
+  def load_spec?( dir_entry )
+    return false if File.directory?( dir_entry )
+    return false if dir_entry.match(/^\./)
+    return false if dir_entry.match(/excludes/)
+    return false if ENV['ONLY'] && !(ENV['ONLY'].split(',').detect{|x| dir_entry.match(/#{x}/)})
+
+    return true
+  end
+
   # loads spec cases from yaml files
   def load_url_spec
     path = self.class.spec_path
     specs = []
     Dir.new(path).entries.sort.each do |dir_entry|
-      specs.push *YAML.load_file(path+dir_entry) if not (File.directory? dir_entry or dir_entry.match(/^\./) or dir_entry.match(/excludes/))
+      specs.push *YAML.load_file(path+dir_entry) if load_spec?( dir_entry )
     end
     @spec = Testcase.expand_specs(specs, @configuration)
   end
+
 
   # loads and parses items that need to be excluded from the checks in certain environments
   def load_excludes(env)
