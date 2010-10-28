@@ -5,6 +5,7 @@ class ResponseHeaderChecker < Checker
     result = Result.new(@testcase, @response)
     begin
       @testcase.response_expectation['headers'].each_pair do |header_name, header_value|
+        header_name = header_name.downcase
         if is_regex?(header_value)
           if not (excluded?(header_name) or regex_matches?(header_value, @response.headers[header_name]))
             result.succeeded = false
