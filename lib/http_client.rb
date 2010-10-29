@@ -39,14 +39,14 @@ class HttpClient
   # sends GET request and returns response
   def get(headers, resource, data, params)
     puts curlize( build_uri(resource, params), :headers => headers, :method => :get, :body => data) if ENV['VERBOSE']
-    request = Net::HTTP::Get.new(build_uri(resource, params).request_uri, initheader = headers)
+    request = Net::HTTP::Get.new(build_uri(resource, params).request_uri, headers)
     return Benchmark.realtime{ @response = @http.request(request) }, @response
   end
 
   # sends PUT request and returns response
   def put(headers, resource, data, params)
     puts curlize( build_uri(resource, params), :headers => headers, :method => :put, :body => data) if ENV['VERBOSE']
-    request = Net::HTTP::Put.new(resource_path(resource), initheader = headers)
+    request = Net::HTTP::Put.new(resource_path(resource), headers)
     request.body = data.to_json
     return Benchmark.realtime{ @response = @http.request(request) }, @response
   end
@@ -54,7 +54,7 @@ class HttpClient
   # sends POST request and returns response
   def post(headers, resource, data, params)
     puts curlize( build_uri(resource, params), :headers => headers, :method => :post, :body => data) if ENV['VERBOSE']
-    request = Net::HTTP::Post.new(resource_path(resource), initheader = headers)
+    request = Net::HTTP::Post.new(resource_path(resource), headers)
     request.body = data.to_json
     return Benchmark.realtime{ @response = @http.request(request) }, @response
   end
@@ -62,7 +62,7 @@ class HttpClient
   # sends DELETE request and returns response
   def delete(headers, resource, data, params)
     puts curlize( build_uri(resource, params), :headers => headers, :method => :delete, :body => data) if ENV['VERBOSE']
-    request = Net::HTTP::Delete.new(resource_path(resource), initheader = headers)
+    request = Net::HTTP::Delete.new(resource_path(resource), headers)
     return Benchmark.realtime{ @response = @http.request(request) }, @response
   end
 
