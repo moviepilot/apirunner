@@ -1,7 +1,6 @@
 module CurlCommandGenerator
   def curlize(url, options = {})
     options = {:method => :get, :body => nil, :headers => nil}.merge( options )
-
     "curl -i #{headers2args(options[:headers])} #{method2arg(options[:method])} #{body2arg(options[:body])} #{url}"
   end
 
@@ -11,7 +10,8 @@ module CurlCommandGenerator
   end
 
   def body2arg(body)
-    body && body.is_a?(Hash) ? body.inject(""){|string, key_value| string += " -d\"#{key_value[0]}: #{escape_quotes(key_value[1])}\""} : ""
+    # TODO: format body depending on the content type that is set, not always as json
+    body ? "-d'#{body.to_json}'" : ""
   end
 
   def headers2args(hash)
