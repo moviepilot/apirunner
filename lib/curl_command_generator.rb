@@ -11,7 +11,7 @@ module CurlCommandGenerator
 
   def body2arg(body)
     # TODO: format body depending on the content type that is set, not always as json
-    body ? "-d'#{body.to_json}'" : ""
+    body.nil? || body == {} || body == "" ? "" : "-d'#{body.to_json}'" 
   end
 
   def headers2args(hash)
