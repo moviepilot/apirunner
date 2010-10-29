@@ -2,7 +2,7 @@ module CurlCommandGenerator
   def curlize(url, options = {})
     options = {:method => :get, :body => nil, :headers => nil}.merge( options )
 
-    "curl #{headers2args(options[:headers])} #{method2arg(options[:method])} #{body2arg(options[:body])} #{url}"
+    "curl -i #{headers2args(options[:headers])} #{method2arg(options[:method])} #{body2arg(options[:body])} #{url}"
   end
 
   private
