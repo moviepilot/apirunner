@@ -8,7 +8,7 @@ source "http://rubygems.org"
 
 gem 'nokogiri', '~> 1.4.3.1'
 gem 'json', '~> 1.4.6'
-gem 'chronic', '~> 0.3.0'
+gem 'aaronh-chronic', '~> 0.3.9'
 
 
 group :development do
