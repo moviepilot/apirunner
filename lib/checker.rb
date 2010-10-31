@@ -49,7 +49,7 @@ class Checker
   def is_time_check?(header, expectation)
     return false unless header and expectation 
     # only support time check for certain headers + custom X-* headers
-    return false unless %w{max-age s-maxage min-fresh retry-after x-}.detect{|x| header.downcase.match(/#{x}/)}
+    return false unless ["cache-control[max-age]", "cache-control[s-maxage]", "cache-control[min-fresh]", "retry-after", "last-modified"].include?(header.downcase) || header.downcase.match(/x-/)
     return false unless expectation.strip.match(/^@/)
     return true
   end
@@ -57,7 +57,7 @@ class Checker
 
   def compare_time(header, expectation, value)
     return false unless is_time_check?(header, expectation)
-    if %w{max-age s-maxage min-fresh retry-after x-}.detect{|x| header.downcase.match(/#{x}/)}
+    if ["cache-control[max-age]", "cache-control[s-maxage]", "cache-control[min-fresh]", "retry-after"].include?(header.downcase) || header.downcase.match(/x-/)
       diff = get_time(expectation) - Time.now - value.to_i
     elsif header.to_s.downcase == "last-modified"
       diff = get_time(expectation) - Chronic.parse(value)

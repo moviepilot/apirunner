@@ -72,13 +72,13 @@ describe "Checker" do
   end
 
   describe "time_check" do
-    it "should perform a time check for max-age, cache-control[s-maxage], min-fresh, retry-after, last-modified and X-* headers when expectation starts with @" do
-      %w{cache-control[max-age] cache-control[s-maxage] min-fresh retry-after Last-Modified X-My-Custom-Timestamp}.each do |header|
+    it "should perform a time check for max-age, s-maxage, min-fresh, retry-after, last-modified and X-* headers when expectation starts with @" do
+      ["cache-control[max-age]", "cache-control[s-maxage]", "cache-control[min-fresh]", "retry-after", "Last-Modified", "X-My-Custom-Timestamp"].each do |header|
         Checker.new({}, {}).send(:is_time_check?, header, "@tomorrow 4:00am").should be_true
       end
     end
 
-    it "should not perform a time check for a header different to max-age, cache-control[s-maxage], min-fresh, retry-after or X-* headers" do
+    it "should not perform a time check for a header different to max-age, s-maxage, min-fresh, retry-after or X-* headers" do
       %w{Server Content-Type Content-Length Via Connection}.each do |header|
         Checker.new({}, {}).send(:is_time_check?, header, "@tomorrow 4:00am").should be_false
       end
@@ -86,7 +86,7 @@ describe "Checker" do
 
     it "should not perform a time check for if header or expectations or both are nil" do
       Checker.new({}, {}).send(:is_time_check?, nil, "@tomorrow 4:00am").should be_false
-      Checker.new({}, {}).send(:is_time_check?, "max-age", nil).should be_false
+      Checker.new({}, {}).send(:is_time_check?, "cache-control[max-age]", nil).should be_false
       Checker.new({}, {}).send(:is_time_check?, nil, nil).should be_false
     end
 
@@ -100,9 +100,9 @@ describe "Checker" do
       Checker.new({}, {}).send(:get_time, "@next_occurence_of #{in_three_hours.hour}:00").should  == in_three_hours
     end
 
-    it "should correctly compare delta-seconds for headers  max-age, cache-control[s-maxage], min-fresh, retry-after" do
+    it "should correctly compare delta-seconds for headers  max-age, s-maxage, min-fresh, retry-after" do
       in_five_hours = Chronic.parse("in 5 hours")
-      %w{max-age cache-control[s-maxage] Min-Fresh retry-after X-My-Custom-Header}.each do |header|
+      ["cache-control[max-age]", "cache-control[s-maxage]", "cache-control[min-fresh]", "retry-after", "X-My-Custom-Timestamp"].each do |header|
         Checker.new({}, {}).send(:compare_time, header, "@next_occurence_of #{in_five_hours}", 5 * 3600).should be_true
       end
     end
@@ -120,7 +120,7 @@ describe "Checker" do
       #in_five_hours = Chronic.parse("in 5 hours")
       (-4..4).each do |diff|
         Checker.new({}, {}).send(:compare_time, "Last-Modified", "@#{in_five_hours}", Chronic.parse( (in_five_hours + diff) ).to_s).should be_true
-        %w{max-age cache-control[s-maxage] Min-Fresh retry-after X-My-Custom-Header}.each do |header|
+        ["cache-control[max-age]", "cache-control[s-maxage]", "cache-control[min-fresh]", "retry-after", "X-My-Custom-Timestamp"].each do |header|
           Checker.new({}, {}).send(:compare_time, header, "@next_occurence_of #{in_five_hours}", 5 * 3600 + diff).should be_true
         end
       end
