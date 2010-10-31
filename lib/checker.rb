@@ -21,6 +21,19 @@ class Checker
   end
 
   private
+  def get_time(time)
+    one_day = 24 * 3600 # seconds
+    if time.match(/^@next_occurence_of/)
+      time = Chronic.parse( time.gsub(/^@next_occurence_of/, '') )
+      if ( Chronic.parse("next day midnight") + (time - Time.now) ) - Time.now < 24
+        time = time + one_day
+      end
+    else
+      time = Chronic.parse( time.gsub(/^@/,'') )
+    end
+
+    Chronic.parse(time)
+  end
 
   # tracks all children of this class
   # this way plugins can be loaded automagically
@@ -41,19 +54,6 @@ class Checker
     return true
   end
 
-  def get_time(time)
-    one_day = 24 * 3600 # seconds
-    if time.match(/^@next_occurence_of/)
-      time = Chronic.parse( time.gsub(/^@next_occurence_of/, '') )
-      if ( Chronic.parse("next day midnight") + (time - Time.now) ) - Time.now < 24
-        time = time + one_day
-      end
-    else
-      time = Chronic.parse( time.gsub(/^@/,'') )
-    end
-
-    Chronic.parse(time)
-  end
 
   def compare_time(header, expectation, value)
     return false unless is_time_check?(header, expectation)
