@@ -11,6 +11,11 @@ class ResponseHeaderChecker < Checker
             result.succeeded = false
             result.error_message = " expected header identifier --#{header_name}-- to match regex --#{header_value}--\n got --#{@response.headers[header_name]}--"
           end
+        elsif is_time_check?(header_name, header_value)
+          if not (excluded?(header_name) or compare_time(header_name, header_value, @response.headers[header_name]))
+            result.succeeded = false
+            result.error_message = " expected header identifier --#{header_name}-- to match time (+/- 5 seconds) --#{header_value}--\n got --#{@response.headers[header_name]}--"
+          end
         elsif is_number_comparison?(header_value)
           if not (excluded?(header_name) or compare_number(header_value, @response.headers[header_name]))
             result.succeeded = false
