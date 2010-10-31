@@ -1,3 +1,5 @@
+require 'chronic'
+
 class Checker
   @@children = []
 
@@ -29,6 +31,39 @@ class Checker
   # returns true if given attributes is an excluded item that does not have to be evaluated in this environment
   def excluded?(item)
     @excludes.include?(item)
+  end
+
+  def is_time_check?(header, expectation)
+    return false unless header and expectation 
+    # only support time check for certain headers + custom X-* headers
+    return false unless %w{max-age s-maxage min-fresh retry-after last-modified}.include?(header.to_s.downcase) or header.strip.match(/^X-/)
+    return false unless expectation.strip.match(/^@/)
+    return true
+  end
+
+  def get_time(time)
+    one_day = 24 * 3600 # seconds
+    if time.match(/^@next_occurence_of/)
+      time = Chronic.parse( time.gsub(/^@next_occurence_of/, '') )
+      if ( Chronic.parse("next day midnight") + (time - Time.now) ) - Time.now < 24
+        time = time + one_day
+      end
+    else
+      time = Chronic.parse( time.gsub(/^@/,'') )
+    end
+
+    Chronic.parse(time)
+  end
+
+  def compare_time(header, expectation, value)
+    return false unless is_time_check?(header, expectation)
+    if %w{max-age s-maxage min-fresh retry-after}.include?(header.downcase.to_s) || header.downcase.match(/x-/)
+      diff = get_time(expectation) - Time.now - value.to_i
+    elsif header.to_s.downcase == "last-modified"
+      diff = get_time(expectation) - Chronic.parse(value)
+    end
+    
+    diff >= -5 && diff <= 5
   end
 
   def is_number_comparison?(string)
