@@ -24,10 +24,8 @@ class Checker
   def get_time(time)
     one_day = 24 * 3600 # seconds
     if time.match(/^@next_occurence_of/)
-      time = Chronic.parse( time.gsub(/^@next_occurence_of/, '') )
-      if ( Chronic.parse("next day midnight") + (time - Time.now) ) - Time.now < 24
-        time = time + one_day
-      end
+      time = Chronic.parse( "next #{time.gsub(/^@next_occurence_of/, '')}" ) || Chronic.parse(time.gsub(/^@next_occurence_of/, ''))
+      time -= one_day if time - Time.now > one_day
     else
       time = Chronic.parse( time.gsub(/^@/,'') )
     end
