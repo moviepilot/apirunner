@@ -1,6 +1,7 @@
 GEM
   remote: http://rubygems.org/
   specs:
+    aaronh-chronic (0.3.9)
     builder (2.1.2)
     cucumber (0.8.5)
       builder (~> 2.1.2)
@@ -40,10 +41,11 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  aaronh-chronic (~> 0.3.9)
   bundler (~> 1.0.0)
   cucumber
   jeweler (~> 1.5.0.pre3)
-  json
+  json (~> 1.4.6)
   mocha (>= 0.9.8)
   nokogiri (~> 1.4.3.1)
   rcov

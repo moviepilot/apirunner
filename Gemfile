@@ -7,7 +7,8 @@ source "http://rubygems.org"
 # Include everything needed to run rake, tests, features, etc.
 
 gem 'nokogiri', '~> 1.4.3.1'
-gem 'json'
+gem 'json', '~> 1.4.6'
+gem 'aaronh-chronic', '~> 0.3.9'
 
 
 group :development do

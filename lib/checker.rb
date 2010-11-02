@@ -1,3 +1,5 @@
+require 'chronic'
+
 class Checker
   @@children = []
 
@@ -19,6 +21,17 @@ class Checker
   end
 
   private
+  def get_time(time)
+    one_day = 24 * 3600 # seconds
+    if time.match(/^@next_occurence_of/)
+      time = Chronic.parse( "next #{time.gsub(/^@next_occurence_of/, '')}" ) || Chronic.parse(time.gsub(/^@next_occurence_of/, ''))
+      time -= one_day if time - Time.now > one_day
+    else
+      time = Chronic.parse( time.gsub(/^@/,'') )
+    end
+
+    Chronic.parse(time)
+  end
 
   # tracks all children of this class
   # this way plugins can be loaded automagically
@@ -29,6 +42,26 @@ class Checker
   # returns true if given attributes is an excluded item that does not have to be evaluated in this environment
   def excluded?(item)
     @excludes.include?(item)
+  end
+
+  def is_time_check?(header, expectation)
+    return false unless header and expectation 
+    # only support time check for certain headers + custom X-* headers
+    return false unless ["cache-control[max-age]", "cache-control[s-maxage]", "cache-control[min-fresh]", "retry-after", "last-modified"].include?(header.downcase) || header.downcase.match(/x-/)
+    return false unless expectation.strip.match(/^@/)
+    return true
+  end
+
+
+  def compare_time(header, expectation, value)
+    return false unless is_time_check?(header, expectation)
+    if ["cache-control[max-age]", "cache-control[s-maxage]", "cache-control[min-fresh]", "retry-after"].include?(header.downcase) || header.downcase.match(/x-/)
+      diff = get_time(expectation) - Time.now - value.to_i
+    elsif header.to_s.downcase == "last-modified"
+      diff = get_time(expectation) - Chronic.parse(value)
+    end
+    
+    diff >= -5 && diff <= 5
   end
 
   def is_number_comparison?(string)

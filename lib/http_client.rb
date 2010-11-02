@@ -30,7 +30,19 @@ class HttpClient
     response.code = raw_response.code
     response.message = raw_response.message
     response.body = raw_response.body
-    response.headers = raw_response.to_hash.keys.inject({}){|hash, key| hash[key.to_s.downcase] = raw_response.to_hash[key][0]; hash}
+    response.headers = raw_response.to_hash.keys.inject({}){ |hash, key| 
+      value = raw_response.to_hash[key][0]
+      hash[key.to_s.downcase] = value
+      if value =~ /=/
+        sub_values = value.tr(","," ").split(" ").select{|x| x =~ /=/}
+        sub_values.each do |sub_value|
+          s_key, s_value = sub_value.split("=")
+          hash["#{key}[#{s_key}]"] = s_value
+        end
+      end
+
+      hash
+    }
     response.runtime = runtime
     response.fully_qualified_path = (method == "GET" ? build_uri(resource, params).request_uri : resource_path(resource))
     response
