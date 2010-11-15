@@ -259,11 +259,11 @@ There are rspec model tests for all classes which can be invoked via:
 
 == Dependencies
 
-apirunner heavily depends on the following great GEM's:
+apirunner heavily depends on the following great Gem's:
 
-1) nokogiri
-2) json
-3) aaronh-chronic
+* nokogiri
+* json
+* aaronh-chronic
 
 == Examples
 
@@ -271,11 +271,147 @@ After invoking:
 
   rake api:scaffold
 
-you will find some YAML example files for request and expectation generation in test/api_runner. You can create as many story files here as you like, they are executed in the order they are read from the filesystem, so you should name them like 000_create_some_ressource.yml, 001_read_some_ressource.yml and so on. 
+you will find some YAML example files for request and expectation generation in test/api_runner. You can create as many story files here as you like, they are executed in the order they are read from the filesystem, so you should name them like 000_create_some_ressource.yml, 001_read_some_ressource.yml and so on.
 
-Alternatively you can place all your stories into one single file.
+Alternatively you can place all your stories into one single file. Some examples:
 
-Addition
+  - name: "001/2: Create new User"
+    request:
+      headers:
+        Content-Type: 'application/json'
+      path:        '/users/duffyduck'
+      method:      'PUT'
+      body:
+        watchlist:
+        - m1035
+        - m2087
+        blacklist:
+        - m1554
+        - m2981
+        skiplist:
+        - m1590
+        - m1056
+        ratings:
+          m12493: 4.0
+          m1875: 2.5
+          m7258: 3.0
+          m7339: 4.0
+          m3642: 5.0
+        expires_at: 2011-09-09T22:41:50+00:00
+    response_expectation:
+      status_code: 201
+      headers:
+        Last-Modified:    /.*/
+      body:
+        username:       'duffyduck'
+        watchlist:
+        - m1035
+        - m2087
+        blacklist:
+        - m1554
+        - m2981
+        skiplist:
+        - m1590
+        - m1056
+        ratings:
+          m12493: 4.0
+          m1875: 2.5
+          m7258: 3.0
+          m7339: 4.0
+          m3642: 5.0
+        fsk:            "18"
+
+This testcase creates a PUT request for the resource /users/duffyduck. It creates a JSON body containung 4 arrays - the users watchlist, blacklist, skiplist and his ratings. These arrays include the values itself.
+
+*name*
+
+The name of you testcase should be unique. Best practise is to give it an unique identifying number. Reason: The name of the testcase is used to generate an identifying hash for the cSV generation. If you do not need the CSV functionality, don't mind.
+
+*request*
+
+In the request section you define everthing that is needed to generate you HTTP(s) request to your api.
+
+*headers*
+
+In the headers section you can declare every header as a key value pair, the value should be a string and such quoted with " or '. If you query a Rails application you should not forget the Content-Type: 'application/json' and you could also mention Accept: 'application/json' as well as any other header key that may be important for your application to query.
+
+*path*
+
+The path specifies the exact path of the recent resource to query. Keep in mind that this path is added to the protocol+domain+namespace so that the above path for example evaluates to:
+
+  http://staging.moviepilot.de/api1v0/users/duffyduck
+
+*method*
+
+Here you have to mention the HTTP method that is used for your request. Today only typical RESTful actions are supported, these are:
+
+  * POST
+  * GET
+  * PUT
+  * DELETE
+
+*body*
+
+In the body you specify the content you want to send to your API. You can create you nested data in shape of hashes, arrays and single values according to the YAML standard. If you get stuck with it, have a look here: yaml.org (http://www.yaml.org/spec/)
+
+*response_expectation*
+
+When it comes to the response expectation it gets intereresting. The todays integrated plugins allow several checks. These include:
+
+* correctnes of the response body format as JSON
+* the HTTP response code
+* the response header definition
+* the response body definition
+* some chaching related time checks
+
+Header and body definition checks are very interesting, cause they follow a special strategy. Response bodies can become very huge sometimes. And in most cases you are not interested in the whole body, you are only interested in some values to match you expectation. Same applies to the header. Apirunner provides you with exactly that. You can declare the structure of you expected body/header in YAML format and simply omit all the values you are not interested in. But KEEP IN MIND that you have to build at least as much structure that is needed to address the value you are checking.
+
+For example you response body consists of an array of hashes where there only the second hash is of interest for you, and that hash contains an array of hashes itself where the the last hash is of interest, you only had to write something like that:
+
+  responce_expectation:
+    outer_array:
+      inner_array:
+        key_to_be_checked:    "expected value"
+
+The apirunner build a tree structure from both, the response body and your expectation. Then it builds relative pathes for every leave of your expectation tree and uses XPath to find the corresponding leave in the response tree. Then it compares both and applies your matching rules.
+
+Again, have a look at the YAML specification at yaml.org(http://www.yaml.org/spec)
+
+There are three kinds of matching mechanisms:
+
+*structure match*
+
+Structure matches are written directly in YAML and look like so for example:
+
+  response_expectation:
+    body:
+      watchlist:
+      - m1035
+      - m2087
+      blacklist:
+      - m1554
+      - m2981
+      skiplist:
+      - m1590
+      - m1056
+
+*string match*
+
+String matches give you the possibility to check a certain key like so:
+
+  response_expectation:
+    body:
+      username:       'duffyduck'
+
+Strings can be quoted either using ' or ".
+
+*regular expressions*
+
+*status_code*
+
+*headers*
+
+*body*
 
 == Authors
 
