@@ -1,5 +1,5 @@
 ---
-- name: "One putted movie rating should be createable with 204 response"
+- name: "003/1: One putted movie rating should be createable with 204 response"
   request:
     headers:
       Content-Type:         'application/json'
@@ -10,7 +10,17 @@
   response_expectation:
     status_code: 204
     body:
-- name: "There should be exactly one movie rating in that profile"
+- name: "003/2: sweep"
+  priority: 5
+  request:
+    headers:
+      Content-Type:         'application/json'
+      X-Varnish-Control:    'sweep'
+    path:                   '/users/duffyduck'
+    method:                 'GET'
+  response_expectation:
+    status_code: 200
+- name: "003/2: There should be exactly one movie rating in that profile"
   request:
     headers:
       Content-Type:         'application/json'
@@ -21,7 +31,7 @@
     body:
       ratings:
         m765: 1.0
-- name: "5 putted movie ratings should be createable with 204 response"
+- name: "003/3: 5 putted movie ratings should be createable with 204 response"
   request:
     headers:
       Content-Type:         'application/json'
@@ -36,7 +46,20 @@
   response_expectation:
     status_code: 204
     body:
-- name: "There should be exactly 5 movie ratings in that profile"
+
+- name: "003/4: sweep"
+  priority: 5
+  request:
+    headers:
+      Content-Type:         'application/json'
+      X-Varnish-Control:    'sweep'
+    path:                   '/users/duffyduck'
+    method:                 'GET'
+  response_expectation:
+    status_code: 200
+
+- name: "003/5: There should be exactly 5 movie ratings in that profile"
+  wait_before_request: 5
   request:
     headers:
       Content-Type:         'application/json'
@@ -51,7 +74,8 @@
         m89: 3.0
         m91: 4.0
         m98: 5.0
-- name: "It should return a 404 in case movie ratings for a non existant user are put"
+
+- name: "003/6: It should return a 404 in case movie ratings for a non existant user are put"
   request:
     headers:
       Content-Type:         'application/json'
@@ -62,7 +86,7 @@
       m42: 2.0
   response_expectation:
     status_code: 404
-- name: "It should return a 409 in case movie ratings are put with ambigous moviemaster_id"
+- name: "003/7: It should return a 409 in case movie ratings are put with ambigous moviemaster_id"
   request:
     headers:
       Content-Type:         'application/json'
@@ -74,7 +98,7 @@
   response_expectation:
     status_code: 409
     body:
-- name: "It should return a 409 in case movie ratings are put with ambigous ratings values"
+- name: "003/8: It should return a 409 in case movie ratings are put with ambigous ratings values"
   request:
     headers:
       Content-Type:         'application/json'

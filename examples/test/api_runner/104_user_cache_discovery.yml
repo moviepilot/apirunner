@@ -1,0 +1,298 @@
+---
+- name: "104/1: create varnish test user"
+  priority: 5
+  request:
+    headers:
+      Content-Type: 'application/json'
+    path:        '/users/popeye_104'
+    method:      'PUT'
+    body:
+      username:  'popeye_104'
+      expires_at: 2011-09-09T22:41:50+00:00
+      watchlist:
+      - m367
+  response_expectation:
+    status_code: 201
+    headers:
+      Last-Modified:    /.*/
+    body:
+      username: 'popeye_104'
+
+- name: "104/2: 10 movie only ratings in preparation for item prediction check should return a 204"
+  priority: 5
+  request:
+    headers:
+      Content-Type:         'application/json'
+    path:                   '/users/popeye_104/ratings'
+    method:                 'PUT'
+    body:
+      m765: 1.0
+      m42: 2.0
+      m89: 3.0
+      m91: 4.0
+      m98: 5.0
+      m766: 1.0
+      m43: 2.0
+      m90: 3.0
+      m92: 4.0
+      m99: 5.0
+  response_expectation:
+    status_code: 204
+    body:
+
+- name: "104/3: There should return recommendations / ratings for a discovery request for genre:67 (uncached)"
+  priority: 5
+  wait_before_request: 5
+  request:
+    headers:
+      Content-Type:              'application/json'
+    path:                        '/users/popeye_104/predictions/discovery/genre:67'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    headers:
+      X-Varnish-Info: MISS
+
+
+- name: "104/4: There should return recommendations / ratings for a discovery request for genre:67 (cached)"
+  priority: 5
+  wait_before_request: 5
+  request:
+    headers:
+      Content-Type:              'application/json'
+    path:                        '/users/popeye_104/predictions/discovery/genre:67'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    headers:
+      X-Varnish-Info: HIT
+
+
+- name: "104/5: There should return exatctly 5 recommendations / ratings for a discovery request for genre:67 with per_page 5 (uncached)"
+  priority: 5
+  request:
+    headers:
+      Content-Type:              'application/json'
+    path:                        '/users/popeye_104/predictions/discovery/genre:67'
+    parameters:
+      per_page:                  5
+      page:                      1
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    headers:
+      X-Varnish-Info: MISS
+
+- name: "104/6: There should return exatctly 5 recommendations / ratings for a discovery request for genre:67 with per_page 5 (cached)"
+  priority: 5
+  request:
+    headers:
+      Content-Type:              'application/json'
+    path:                        '/users/popeye_104/predictions/discovery/genre:67'
+    parameters:
+      per_page:                  5
+      page:                      1
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    headers:
+      X-Varnish-Info: HIT
+
+- name: "104/7: There should return exactly 5 recommendations / ratings for a discovery request for time_keyword:2 with per_page 5 (uncached)"
+  priority: 5
+  request:
+    headers:
+      Content-Type:              'application/json'
+    path:                        '/users/popeye_104/predictions/discovery/time_keyword:2'
+    parameters:
+      per_page:                  5
+      page:                      1
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    headers:
+      X-Varnish-Info: MISS
+
+
+- name: "104/8: There should return exactly 5 recommendations / ratings for a discovery request for time_keyword:2 with per_page 5 (cached)"
+  priority: 5
+  request:
+    headers:
+      Content-Type:              'application/json'
+    path:                        '/users/popeye_104/predictions/discovery/time_keyword:2'
+    parameters:
+      per_page:                  5
+      page:                      1
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    headers:
+      X-Varnish-Info: HIT
+
+- name: "104/9: new ratings to invalidate discovery stuff"
+  priority: 5
+  request:
+    headers:
+      Content-Type:         'application/json'
+    path:                   '/users/popeye_104/ratings'
+    method:                 'PUT'
+    body:
+      m765: 1.0
+      m42: 2.0
+      m89: 3.0
+      m91: 4.0
+      m98: 3.0
+      m766: 1.0
+      m43: 5.0
+      m90: 3.0
+      m92: 4.0
+      m99: 5.0
+  response_expectation:
+    status_code: 204
+    body:
+
+- name: "104/10: There should return recommendations / ratings for a discovery request for genre:67 (uncached)"
+  priority: 5
+  wait_before_request: 7
+  request:
+    headers:
+      Content-Type:              'application/json'
+    path:                        '/users/popeye_104/predictions/discovery/genre:67'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    headers:
+      X-Varnish-Info: MISS
+
+
+- name: "104/11: There should return recommendations / ratings for a discovery request for genre:67 (cached)"
+  priority: 5
+  wait_before_request: 5
+  request:
+    headers:
+      Content-Type:              'application/json'
+    path:                        '/users/popeye_104/predictions/discovery/genre:67'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    headers:
+      X-Varnish-Info: HIT
+
+
+- name: "104/12: There should return exatctly 5 recommendations / ratings for a discovery request for genre:67 with per_page 5 (uncached)"
+  priority: 5
+  request:
+    headers:
+      Content-Type:              'application/json'
+    path:                        '/users/popeye_104/predictions/discovery/genre:67'
+    parameters:
+      per_page:                  5
+      page:                      1
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    headers:
+      X-Varnish-Info: MISS
+
+- name: "104/13: There should return exatctly 5 recommendations / ratings for a discovery request for genre:67 with per_page 5 (cached)"
+  priority: 5
+  request:
+    headers:
+      Content-Type:              'application/json'
+    path:                        '/users/popeye_104/predictions/discovery/genre:67'
+    parameters:
+      per_page:                  5
+      page:                      1
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    headers:
+      X-Varnish-Info: HIT
+
+- name: "104/14: There should return exactly 5 recommendations / ratings for a discovery request for time_keyword:2 with per_page 5 (uncached)"
+  priority: 5
+  request:
+    headers:
+      Content-Type:              'application/json'
+    path:                        '/users/popeye_104/predictions/discovery/time_keyword:2'
+    parameters:
+      per_page:                  5
+      page:                      1
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    headers:
+      X-Varnish-Info: MISS
+
+
+- name: "104/15: There should return exactly 5 recommendations / ratings for a discovery request for time_keyword:2 with per_page 5 (cached)"
+  priority: 5
+  request:
+    headers:
+      Content-Type:              'application/json'
+    path:                        '/users/popeye_104/predictions/discovery/time_keyword:2'
+    parameters:
+      per_page:                  5
+      page:                      1
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    headers:
+      X-Varnish-Info: HIT
+
+
+#######################################################################################################################
+- name: "104/16: delete user"
+  priority: 5
+  request:
+    path:        '/users/popeye_104'
+    method:      'DELETE'
+    body:        {}
+  response_expectation:
+    status_code: 202
+
+- name: "104/17: There should return recommendations / ratings for a discovery request for genre:67 (deleted)"
+  priority: 5
+  wait_before_request: 5  # sweeper wait
+  request:
+    headers:
+      Content-Type:              'application/json'
+    path:                        '/users/popeye_104/predictions/discovery/genre:67'
+    method:                      'GET'
+  response_expectation:
+    status_code: 404
+    headers:
+      X-Varnish-Info: MISS
+
+
+- name: "104/18: There should return exatctly 5 recommendations / ratings for a discovery request for genre:67 with per_page 5 (deleted)"
+  priority: 5
+  request:
+    headers:
+      Content-Type:              'application/json'
+    path:                        '/users/popeye_104/predictions/discovery/genre:67'
+    parameters:
+      per_page:                  5
+      page:                      1
+    method:                      'GET'
+  response_expectation:
+    status_code: 404
+    headers:
+      X-Varnish-Info: MISS
+
+- name: "104/19: There should return exactly 5 recommendations / ratings for a discovery request for time_keyword:2 with per_page 5 (deleted)"
+  priority: 5
+  request:
+    headers:
+      Content-Type:              'application/json'
+    path:                        '/users/popeye_104/predictions/discovery/time_keyword:2'
+    parameters:
+      per_page:                  5
+      page:                      1
+    method:                      'GET'
+  response_expectation:
+    status_code: 404
+    headers:
+      X-Varnish-Info: MISS
+
+

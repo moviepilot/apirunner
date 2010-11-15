@@ -1,0 +1,237 @@
+- name: "013/1: Telekom: create user for checking the fixed test rateables"
+  request:
+    headers:
+      Content-Type: 'application/json'
+    path:        '/users/teletubby'
+    method:      'PUT'
+    body:
+      expires_at: 2011-09-09T22:41:50+00:00
+  response_expectation:
+    status_code: 201
+    headers:
+      Last-Modified:    /.*/
+    body:
+      username:       'teletubby'
+- name: "013/2: Telekom: for a special Telekom testcase a new user should receive the following x rateables"
+  request:
+    path:           '/users/teletubby/rateables'
+    parameters:
+      per_page: 40
+    method:         'GET'
+    headers:
+      Content-Type: 'application/json'
+  response_expectation:
+    status_code: 200
+    headers:
+      Last-Modified: /.*/
+    body:
+      - m367
+      - m711
+      - m329
+      - m2632
+      - m342
+      - m1083
+      - m4374
+      - m1183
+      - m1074
+      - m1956
+      - m1011
+      - m4886
+      - m1409
+      - m270
+      - m997
+      - m2311
+      - m15216
+      - m5564
+      - m1056
+      - m286
+      - m3828
+      - m874
+      - m4660
+      - m3441
+      - m4692
+      - m3134
+      - m5118
+      - m229
+      - m5561
+      - m1267
+      - m434
+      - m3467
+      - m3751
+      - m4901
+      - m7056
+      - m5954
+      - m1443
+      - m4142
+      - m4802
+      - m1444
+- name: "013/3: Telekom: delete formerly created teletubby user"
+  request:
+    path:        '/users/teletubby'
+    method:      'DELETE'
+    body:        {}
+  response_expectation:
+    status_code: 202
+- name: "013/4: Telekom: create another user with 10 defined ratings for checking the fixed test recommendations afterwards"
+  request:
+    headers:
+      Content-Type: 'application/json'
+    path:        '/users/teletubby'
+    method:      'PUT'
+    body:
+      ratings:
+       "m367": 5.0
+       "m711": 5.0
+       "m329": 5.0
+       "m2632": 5.0
+       "m342": 5.0
+       "m1083": 5.0
+       "m4374": 5.0
+       "m1183": 5.0
+       "m1074": 5.0
+       "m1956": 5.0
+      expires_at: 2011-09-09T22:41:50+00:00
+  response_expectation:
+    status_code: 201
+    headers:
+      Last-Modified:    /.*/
+    body:
+      username:       'teletubby'
+- name: "013/5: sweep"
+  request:
+    path:                               "/users/teletubby/recommendations"
+    method:                             "GET"
+  response_expectation:
+    status_code:                        200
+- name: "013/6: Telekom: after defined rating there should come out well defined recommendations for Telekom test purpose"
+  request:
+    path:                               "/users/teletubby/recommendations"
+    method:                             "GET"
+  response_expectation:
+    status_code:                        200
+    body:
+    - m999033: 5
+    - m999019: 5
+    - m999020: 5
+    - m999021: 5
+    - m999018: 5
+    - m999032: 4
+    - m999031: 4
+    - m999029: 3
+    - m999030: 3
+    - m999028: 2
+    - m999027: 1
+    - m999022: 1
+    - m999026: 1
+    - m999024: 0
+    - m999025: 0
+    - m999023: 0
+- name: "013/7: Telekom: delete formerly created teletubby user"
+  request:
+    path:        '/users/teletubby'
+    method:      'DELETE'
+    body:        {}
+  response_expectation:
+    status_code: 202
+- name: "013/8: Telekom: create another user with 10 defined ratings for checking discovery movies for genre Action"
+  request:
+    headers:
+      Content-Type: 'application/json'
+    path:        '/users/teletubby'
+    method:      'PUT'
+    body:
+      ratings:
+       "m367": 5.0
+       "m711": 5.0
+       "m329": 5.0
+       "m2632": 5.0
+       "m342": 5.0
+       "m1083": 5.0
+       "m4374": 5.0
+       "m1183": 5.0
+       "m1074": 5.0
+       "m1956": 5.0
+      expires_at: 2011-09-09T22:41:50+00:00
+  response_expectation:
+    status_code: 201
+    headers:
+      Last-Modified:    /.*/
+    body:
+      username:       'teletubby'
+- name: "013/9: Telekom: after defined rating there should be some discovery output for genre Action"
+  wait_before_request: 5
+  request:
+    path:                               '/users/teletubby/predictions/discovery/genre:61'
+    method:                             "GET"
+  response_expectation:
+    status_code:                        200
+    body:
+    - m999044: 5
+    - m999043: 5
+    - m999013: 5
+    - m999014: 5
+    - m999015: 5
+    - m999016: 5
+    - m999017: 5
+    - m999018: 5
+    - m999019: 5
+    - m999021: 5
+    - m999020: 5
+    - m999012: 4.5
+    - m999042: 4
+    - m999011: 3.5
+    - m999041: 3
+    - m999010: 3
+    - m999040: 2
+    - m999038: 1.5
+    - m999037: 1.5
+    - m999039: 1.5
+    - m999008: 1.5
+    - m999009: 1.5
+    - m999005: 1
+    - m999036: 1
+    - m999035: 1
+    - m999034: 1
+    - m999007: 1
+    - m999006: 1
+    - m999022: 1
+    - m999023: 0
+    - m999024: 0
+- name: "013/10: Telekom: after defined rating there should be well defined multi item predictions for movies"
+  wait_before_request: 5
+  request:
+    path:                               '/users/teletubby/predictions/items/m999001,m999002,m999003,m999004,m999005,m999050,m999051,m999052,m999053,m999054'
+    method:                             "GET"
+  response_expectation:
+    status_code:                        200
+    body:
+    - m999001: 1
+    - m999002: 1
+    - m999003: 1
+    - m999004: 1
+    - m999005: 1
+    - m999050: 2
+    - m999051: 2
+    - m999052: 1
+    - m999053: 1
+    - m999054: 0
+- name: "013/11: Telekom: after defined rating there should be well defined multi item predictions for series"
+  wait_before_request: 5
+  request:
+    path:                               '/users/teletubby/predictions/items/s999100,s999101,s999102,s999113,s999114'
+    method:                             "GET"
+  response_expectation:
+    status_code:                        200
+    body:
+    - s999100: 0
+    - s999101: 1
+    - s999102: 1
+    - s999113: 5
+    - s999114: 5
+- name: "013/12: Telekom: delete formerly created teletubby user"
+  request:
+    path:        '/users/teletubby'
+    method:      'DELETE'
+    body:        {}
+  response_expectation:
+    status_code: 202

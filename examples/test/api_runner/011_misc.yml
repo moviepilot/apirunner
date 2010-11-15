@@ -1,5 +1,5 @@
 ---
-- name: 'Creation of the first user in a double creation test should succeed'
+- name: "011/1: Creation of the first user in a double creation test should succeed"
   request:
     headers:
       Content-Type: 'application/json'
@@ -44,7 +44,7 @@
         m7339: 4.0
         m3642: 5.0
       fsk:            "18"
-- name: 'Creation of the same user directly after first creation attempt should succeed too'
+- name: "011/2: Creation of the same user directly after first creation attempt should succeed too"
   wait_before_request: 5
   request:
     headers:
@@ -72,7 +72,7 @@
     status_code: 204
     headers:
       Last-Modified:    /.*/
-- name: 'Creation of the same user for a third time should succeed too'
+- name: "011/3: Creation of the same user for a third time should succeed too"
   wait_before_request: 5
   request:
     headers:
@@ -100,14 +100,14 @@
     status_code: 204
     headers:
       Last-Modified:    /.*/
-- name: 'Deletion of twice created user roadrunner should succeed'
+- name: "011/4: Deletion of twice created user roadrunner should succeed"
   request:
     path:        '/users/roadrunner'
     method:      'DELETE'
     body:        {}
   response_expectation:
     status_code: 202
-- name: 'User roadrunner should not be existant any more after deletion'
+- name: "011/5: User roadrunner should not be existant any more after deletion"
   request:
     path:          '/users/roadrunner'
     method:        'GET'

@@ -1,5 +1,5 @@
 ---
-- name: 'Create new adult user duffydad'
+- name: "010/1: Create new adult user duffydad"
   request:
     headers:
       Content-Type: 'application/json'
@@ -45,7 +45,7 @@
         m7339: 4.0
         m3642: 5.0
       fsk:            "18"
-- name: 'Expect the number of movies of genre horror for adult duffydad to be between 33 and 200'
+- name: "010/2: Expect the number of movies of genre horror for adult duffydad to be between 33 and 200"
   wait_before_request: 5
   request:
     headers:
@@ -55,7 +55,7 @@
   response_expectation:
     status_code:        200
     body:               /^\[(\{"m\d+":[0-5]\.[05]\},){33,199}\{"m\d+":[0-5]\.[05]\}\]$/
-- name: 'Create new non-adult user duffykid with ratings'
+- name: "010/3: Create new non-adult user duffykid with ratings"
   request:
     headers:
       Content-Type: 'application/json'
@@ -63,7 +63,10 @@
     method:      'PUT'
     body:
       username:  'duffykid'
-      fsk: "0"
+# FSK-GATE CRAP
+      #fsk: "0"
+      fsk: "18"
+# FSK-GATE CRAP
       ratings:
         m12493: 4.0
         m1875: 2.5
@@ -83,8 +86,12 @@
         m7258: 3.0
         m7339: 4.0
         m3642: 5.0
-      fsk:            "0"
-- name: 'Expect the number of movies of genre horror for non-adult duffykid to be between 0 and 33'
+# FSK-GATE CRAP
+      #fsk:            "0"
+      fsk:            "18"
+# FSK-GATE CRAP
+- name: '010/4: Expect the number of movies of genre horror for non-adult duffykid to be between 0 and 170'
+  priority: 2
   wait_before_request: 5
   request:
     headers:
@@ -93,8 +100,9 @@
     method:             'GET'
   response_expectation:
     status_code:        200
-    body:               /^\[(\{"m\d+":[0-5]\.[05]\},){0,33}\{"m\d+":[0-5]\.[05]\}\]$/
-- name: 'Create new FSK Check User'
+    body:               /^\[(\{"m\d+":[0-5]\.[05]\},){0,169}\{"m\d+":[0-5]\.[05]\}\]$/
+
+- name: "010/5: Create new FSK Check User"
   request:
     headers:
       Content-Type: 'application/json'
@@ -102,7 +110,10 @@
     method:      'PUT'
     body:
       username:  'teletubby'
-      fsk: 12
+# FSK-GATE CRAP
+      #fsk: 12
+      fsk: 18
+# FSK-GATE CRAP
       expires_at: 2011-09-09T22:41:50+00:00
   response_expectation:
     status_code: 201
@@ -110,8 +121,11 @@
       Last-Modified:    /.*/
     body:
       username:       'teletubby'
-      fsk:             12
-- name: "We put one rating in expectation that fsk 12 does not change"
+# FSK-GATE CRAP
+      #fsk:             12
+      fsk:             18
+# FSK-GATE CRAP
+- name: "010/6: We put one rating in expectation that fsk 12 does not change"
   request:
     headers:
       Content-Type:         'application/json'
@@ -122,7 +136,7 @@
   response_expectation:
     status_code: 204
     body:
-- name: 'Check users fsk after rating - should be still 12'
+- name: "010/7: Check users fsk after rating - should be still 12"
   request:
     headers:
       Content-Type: 'application/json'
@@ -134,8 +148,11 @@
       Last-Modified:    /.*/
     body:
       username:       'teletubby'
-      fsk:            "12"
-- name: "We put another rating in expectation that fsk 12 does not change"
+# FSK-GATE CRAP
+      #fsk:            "12"
+      fsk:            "18"
+# FSK-GATE CRAP
+- name: "010/8: We put another rating in expectation that fsk 12 does not change"
   request:
     headers:
       Content-Type:         'application/json'
@@ -146,7 +163,7 @@
   response_expectation:
     status_code: 204
     body:
-- name: 'Check users fsk after rating - should be still 12'
+- name: "010/9: Check users fsk after rating - should be still 12"
   request:
     headers:
       Content-Type: 'application/json'
@@ -158,8 +175,11 @@
       Last-Modified:    /.*/
     body:
       username:       'teletubby'
-      fsk:            "12"
-- name: 'Delete fsk testuser'
+# FSK-GATE CRAP
+      #fsk:            "12"
+      fsk:            "18"
+# FSK-GATE CRAP
+- name: "010/10: Delete fsk testuser"
   request:
     path:        '/users/teletubby'
     method:      'DELETE'

@@ -1,0 +1,327 @@
+---
+- name: "105/1: sweep url to be sure"
+  priority: 5
+  request:
+    headers:
+      Content-Type:               'application/json'
+      X-Varnish-Control:          'sweep'
+    path:                        '/discovery/genre:1'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:
+      status: 200
+      message: sweeped
+
+- name: "105/2: Unpersonalized discovery: cache miss"
+  priority: 6
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/discovery/genre:1'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    headers:
+      X-Varnish-Info:            'MISS'
+      Cache-Control[s-maxage]:   "@next_occurence_of 3am"
+
+- name: "105/3: Unpersonalized discovery: cache miss"
+  priority: 6
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/discovery/genre:1'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    headers:
+      X-Varnish-Info:            'HIT'
+      Cache-Control[s-maxage]:   "@next_occurence_of 3am"
+
+- name: "105/4: sweep url again"
+  priority: 5
+  request:
+    headers:
+     Content-Type:               'application/json'
+     X-Varnish-Control:          'sweep'
+    path:                        '/discovery/genre:1'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:
+      status: 200
+      message: sweeped
+
+- name: "105/5: sweep url to be sure"
+  priority: 5
+  request:
+    headers:
+      Content-Type:               'application/json'
+      X-Varnish-Control:          'sweep'
+    path:                        '/discovery/emotion_keyword:7'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:
+      status: 200
+      message: sweeped
+
+- name: "105/6: Unpersonalized discovery: cache miss"
+  priority: 6
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/discovery/emotion_keyword:7'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    headers:
+      X-Varnish-Info:            'MISS'
+      Cache-Control[s-maxage]:   "@next_occurence_of 3am"
+
+- name: "105/7: Unpersonalized discovery: cache miss"
+  priority: 6
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/discovery/emotion_keyword:7'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    headers:
+      X-Varnish-Info:            'HIT'
+      Cache-Control[s-maxage]:   "@next_occurence_of 3am"
+
+- name: "105/8: sweep url again"
+  priority: 5
+  request:
+    headers:
+     Content-Type:               'application/json'
+     X-Varnish-Control:          'sweep'
+    path:                        '/discovery/emotion_keyword:7'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:
+      status: 200
+      message: sweeped
+
+- name: "105/9: sweep url to be sure"
+  priority: 5
+  request:
+    headers:
+      Content-Type:               'application/json'
+      X-Varnish-Control:          'sweep'
+    path:                        '/discovery/intended_audience:13'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:
+      status: 200
+      message: sweeped
+
+- name: "105/10: Unpersonalized discovery: cache miss"
+  priority: 6
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/discovery/intended_audience:13'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    headers:
+      X-Varnish-Info:            'MISS'
+      Cache-Control[s-maxage]:   "@next_occurence_of 3am"
+
+- name: "105/11: Unpersonalized discovery: cache miss"
+  priority: 6
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/discovery/intended_audience:13'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    headers:
+      X-Varnish-Info:            'HIT'
+      Cache-Control[s-maxage]:   "@next_occurence_of 3am"
+
+- name: "105/12: sweep url again"
+  priority: 5
+  request:
+    headers:
+     Content-Type:               'application/json'
+     X-Varnish-Control:          'sweep'
+    path:                        '/discovery/intended_audience:13'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:
+      status: 200
+      message: sweeped
+
+
+- name: "105/13: sweep url to be sure"
+  priority: 5
+  request:
+    headers:
+      Content-Type:               'application/json'
+      X-Varnish-Control:          'sweep'
+    path:                        '/discovery/time_keyword:198'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:
+      status: 200
+      message: sweeped
+
+- name: "105/14: Unpersonalized discovery: cache miss"
+  priority: 6
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/discovery/time_keyword:198'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    headers:
+      X-Varnish-Info:            'MISS'
+      Cache-Control[s-maxage]:   "@next_occurence_of 3am"
+
+- name: "105/15: Unpersonalized discovery: cache miss"
+  priority: 6
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/discovery/time_keyword:198'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    headers:
+      X-Varnish-Info:            'HIT'
+      Cache-Control[s-maxage]:   "@next_occurence_of 3am"
+
+- name: "105/16: sweep url again"
+  priority: 5
+  request:
+    headers:
+     Content-Type:               'application/json'
+     X-Varnish-Control:          'sweep'
+    path:                        '/discovery/time_keyword:198'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:
+      status: 200
+      message: sweeped
+
+- name: "105/17: sweep url to be sure"
+  priority: 5
+  request:
+    headers:
+      Content-Type:               'application/json'
+      X-Varnish-Control:          'sweep'
+    path:                        '/discovery/place_keyword:2'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:
+      status: 200
+      message: sweeped
+
+- name: "105/18: Unpersonalized discovery: cache miss"
+  priority: 6
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/discovery/place_keyword:2'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    headers:
+      X-Varnish-Info:            'MISS'
+      Cache-Control[s-maxage]:   "@next_occurence_of 3am"
+
+- name: "105/19: Unpersonalized discovery: cache miss"
+  priority: 6
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/discovery/place_keyword:2'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    headers:
+      X-Varnish-Info:            'HIT'
+      Cache-Control[s-maxage]:   "@next_occurence_of 3am"
+
+- name: "105/20: sweep url again"
+  priority: 5
+  request:
+    headers:
+     Content-Type:               'application/json'
+     X-Varnish-Control:          'sweep'
+    path:                        '/discovery/place_keyword:2'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:
+      status: 200
+      message: sweeped
+
+
+- name: "105/21: sweep url to be sure"
+  priority: 5
+  request:
+    headers:
+      Content-Type:               'application/json'
+      X-Varnish-Control:          'sweep'
+    path:                        '/discovery/plot_keyword:2'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:
+      status: 200
+      message: sweeped
+
+- name: "105/22: Unpersonalized discovery: cache miss"
+  priority: 6
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/discovery/plot_keyword:2'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    headers:
+      X-Varnish-Info:            'MISS'
+      Cache-Control[s-maxage]:   "@next_occurence_of 3am"
+
+- name: "105/23: Unpersonalized discovery: cache miss"
+  priority: 6
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/discovery/plot_keyword:2'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    headers:
+      X-Varnish-Info:            'HIT'
+      Cache-Control[s-maxage]:   "@next_occurence_of 3am"
+
+- name: "105/24: sweep url again"
+  priority: 5
+  request:
+    headers:
+     Content-Type:               'application/json'
+     X-Varnish-Control:          'sweep'
+    path:                        '/discovery/plot_keyword:2'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:
+      status: 200
+      message: sweeped
+

@@ -1,4 +1,4 @@
-- name: "10 movie only ratings in preparation for item prediction check should return a 204"
+- name: "007/1: 10 movie only ratings in preparation for item prediction check should return a 204"
   request:
     headers:
       Content-Type:         'application/json'
@@ -18,7 +18,7 @@
   response_expectation:
     status_code: 204
     body:
-- name: "There should be a prediction for a certain movie item"
+- name: "007/2: There should be a prediction for a certain movie item"
   request:
     headers:
       Content-Type:            'application/json'
@@ -27,7 +27,7 @@
   response_expectation:
     status_code: 200
     body:                    /^\[{"m\d+":[0-5]\.[05]}\]$/
-- name: "There should occure a 404 if a prediction for a certain movie item is requested for an unknown user"
+- name: "007/3: There should occure a 404 if a prediction for a certain movie item is requested for an unknown user"
   request:
     headers:
       Content-Type:            'application/json'
@@ -36,7 +36,7 @@
   response_expectation:
     status_code: 404
     body:
-- name: "10 series only ratings in preparation for item prediction check should return a 204"
+- name: "007/4: 10 series only ratings in preparation for item prediction check should return a 204"
   request:
     headers:
       Content-Type:         'application/json'
@@ -56,7 +56,7 @@
   response_expectation:
     status_code: 204
     body:
-- name: "There should be a prediction for a certain series item"
+- name: "007/5: There should be a prediction for a certain series item"
   request:
     headers:
       Content-Type:            'application/json'
@@ -65,7 +65,7 @@
   response_expectation:
     status_code: 200
     body:                    /^\[{"[s]\d+":[0-5]\.[05]}\]$/
-- name: "There should occure a 404 if a prediction for a certain series item is requested for an unknown user"
+- name: "007/6: There should occure a 404 if a prediction for a certain series item is requested for an unknown user"
   request:
     headers:
       Content-Type:            'application/json'
@@ -74,7 +74,7 @@
   response_expectation:
     status_code: 404
     body:
-- name: "10 mixed movie and series ratings in preparation for item prediction check should return a 204"
+- name: "007/7: 10 mixed movie and series ratings in preparation for item prediction check should return a 204"
   request:
     headers:
       Content-Type:         'application/json'
@@ -94,7 +94,7 @@
   response_expectation:
     status_code: 204
     body:
-- name: "There should be a prediction for a certain movie item"
+- name: "007/8: There should be a prediction for a certain movie item"
   request:
     headers:
       Content-Type:            'application/json'
@@ -103,7 +103,7 @@
   response_expectation:
     status_code: 200
     body:                    /^\[{"m\d+":[0-5]\.[05]}\]$/
-- name: "There should be a prediction for a certain series item"
+- name: "007/9: There should be a prediction for a certain series item"
   request:
     headers:
       Content-Type:            'application/json'
@@ -112,7 +112,7 @@
   response_expectation:
     status_code: 200
     body:                    /^\[{"s\d+":[0-5]\.[05]}\]$/
-- name: "There should occure a 404 if a prediction for a certain movie item is requested for an unknown user"
+- name: "007/10: There should occure a 404 if a prediction for a certain movie item is requested for an unknown user"
   request:
     headers:
       Content-Type:            'application/json'
@@ -121,7 +121,7 @@
   response_expectation:
     status_code: 404
     body:
-- name: "There should occure a 404 if a prediction for a certain series item is requested for an unknown user"
+- name: "007/11: There should occure a 404 if a prediction for a certain series item is requested for an unknown user"
   request:
     headers:
       Content-Type:            'application/json'
@@ -130,7 +130,7 @@
   response_expectation:
     status_code: 404
     body:
-- name: "There should come out 5 predictions for a multi item predictions request with 5 movies"
+- name: "007/12: There should come out 5 predictions for a multi item predictions request with 5 movies"
   request:
     headers:
       Content-Type:            'application/json'
@@ -139,7 +139,7 @@
   response_expectation:
     status_code:               200
     body:                      /^\[(\{"m\d+":[0-5]\.[05]\},){4}\{"m\d+":[0-5]\.[05]\}\]$/
-- name: "There should come out 10 predictions for a multi item predictions request with 10 movies"
+- name: "007/13: There should come out 10 predictions for a multi item predictions request with 10 movies"
   request:
     headers:
       Content-Type:            'application/json'
@@ -148,7 +148,7 @@
   response_expectation:
     status_code:               200
     body:                      /^\[(\{"m\d+":[0-5]\.[05]\},){9}\{"m\d+":[0-5]\.[05]\}\]$/
-- name: "There should come out 50 predictions for a multi item predictions request with 50 movies"
+- name: "007/14: There should come out 50 predictions for a multi item predictions request with 50 movies"
   request:
     headers:
       Content-Type:            'application/json'
@@ -157,33 +157,7 @@
   response_expectation:
     status_code:               200
     body:                      /^\[(\{"m\d+":[0-5]\.[05]\},){49}\{"m\d+":[0-5]\.[05]\}\]$/
-- name: "There should come out 10 paginated predictions for a multi item predictions request with 50 movies and per_page=10 as well as page=1"
-  priority: 3
-  request:
-    headers:
-      Content-Type:            'application/json'
-    path:                      '/users/duffyduck/predictions/items/m2336,m4941,m3962,m2659,m3053,m875,m2303,m7051,m6936,m5228,m3147,m2182,m3679,m17909,m4689,m4780,m8454,m1805,m11742,m5974,m4380,m5891,m5833,m10629,m9984,m6203,m2743,m2284,m18272,m1804,m6188,m7509,m4269,m10354,m17785,m356,m5765,m2161,m3984,m20884,m5393,m4359,m17717,m5336,m11285,m2632,m4391,m4198,m2195,m5279'
-    parameters:
-      per_page:                10
-      page:                    1
-    method:                    'GET'
-  response_expectation:
-    status_code:               200
-    body:                      /^\[(\{"m\d+":[0-5]\.[05]\},){9}\{"m\d+":[0-5]\.[05]\}\]$/
-- name: "There should come out another 10 paginated predictions for a multi item predictions request with 50 movies per_page=10 as well as page=2"
-  priority: 3
-  request:
-    headers:
-      Content-Type:            'application/json'
-    path:                      '/users/duffyduck/predictions/items/m2336,m4941,m3962,m2659,m3053,m875,m2303,m7051,m6936,m5228,m3147,m2182,m3679,m17909,m4689,m4780,m8454,m1805,m11742,m5974,m4380,m5891,m5833,m10629,m9984,m6203,m2743,m2284,m18272,m1804,m6188,m7509,m4269,m10354,m17785,m356,m5765,m2161,m3984,m20884,m5393,m4359,m17717,m5336,m11285,m2632,m4391,m4198,m2195,m5279'
-    parameters:
-      per_page:                10
-      page:                    2
-    method:                    'GET'
-  response_expectation:
-    status_code:               200
-    body:                      /^\[(\{"m\d+":[0-5]\.[05]\},){9}\{"m\d+":[0-5]\.[05]\}\]$/
-- name: "There should return a 404 if multi item predictions are requested for a non existant user"
+- name: "007/15: There should return a 404 if multi item predictions are requested for a non existant user"
   request:
     headers:
       Content-Type:            'application/json'
@@ -192,7 +166,7 @@
   response_expectation:
     status_code:               404
     body:
-- name: 'Creation of a testuser that does not rate but request predictions should be successful'
+- name: "007/16: Creation of a testuser that does not rate but request predictions should be successful"
   request:
     headers:
       Content-Type: 'application/json'
@@ -207,7 +181,7 @@
       Last-Modified:    /.*/
     body:
       username:       'wileecoyote'
-- name: "There should be no content as well as a 204 in case a user without ratings requests multi item predictions"
+- name: "007/17: There should be no content as well as a 204 in case a user without ratings requests multi item predictions"
   request:
     headers:
       Content-Type:             'application/json'
@@ -216,21 +190,21 @@
   response_expectation:
     status_code:                 204
     body:
-- name: 'Delete the testuser without ratings should be successful'
+- name: "007/18: Delete the testuser without ratings should be successful"
   request:
     path:        '/users/wileecoyote'
     method:      'DELETE'
     body:        {}
   response_expectation:
     status_code: 202
-- name: 'The testuser without ratings who requested predictions anyway should not exist anymore now'
+- name: "007/19: The testuser without ratings who requested predictions anyway should not exist anymore now"
   request:
     path:          '/users/wileecoyote'
     method:        'GET'
     body:          {}
   response_expectation:
     status_code: 404
-- name: "There should come out 5 predictions for a multi item predictions request with 5 series"
+- name: "007/20: There should come out 5 predictions for a multi item predictions request with 5 series"
   request:
     headers:
       Content-Type:            'application/json'
@@ -239,7 +213,7 @@
   response_expectation:
     status_code:               200
     body:                      /^\[(\{"s\d+":[0-5]\.[05]\},){4}\{"s\d+":[0-5]\.[05]\}\]$/
-- name: "There should come out 10 predictions for a multi item predictions request with 10 series"
+- name: "007/21: There should come out 10 predictions for a multi item predictions request with 10 series"
   request:
     headers:
       Content-Type:            'application/json'
@@ -248,7 +222,7 @@
   response_expectation:
     status_code:               200
     body:                      /^\[(\{"s\d+":[0-5]\.[05]\},){9}\{"s\d+":[0-5]\.[05]\}\]$/
-- name: "There should come out 50 predictions for a multi item predictions request with 50 series"
+- name: "007/22: There should come out 50 predictions for a multi item predictions request with 50 series"
   request:
     headers:
       Content-Type:            'application/json'
@@ -257,7 +231,7 @@
   response_expectation:
     status_code:               200
     body:                      /^\[(\{"s\d+":[0-5]\.[05]\},){49}\{"s\d+":[0-5]\.[05]\}\]$/
-- name: "There should come out 5 predictions for mixed multi item predictions request with 3 movies and 2 series"
+- name: "007/23: There should come out 5 predictions for mixed multi item predictions request with 3 movies and 2 series"
   request:
     headers:
       Content-Type:            'application/json'
@@ -266,7 +240,7 @@
   response_expectation:
     status_code:               200
     body:                      /^\[(\{"[sm]\d+":[0-5]\.[05]\},){4}\{"[sm]\d+":[0-5]\.[05]\}\]$/
-- name: "There should come out 10 predictions for mixed  multi item predictions request with 5 movies and 5 series"
+- name: "007/24: There should come out 10 predictions for mixed  multi item predictions request with 5 movies and 5 series"
   request:
     headers:
       Content-Type:            'application/json'
@@ -275,7 +249,7 @@
   response_expectation:
     status_code:               200
     body:                      /^\[(\{"[sm]\d+":[0-5]\.[05]\},){9}\{"[sm]\d+":[0-5]\.[05]\}\]$/
-- name: "There should come out 50 predictions for mixed multi item predictions request with 25 movies and 25 series"
+- name: "007/25: There should come out 50 predictions for mixed multi item predictions request with 25 movies and 25 series"
   request:
     headers:
       Content-Type:            'application/json'

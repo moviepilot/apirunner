@@ -1,5 +1,5 @@
 ---
-- name: 'Create new Basic User'
+- name: "001/1: Create new Basic User"
   request:
     headers:
       Content-Type: 'application/json'
@@ -14,7 +14,7 @@
       Last-Modified:    /.*/
     body:
       username:       'duffybasic'
-- name: 'Create new User'
+- name: "001/2: Create new User"
   request:
     headers:
       Content-Type: 'application/json'
@@ -60,7 +60,7 @@
         m7339: 4.0
         m3642: 5.0
       fsk:            "18"
-- name: 'Update existing User - Update watchlist'
+- name: "001/3: Update existing User - Update watchlist"
   request:
     headers:
       Content-Type: 'application/json'
@@ -72,7 +72,7 @@
   response_expectation:
     status_code: 204
     body:
-- name: 'Check User FSK,Watchlist'
+- name: "001/4: Check User FSK,Watchlist"
   request:
     headers:
       Content-Type: 'application/json'
@@ -100,7 +100,7 @@
         m7258: 3.0
         m7339: 4.0
         m3642: 5.0
-- name: 'Set 10 Ratings'
+- name: "001/5: Set 10 Ratings"
   request:
     headers:
       Content-Type: 'application/json'
@@ -118,7 +118,20 @@
     status_code: 204
     headers:
       Last-Modified:    /.*/
-- name: 'Check User Ratings Update'
+
+- name: "001/6: sweep before request"
+  priority: 5
+  request:
+    headers:
+      Content-Type: 'application/json'
+      X-Varnish-Control: 'sweep'
+    path:        '/users/duffyduck'
+    method:      'GET'
+  response_expectation:
+    status_code: 200
+
+- name: "001/7: Check User Ratings Update"
+  wait_before_request: 5
   request:
     headers:
       Content-Type: 'application/json'
@@ -139,17 +152,9 @@
         "m12493": "4.0"
         "m1875": "5.0"
         "m7258": "2.5"
-- name: 'User creation should fail on bogus characters in username'
-  priority: 3
-  request:
-    headers:
-      Content-Type: 'application/json'
-    path:        '/users/duffyduck_fix_me'
-    method:      'PUT'
-    body:
-  response_expectation:
-    status_code: 409
-- name: 'User creation should fail on wrong fsk'
+
+
+- name: "001/8: User creation should fail on wrong fsk"
   request:
     headers:
       Content-Type: 'application/json'
@@ -160,7 +165,7 @@
      fsk: 2000000
   response_expectation:
     status_code: 409
-- name: 'User creation should fail on wrong expiration_date'
+- name: "001/9: User creation should fail on wrong expiration_date"
   request:
     headers:
       Content-Type: 'application/json'

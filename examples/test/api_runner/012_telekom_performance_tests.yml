@@ -1,5 +1,5 @@
 ---
-- name: "Telekom: create user for extended error report testing"
+- name: "012/1: Telekom: create user for extended error report testing"
   request:
     headers:
       Content-Type: 'application/json'
@@ -13,7 +13,7 @@
       Last-Modified:    /.*/
     body:
       username:       'teletubby'
-- name: 'Update existing user - update watchlist including VOD movies'
+- name: "012/2: Update existing user - update watchlist including VOD movies"
   request:
     headers:
       Content-Type: 'application/json'
@@ -33,7 +33,7 @@
   response_expectation:
     status_code: 204
     body:
-- name: 'Check users watchlist afterwards - should include VOD movies'
+- name: "012/3: Check users watchlist afterwards - should include VOD movies"
   request:
     headers:
       Content-Type: 'application/json'
@@ -56,7 +56,7 @@
       - m9058
       - m4616
       - m1766
-- name: 'Update existing user - update skiplist including VOD movies'
+- name: "012/4: Update existing user - update skiplist including VOD movies"
   request:
     headers:
       Content-Type: 'application/json'
@@ -67,16 +67,17 @@
     - m9251
     - m5397
     - m3452
-    - m26802
+    - m6552
     - m6782
     - m9656
     - m2392
     - m4666
-    - m29020
+    - m1766
   response_expectation:
     status_code: 204
     body:
-- name: 'Check users skiplist afterwards - should include VOD movies'
+- name: "012/5: Check users skiplist afterwards - should include VOD movies"
+  wait_before_request: 5
   request:
     headers:
       Content-Type: 'application/json'
@@ -99,7 +100,7 @@
       - m2392
       - m4666
       - m29020
-- name: 'Update existing user - update blacklist including VOD movies'
+- name: "012/6: Update existing user - update blacklist including VOD movies"
   request:
     headers:
       Content-Type: 'application/json'
@@ -114,12 +115,13 @@
     - m14219
     - m3536
     - m5285
-    - m25041
+    - m5761
     - m9989
   response_expectation:
     status_code: 204
     body:
-- name: 'Check Users blacklist afterwards - should include VOD movies'
+- name: "012/7: Check Users blacklist afterwards - should include VOD movies"
+  wait_before_request: 5
   request:
     headers:
       Content-Type: 'application/json'
@@ -140,9 +142,9 @@
       - m14219
       - m3536
       - m5285
-      - m25041
+      - m5761
       - m9989
-- name: "Performance: 50 putted movie ratings should be createable reasonably fast"
+- name: "012/8: Performance: 50 putted movie ratings should be createable reasonably fast"
   priority: 2
   request:
     headers:
@@ -204,7 +206,7 @@
     runtime: 0.5
     status_code: 204
     body:
-- name: "Performance: 100 putted movie ratings should be createable reasonably fast"
+- name: "012/9: Performance: 100 putted movie ratings should be createable reasonably fast"
   priority: 2
   request:
     headers:
@@ -316,7 +318,7 @@
     runtime: 0.5
     status_code: 204
     body:
-- name: "Performance: 400 putted movie ratings should be createable reasonably fast"
+- name: "012/10: Performance: 400 putted movie ratings should be createable reasonably fast"
   priority: 2
   request:
     headers:
@@ -728,14 +730,14 @@
     runtime: 0.5
     status_code: 204
     body:
-- name: 'Telekom: delete formerly created teletubby user'
+- name: "012/11: Telekom: delete formerly created teletubby user"
   request:
     path:        '/users/teletubby'
     method:      'DELETE'
     body:        {}
   response_expectation:
     status_code: 202
-- name: 'Create new user - sending watchlist including VOD movies'
+- name: "012/12: Create new user - sending watchlist including VOD movies"
   request:
     headers:
       Content-Type: 'application/json'
@@ -763,11 +765,11 @@
       - m7667
       - m13388
       ratings:
-        m26527: 4.0
+        m2434: 4.0
         m1958: 2.5
-        m22378: 3.0
+        m5287: 3.0
         m5527: 4.0
-        m22396: 5.0
+        m7936: 5.0
       expires_at: 2011-09-09T22:41:50+00:00
   response_expectation:
     status_code: 201
@@ -780,7 +782,7 @@
       - m9544
       - m4881
       - m4786
-      - m21199
+      - m1958
       - m8988
       - m6341
       - m12179
@@ -795,13 +797,25 @@
       - m7667
       - m13388
       ratings:
-        m26527: 4.0
+        m2434: 4.0
         m1958: 2.5
-        m22378: 3.0
+        m5287: 3.0
         m5527: 4.0
-        m22396: 5.0
+        m7936: 5.0
       fsk:            "18"
-- name: 'Check users watchlist afterwards - should include VOD movies'
+
+- name: "012/13: sweep before request"
+  priority: 5
+  request:
+    headers:
+      Content-Type: 'application/json'
+      X-Varnish-Control: 'sweep'
+    path:        '/users/teletubby'
+    method:      'GET'
+  response_expectation:
+    status_code: 200
+
+- name: "012/14: Check users watchlist afterwards - should include VOD movies"
   request:
     headers:
       Content-Type: 'application/json'
@@ -818,20 +832,20 @@
       - m9544
       - m4881
       - m4786
-      - m21199
+      - m1958
       - m8988
       - m6341
       - m12179
       - m7861
       - m4482
-- name: 'Telekom: delete formerly created teletubby user'
+- name: "012/15: Telekom: delete formerly created teletubby user"
   request:
     path:        '/users/teletubby'
     method:      'DELETE'
     body:        {}
   response_expectation:
     status_code: 202
-- name: 'Create new user - sending skiplist including VOD movies'
+- name: "012/16: Create new user - sending skiplist including VOD movies"
   request:
     headers:
       Content-Type: 'application/json'
@@ -893,7 +907,22 @@
         m14649: 5.0
         m14677: 2.5
       fsk:            "18"
-- name: 'Check users skiplist afterwards - should include VOD movies'
+
+- name: "012/17: sweep before testing"
+  priority: 5
+  request:
+    headers:
+      Content-Type:         'application/json'
+      X-Varnish-Control:    'sweep'
+    path:                   '/users/teletubby'
+    method:                 'GET'
+    body:
+  response_expectation:
+    status_code: 200
+    body:
+
+
+- name: "012/18: Check users skiplist afterwards - should include VOD movies"
   request:
     headers:
       Content-Type: 'application/json'
@@ -923,7 +952,7 @@
     body:        {}
   response_expectation:
     status_code: 202
-- name: 'Create new user - sending blacklist including VOD movies'
+- name: "012/19: Create new user - sending blacklist including VOD movies"
   request:
     headers:
       Content-Type: 'application/json'
@@ -985,7 +1014,8 @@
         m8611: 5.0
         m1768: 2.5
       fsk:            "18"
-- name: 'Check users blacklist afterwards - should include VOD movies'
+- name: "012/20: Check users blacklist afterwards - should include VOD movies"
+  wait_before_request: 5
   request:
     headers:
       Content-Type: 'application/json'
@@ -1008,14 +1038,14 @@
       - m2923
       - m5529
       - m5530
-- name: 'Telekom: delete formerly created teletubby user'
+- name: "012/21: Telekom: delete formerly created teletubby user"
   request:
     path:        '/users/teletubby'
     method:      'DELETE'
     body:        {}
   response_expectation:
     status_code: 202
-- name: "Telekom: create user with 50 initial ratings"
+- name: "012/22: Telekom: create user with 50 initial ratings"
   priority: 2
   request:
     headers:
@@ -1082,7 +1112,7 @@
       Last-Modified:    /.*/
     body:
       username:       'teletubby'
-- name: 'Telekom: delete formerly created teletubby user'
+- name: "012/23: Telekom: delete formerly created teletubby user"
   priority: 2
   request:
     path:        '/users/teletubby'
@@ -1090,7 +1120,7 @@
     body:        {}
   response_expectation:
     status_code: 202
-- name: "Telekom: create user with 100 initial ratings"
+- name: "012/24: Telekom: create user with 100 initial ratings"
   priority: 2
   request:
     headers:
@@ -1207,7 +1237,7 @@
       Last-Modified:    /.*/
     body:
       username:       'teletubby'
-- name: 'Telekom: delete formerly created teletubby user'
+- name: "012/25: Telekom: delete formerly created teletubby user"
   priority: 2
   request:
     path:        '/users/teletubby'
@@ -1215,7 +1245,7 @@
     body:        {}
   response_expectation:
     status_code: 202
-- name: "Telekom: create user with 400 initial ratings"
+- name: "012/26: Telekom: create user with 400 initial ratings"
   priority: 2
   request:
     headers:
@@ -1632,197 +1662,8 @@
       Last-Modified:    /.*/
     body:
       username:       'teletubby'
-- name: 'Telekom: delete formerly created teletubby user'
+- name: "012/27: Telekom: delete formerly created teletubby user"
   priority: 2
-  request:
-    path:        '/users/teletubby'
-    method:      'DELETE'
-    body:        {}
-  response_expectation:
-    status_code: 202
-- name: "Telekom: create user for checking the fixed test rateables"
-  request:
-    headers:
-      Content-Type: 'application/json'
-    path:        '/users/teletubby'
-    method:      'PUT'
-    body:
-      expires_at: 2011-09-09T22:41:50+00:00
-  response_expectation:
-    status_code: 201
-    headers:
-      Last-Modified:    /.*/
-    body:
-      username:       'teletubby'
-- name: "Telekom: for a special Telekom testcase a new user should receive the following x rateables"
-  request:
-    path:           '/users/teletubby/rateables'
-    parameters:
-      per_page: 40
-    method:         'GET'
-    headers:
-      Content-Type: 'application/json'
-  response_expectation:
-    status_code: 200
-    headers:
-      Last-Modified: /.*/
-    body:
-      - m367
-      - m711
-      - m329
-      - m2632
-      - m342
-      - m1083
-      - m4374
-      - m1183
-      - m1074
-      - m1956
-      - m1011
-      - m4886
-      - m1409
-      - m270
-      - m997
-      - m2311
-      - m15216
-      - m5564
-      - m1056
-      - m286
-      - m3828
-      - m874
-      - m4660
-      - m3441
-      - m4692
-      - m3134
-      - m5118
-      - m229
-      - m5561
-      - m1267
-      - m434
-      - m3467
-      - m3751
-      - m4901
-      - m7056
-      - m5954
-      - m1443
-      - m4142
-      - m4802
-      - m1444
-- name: 'Telekom: delete formerly created teletubby user'
-  request:
-    path:        '/users/teletubby'
-    method:      'DELETE'
-    body:        {}
-  response_expectation:
-    status_code: 202
-- name: "Telekom: create another user with 10 defined ratings for checking the fixed test recommendations afterwards"
-  request:
-    headers:
-      Content-Type: 'application/json'
-    path:        '/users/teletubby'
-    method:      'PUT'
-    body:
-      ratings:
-       "m367" : 5.0
-       "m711" : 5.0
-       "m329" : 5.0
-       "m2632": 5.0
-       "m342" : 5.0
-       "m1083": 5.0
-       "m4374": 5.0
-       "m1183": 5.0
-       "m1074": 5.0
-       "m1956": 5.0
-      expires_at: 2011-09-09T22:41:50+00:00
-  response_expectation:
-    status_code: 201
-    headers:
-      Last-Modified:    /.*/
-    body:
-      username:       'teletubby'
-- name: 'Telekom: after defined rating there should come out well defined recommendations for Telekom test purpose'
-  wait_before_request: 5
-  request:
-    path:                               "/users/teletubby/recommendations"
-    method:                             "GET"
-  response_expectation:
-    status_code:                        200
-    body:
-    - m9999001: 1
-    - m9999002: 1
-    - m9999003: 1
-    - m9999004: 1
-    - m9999005: 1
-    - m9999006: 1
-    - m9999007: 1
-    - m9999008: 1.5
-    - m9999009: 1.5
-    - m9999010: 3
-    - m9999011: 3.5
-    - m9999012: 4.5
-    - m9999013: 5
-    - m9999014: 5
-    - m9999015: 5
-    - m9999016: 5
-    - m9999023: 5
-    - m9999024: 5
-    - m9999025: 5
-    - m9999026: 5
-    - m9999027: 1
-    - m9999028: 2
-    - m9999029: 3
-    - m9999030: 5
-    - m9999031: 1
-    - m9999032: 2
-    - m9999033: 5
-    - m9999034: 3
-    - m9999035: 5
-    - m9999036: 1
-    - m9999037: 2
-    - m9999038: 3
-- name: 'Telekom: delete formerly created teletubby user'
-  request:
-    path:        '/users/teletubby'
-    method:      'DELETE'
-    body:        {}
-  response_expectation:
-    status_code: 202
-- name: "Telekom: create another user with 10 defined ratings for checking discovery movies for genre Action"
-  request:
-    headers:
-      Content-Type: 'application/json'
-    path:        '/users/teletubby'
-    method:      'PUT'
-    body:
-      ratings:
-       "m367" : 5.0
-       "m711" : 5.0
-       "m329" : 5.0
-       "m2632": 5.0
-       "m342" : 5.0
-       "m1083": 5.0
-       "m4374": 5.0
-       "m1183": 5.0
-       "m1074": 5.0
-       "m1956": 5.0
-      expires_at: 2011-09-09T22:41:50+00:00
-  response_expectation:
-    status_code: 201
-    headers:
-      Last-Modified:    /.*/
-    body:
-      username:       'teletubby'
-- name: 'Telekom: after defined rating there should be some discovery output for genre Action'
-  wait_before_request: 5
-  request:
-    path:                               '/users/teletubby/predictions/discovery/genre:61'
-    method:                             "GET"
-  response_expectation:
-    status_code:                        200
-    body:
-    - m9999038: 3.0
-    - m9999039: 4.5
-    - m9999040: 5.0
-- name: 'Telekom: delete formerly created teletubby user'
   request:
     path:        '/users/teletubby'
     method:      'DELETE'

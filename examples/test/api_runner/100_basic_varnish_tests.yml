@@ -1,0 +1,120 @@
+# note to self:
+# some basic tests to test varnish ... using the user as an example
+# for numbering: copy 0 in register a, copy
+# /__#__xxxxxi"""aPF"lF"l"aywF"xf"x
+# into reg q
+# make the lines:
+# name: "100/__#__: ..."
+# execute:
+# :g/ name:/normal @q
+---
+- name: "100/1: create varnish test user"
+  priority: 5
+  request:
+    headers:
+      Content-Type: 'application/json'
+    path:        '/users/popeye'
+    method:      'PUT'
+    body:
+      username:  'popeye'
+      expires_at: 2011-09-09T22:41:50+00:00
+      watchlist:
+      - m367
+  response_expectation:
+    status_code: 201
+    headers:
+      Last-Modified:    /.*/
+    body:
+      username: 'popeye'
+
+- name: "100/2: test varnish: document age and X-Varnish-Info: MISS test"
+  priority: 5
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/users/popeye'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    headers:
+      Age: "== 0"
+      X-Varnish-Info: MISS
+
+- name: "100/3: test varnish: X-Varnish-Info: HIT"
+  priority: 5
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/users/popeye'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    headers:
+      X-Varnish-Info: HIT
+      Cache-Control[s-maxage]: @in one day
+
+- name: "100/4: test varnish: age after wait"
+  priority: 5
+  wait_before_request: 1
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/users/popeye'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    headers:
+      age: ">= 1"
+      X-Varnish-Info: HIT
+
+- name: "100/5: test varnish: sweep user url"
+  priority: 5
+  request:
+    headers:
+     Content-Type:               'application/json'
+     X-Varnish-Control:          'sweep'
+    path:                        '/users/popeye'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    body:
+      status: "200"
+      message: "sweeped"
+
+- name: "100/6: test varnish: first request after sweep"
+  priority: 5
+  request:
+    headers:
+     Content-Type:               'application/json'
+     X-Varnish-Control:          'update'
+    path:                        '/users/popeye'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    headers:
+      age: "== 0"
+      X-Varnish-Info: MISS
+
+- name: "100/7: test varnish: age after second wait"
+  priority: 5
+  wait_before_request: 1
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/users/popeye'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    headers:
+      age: ">= 1"
+      X-Varnish-Info: HIT
+
+- name: "100/8: Delete varnish-test user popeye"
+  priority: 5
+  request:
+    path:        '/users/popeye'
+    method:      'DELETE'
+    body:        {}
+  response_expectation:
+    status_code: 202
+

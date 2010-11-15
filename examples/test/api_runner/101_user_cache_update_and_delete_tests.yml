@@ -1,0 +1,132 @@
+---
+- name: "101/1: create varnish test user"
+  priority: 5
+  request:
+    headers:
+      Content-Type: 'application/json'
+    path:        '/users/popeye_101'
+    method:      'PUT'
+    body:
+      username:  'popeye_101'
+      expires_at: 2011-09-09T22:41:50+00:00
+      watchlist:
+      - m367
+  response_expectation:
+    status_code: 201
+    headers:
+      Last-Modified:    /.*/
+    body:
+      username: 'popeye_101'
+
+- name: "101/2: check for age document age and MISS"
+  priority: 5
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/users/popeye_101'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    headers:
+      Age: "== 0"
+      X-Varnish-Info: MISS
+
+- name: "101/3: check for HIT"
+  priority: 5
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/users/popeye_101'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    headers:
+      X-Varnish-Info: HIT
+
+- name: "101/4: check for age and HIT"
+  priority: 5
+  wait_before_request: 1
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/users/popeye_101'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    headers:
+      age: ">= 1"
+      X-Varnish-Info: HIT
+
+
+- name: "101/5: Update existing User - Update watchlist"
+  priority: 5
+  request:
+    headers:
+      Content-Type: 'application/json'
+    path:       '/users/popeye_101/watchlist'
+    method:     'PUT'
+    body:
+    - m367
+  response_expectation:
+    status_code: 204
+
+- name: "101/6: check for MISS"
+  priority: 5
+  wait_before_request: 5 # sweeper wait
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/users/popeye_101'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    headers:
+      age: "== 0"
+      X-Varnish-Info: MISS
+
+- name: "101/7: check for HIT"
+  priority: 5
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/users/popeye_101'
+    method:                      'GET'
+  response_expectation:
+    status_code: 200
+    headers:
+      X-Varnish-Info: HIT
+
+- name: "101/8: Delete varnish-test user popeye_101"
+  priority: 5
+  request:
+    path:        '/users/popeye_101'
+    method:      'DELETE'
+    body:        {}
+  response_expectation:
+    status_code: 202
+
+- name: "101/9: check that we have a miss after DELETE"
+  priority: 5
+  wait_before_request: 5 # sweeper wait
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/users/popeye_101'
+    method:                      'GET'
+  response_expectation:
+    status_code: 404
+    headers:
+      X-Varnish-Info: MISS
+
+- name: "101/10: test varnish: request after delete"
+  priority: 5
+  request:
+    headers:
+     Content-Type:               'application/json'
+    path:                        '/users/popeye_101'
+    method:                      'GET'
+  response_expectation:
+    status_code: 404
+    headers:
+      X-Varnish-Info: MISS
+

@@ -1,5 +1,5 @@
 ---
-- name: "One putted series rating should be createable with 204 response"
+- name: "004/1: One putted series rating should b1 = 1"
   request:
     headers:
       Content-Type:         'application/json'
@@ -10,7 +10,8 @@
   response_expectation:
     status_code: 204
     body:
-- name: "There should be exactly one series rating in that profile"
+- name: "004/2: There should be exactly one series rating in that profile"
+  wait_before_request: 5
   request:
     headers:
       Content-Type:         'application/json'
@@ -19,9 +20,9 @@
   response_expectation:
     status_code: 200
     body:
-      ratings:
+    ratings:
         s50: 1.0
-- name: "5 putted series ratings should be createable with 204 response"
+- name: "004/3: 5 putted series ratings should be createable with 204 response"
   request:
     headers:
       Content-Type:         'application/json'
@@ -36,7 +37,22 @@
   response_expectation:
     status_code: 204
     body:
-- name: "There should be exactly 5 series ratings in that profile"
+
+- name: "004/4: sweep before testing"
+  priority: 5
+  request:
+    headers:
+      Content-Type:         'application/json'
+      X-Varnish-Control:    'sweep'
+    path:                   '/users/duffyduck'
+    method:                 'GET'
+    body:
+  response_expectation:
+    status_code: 200
+    body:
+
+
+- name: "004/5: There should be exactly 5 series ratings in that profile"
   request:
     headers:
       Content-Type:         'application/json'
@@ -51,7 +67,7 @@
         s71: 3.0
         s86: 4.0
         s87: 5.0
-- name: "It should return a 404 in case series ratings for a non existant user are put"
+- name: "004/6: It should return a 404 in case series ratings for a non existant user are put"
   request:
     headers:
       Content-Type:         'application/json'
@@ -62,7 +78,7 @@
       s100: 2.0
   response_expectation:
     status_code: 404
-- name: "It should return a 409 in case series ratings are put with ambigous moviemaster_id"
+- name: "004/7: It should return a 409 in case series ratings are put with ambigous moviemaster_id"
   request:
     headers:
       Content-Type:         'application/json'
@@ -74,7 +90,7 @@
   response_expectation:
     status_code: 409
     body:
-- name: "It should return a 409 in case series ratings are put with ambigous ratings values"
+- name: "004/8: It should return a 409 in case series ratings are put with ambigous ratings values"
   request:
     headers:
       Content-Type:         'application/json'

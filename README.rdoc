@@ -1,6 +1,6 @@
 = apirunner
 
-*apirunner* let's you test your _JSON_ _API_ from the outside. Sometimes model-, controller and routing-test's are not enough, you want to send requests to your application and validate the response in ganular detail. Then apirunner will be your best friend.
+*apirunner* let's you test your _JSON_ _API_ from the outside. Sometimes model-, controller and routing-test's are not enough, you want to send requests to your application and validate the response in ganular detail? Then apirunner will be your best friend.
 
 apirunner is no replacement to rspec or cucumber tests, nor does it replace webrat or capable tools like that. It's an addition that lets you query you API, specify your queries in detail, parse the expected response code, message, header and body and compare all (or any) of 'em to your expectation, as well as check and document every testcases performance.
 
@@ -13,14 +13,15 @@ apirunner was initially developed for testing of the mighty (m8ty) i18n recommen
 *apirunner* *can*:
 
 * be configured for as many environemnts as you wish (your local machine, you staging environment, your production boxes, your wifes handbag)
-* send GET, POST, PUT and DELETE requests via HTTP
-* wait arbitrary but well specifief amount of time before sending a request
+* send GET, POST, PUT and DELETE requests via HTTP and HTTPS
+* wait arbitrary but well specified amount of time before sending a request
 * read as many testcases as you wish from YAML files and execute them in the order of file appearance
-* generate iterational testcases at runtime (for mass/performance test')
+* generate iterational testcases at runtime (for mass/performance tests)
 * read more then one testcase from a file
 * match the response code's of your applications responses
-* match the syntactical correctnes of the response format (as long as it is JSON)
+* match the syntactical correctness of the response format (as long as it is JSON)
 * proof the occurance and match the content of your app's HTTP headers
+* inspect certain caching related header values and validate max-age and sweep times (Varnish)
 * proof the occurence and match the content of your app's body (as long as it responds JSON)
 * optionally match only parts of header / body (you dont have to specify them in more detail than you are interested in)
 * exclude certain value test's from certain environments (by reading excludes from excludes.yml)
@@ -28,11 +29,16 @@ apirunner was initially developed for testing of the mighty (m8ty) i18n recommen
 * provide you with some nice feedback at the console .... yeah sexy dots (".") and fancy F's ("F") ....
 * print out a nice error report (that you as a awesome ruby coder will never see)
 * print out a nice success report if you wish
+* print out equivalent curl commands for every request
 * measure the performance of your api from the outsite (no concurrency provided today, sry)
 * print out a nice performance report
 * substitute defined resource names of you testcases (resource namespacing) so that several testruns on the same box dont interfere (Hudson vs. developer)
 * be invoked from within rake to generate some example configuration and testcase files
+* be integrated into Hudson or any other CI system that accepts external tasks
+* be invoked with several environment keywords for more granular control over you testcases execution
+* write continious CSV logfiles with performance data of every request sent in every run of your testcase
 * be invoked also from within rake to run your test's
+* be extended by additional plugins that check certain behaviour of your api that apirunner does'nt check today
 * not travel to Ibiza
 
 == Installation
@@ -41,7 +47,7 @@ apirunner was initially developed for testing of the mighty (m8ty) i18n recommen
 
 == Prerequisites
 
-Until today apirunner runs only in connection with a rails application itself. In the future it (hopefully) will be able to run even isolated without a Rails environment. Releases of Rails prior to 3.0.0.rc are untested and will likely fail. Please don't blame the author put submit you patches.
+Until today apirunner runs only in connection with a rails application itself. In the future it (hopefully) will be able to run even isolated without a Rails environment. Releases of Rails prior to 3.0.0.rc are untested and will likely fail. Please don't blame the author but submit you patches.
 
 == Invocation
 
@@ -59,7 +65,7 @@ should result in:
   rake api:run:staging             # runs a series of nessecary api calls and parses their response in environment staging
   rake api:scaffold                # generates configuration and a skeleton for apirunner tests as well as excludes
 
-Tasks are speaking so far ... 
+Tasks are selfexeplaining so far ...
 
 == Configuration
 
@@ -71,23 +77,30 @@ The latter one generates a starter configuration file in your config directory:
 
 Additionally there will be some example testcases which can be found in:
 
-  /test/apirunner/001_create_user.yml
-  /test/apirunner/002_update_resources.yml
-  /test/apirunner/003_update_ratings.yml
-  /test/apirunner/004_update_series_ratings.yml
-  /test/apirunner/005_rateables_and_pagination.yml
-  /test/apirunner/006_recommendations.yml
-  /test/apirunner/007_item_predictions.yml
-  /test/apirunner/008_discovery.yml
-  /test/apirunner/009_cacheable_operations.yml
-  /test/apirunner/010_fsk.yml
-  /test/apirunner/011_misc.yml
-  /test/apirunner/012_telekom_error_reports.yml
-  /test/apirunner/013-extended-unpersonalized-discovery.yml
-  /test/apirunner/014-extended-personalized-discovery.yml
-  /test/apirunner/015_create_10000_users.yml
-  /test/apirunner/999_delete_user.yml
-  /test/apirunner/excludes.yml
+  test/apirunner/001_create_user.yml
+  test/apirunner/002_update_resources.yml
+  test/apirunner/003_update_ratings.yml
+  test/apirunner/004_update_series_ratings.yml
+  test/apirunner/005_rateables_and_pagination.yml
+  test/apirunner/006_recommendations.yml
+  test/apirunner/007_item_predictions.yml
+  test/apirunner/008_discovery.yml
+  test/apirunner/010_fsk.yml
+  test/apirunner/011_misc.yml
+  test/apirunner/012_telekom_performance_tests.yml
+  test/apirunner/013_telekom_test_data_expectation.yml
+  test/apirunner/014-extended-unpersonalized-discovery.yml
+  test/apirunner/015-extended-personalized-discovery.yml
+  test/apirunner/016_create_10000_users.yml
+  test/apirunner/100_basic_varnish_tests.yml
+  test/apirunner/101_user_cache_update_and_delete_tests.yml
+  test/apirunner/102_user_cache_recommendations.yml
+  test/apirunner/103_user_chache_predictions.yml
+  test/apirunner/104_user_cache_discovery.yml
+  test/apirunner/105_test_discovery_caching.yml
+  test/apirunner/999_delete_user.yml
+  test/apirunner/excludes.yml
+
 
 These testcases are specific to recent requirements regarding the moviepilot API but can be helpful to understand, how the YAML expectation files have to be created.
 
@@ -136,6 +149,9 @@ At first take some time and change config/api_runner.yml to your needs. You migh
       - none
 
 The configuration options above need some explanation (uuuuugh) but have to follow the YAML standard, so BE CAREFUL(!) about proper indentation (two spaces).
+
+== Environments
+
 So far you can define as many environments as you would like to query. The example above specifies 3 of them [:local, :staging, :production].
 
 You can specify a :protocol, :host, :port as well as a (URL) :namespace per environment. The namespace option is mandatory, so you can omit it. We introduced it, so we can support different versions of our api at the same time and question different versions on different boxes with one setup.
@@ -148,7 +164,60 @@ The option makes the expectation matcher build ressource URI's like so:
 
 The ressource pathes are simply appended before the request is sent.
 
-TODO
+== Generals
+
+Every option that is not realted to a certain environment has to be mentioned in the generals section. As it can be seen in the example above there are few of them.
+
+*Verbosity* - apirunner has 5 verbosity modes. The first one that is found after the *verboosity* keyword is used. The others are here only fpr documentation purpose.
+
+  general:
+    verbosity:
+      - verbose_on_error
+      - verbose_on_success
+      - rspec
+      - performance
+      - verbose_with_curl
+
+*verbose_on_error* - prints out detailed testcase information in case of an error
+*verbose_on_sccess* - prints out detailed testcase information for every testcase, even if there was no error at all
+*rspec* - you will see only dots and F's as you know it from rspec tests
+*performance* - prints out a stripped down performance report for every testcase that was run
+*verbose_with_curl* - prints out a detailed report for every testcase including an equivalent curl commandline call
+
+== Priority
+
+Priority can be misunderstood, cause it works exactly the other way around as you'd expect it to. Every testcase can (but does not have to) have a priority. If a testcase has'nt, it defaults to 0. The apirunner can be configured to run in a certain priority level like so:
+
+  general:
+    <other stuff>
+    priority: 0
+
+With that configuration it runs every testcase with priority 0, nothing more is run. If you do not configure a priority level in the config/api_runner.yml it defaults to 0 too. If you set the priority to 1 for example, all testcases with the priority level 1 and below (0) are executed. If you make the apirunner run testcases at priority level 4, all testcases with priority level 4 and below (3,2,1,0) are invoked.
+
+That way you can build different layers of your tests and run them just as you like.
+
+== Substitution
+
+We introduced substitution, cause we had to ... Imagine several developers start the apirunner against the same environment. Apirunner A creates a resource via PUT in advance to fire some nice testcases, while another apirunner B started earlier and makes the resource die issuing a DELETE request. Result: some angry developers. Another scenario: You set up a Hudson or any other CI system to prove your API running to your well paying customer. But as it always happens he - as an energetic salesman and perfectly educated computer science specialist - takes a look at you CI in the very moment your top dog dev runs a the whole testsuite for a performace check against the live machines. Result: both runs fails, cause they interfere.
+
+Substitution to the rescue.
+
+  general:
+    <stuff...>
+    substitution:
+      substitutes:
+        - daisyduck
+        - duffyduck
+        - roadrunner
+        - luckyluke
+        - wileecoyote
+      prefix: sweetest_
+
+You can substitute every "string" in your request, not only parts of the url, but the whole stuff that is mentioned in your testcases request section. In the above example every occurance of the substitutes [daisyduck, duffyduck, roadrunner, luckyluke, wileecoyote] is substituted by a prefixed version of the very same string: [sweetest_daisyduck, sweetest_duffyduck, sweetest_roadrunner, sweetest_luckyluke, sweetest_wileecoyote].
+
+Every of your sweet dev's should simply set their own prefix and there should not be any interference afterwards anymore.
+
+
 
 == Excludes
 
@@ -168,7 +237,8 @@ There are rspec model tests for all classes which can be invoked via:
 apirunner heavily depends on the following great GEM's:
 
 1) nokogiri
-2) httparty
+2) json
+3) aaronh-chronic
 
 == Examples
 

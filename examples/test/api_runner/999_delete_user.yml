@@ -1,75 +1,75 @@
 ---
-- name: 'Delete Basich User'
+- name: "999/1: Delete Basich User"
   request:
     path:        '/users/duffybasic'
     method:      'DELETE'
     body:        {}
   response_expectation:
     status_code: 202
-- name: 'Delete User 1'
+- name: "999/2: Delete User 1"
   request:
     path:        '/users/duffyduck'
     method:      'DELETE'
     body:        {}
   response_expectation:
     status_code: 202
-- name: 'User 1 should be nonexistant afterwards'
+- name: "999/3: User 1 should be nonexistant afterwards"
   request:
     path:          '/users/duffyduck'
     method:        'GET'
     body:          {}
   response_expectation:
     status_code: 404
-- name: 'Delete User 2'
+- name: "999/4: Delete User 2"
   request:
     path:        '/users/duffyduck2'
     method:      'DELETE'
     body:        {}
   response_expectation:
     status_code: 202
-- name: 'User 2 should be nonexistant afterwards'
+- name: "999/5: User 2 should be nonexistant afterwards"
   request:
     path:          '/users/duffyduck2'
     method:        'GET'
     body:          {}
   response_expectation:
     status_code: 404
-- name: 'Delete User 3'
+- name: "999/6: Delete User 3"
   request:
     path:        '/users/duffyduck3'
     method:      'DELETE'
     body:        {}
   response_expectation:
     status_code: 202
-- name: 'User 3 should be nonexistant afterwards'
+- name: "999/7: User 3 should be nonexistant afterwards"
   request:
     path:          '/users/duffyduck3'
     method:        'GET'
     body:          {}
   response_expectation:
     status_code: 404
-- name: 'Delete adult user duffydad'
+- name: "999/8: Delete adult user duffydad"
   request:
     path:        '/users/duffydad'
     method:      'DELETE'
     body:        {}
   response_expectation:
     status_code: 202
-- name: 'Adult user duffydad should be nonexistant afterwards'
+- name: "999/9: Adult user duffydad should be nonexistant afterwards"
   request:
     path:          '/users/duffydad'
     method:        'GET'
     body:          {}
   response_expectation:
     status_code: 404
-- name: 'Delete non-adult user duffykid'
+- name: "999/10: Delete non-adult user duffykid"
   request:
     path:        '/users/duffykid'
     method:      'DELETE'
     body:        {}
   response_expectation:
     status_code: 202
-- name: 'Non-Adult duffykid user should be nonexistant afterwards'
+- name: "999/11: Non-Adult duffykid user should be nonexistant afterwards"
   request:
     path:          '/users/duffykid'
     method:        'GET'

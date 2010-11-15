@@ -1,5 +1,5 @@
 ---
-- name: 'Update existing user - update watchlist'
+- name: "002/1: Update existing user - update watchlist"
   request:
     headers:
       Content-Type: 'application/json'
@@ -18,7 +18,7 @@
   response_expectation:
     status_code: 204
     body:
-- name: 'Check users watchlist afterwards'
+- name: "002/2: Check users watchlist afterwards"
   request:
     headers:
       Content-Type: 'application/json'
@@ -40,7 +40,7 @@
       - s86
       - s87
       - s88
-- name: 'Update existing user - clean watchlist'
+- name: "002/3: Update existing user - clean watchlist"
   request:
     headers:
       Content-Type: 'application/json'
@@ -49,7 +49,7 @@
     body: []
   response_expectation:
     status_code: 204
-- name: 'Check users watchlist for emptyness afterwards'
+- name: "002/4: Check users watchlist for emptyness afterwards"
   request:
     headers:
       Content-Type: 'application/json'
@@ -62,7 +62,7 @@
     body:
       username: 'duffyduck'
       watchlist: []
-- name: 'Update existing user - update skiplist'
+- name: "002/5: Update existing user - update skiplist"
   request:
     headers:
       Content-Type: 'application/json'
@@ -81,7 +81,8 @@
   response_expectation:
     status_code: 204
     body:
-- name: 'Check users skiplist afterwards'
+- name: "002/6: Check users skiplist afterwards"
+  wait_before_request: 5
   request:
     headers:
       Content-Type: 'application/json'
@@ -103,7 +104,7 @@
       - s99
       - s69
       - s70
-- name: 'Update existing user - clean skiplist'
+- name: "002/7: Update existing user - clean skiplist"
   request:
     headers:
       Content-Type: 'application/json'
@@ -113,7 +114,7 @@
   response_expectation:
     status_code: 204
     body:
-- name: 'Check users skiplist emptyness afterwards'
+- name: "002/8: Check users skiplist emptyness afterwards"
   request:
     headers:
       Content-Type: 'application/json'
@@ -126,7 +127,7 @@
     body:
       username:       'duffyduck'
       skiplist: []
-- name: 'Update existing user - update blacklist'
+- name: "002/9: Update existing user - update blacklist"
   request:
     headers:
       Content-Type: 'application/json'
@@ -145,7 +146,8 @@
   response_expectation:
     status_code: 204
     body:
-- name: 'Check Users blacklist afterwards'
+- name: "002/10: Check Users blacklist afterwards"
+  wait_before_request: 5
   request:
     headers:
       Content-Type: 'application/json'
@@ -167,7 +169,7 @@
       - s51
       - s52
       - s99
-- name: 'Update existing user - clean blacklist'
+- name: "002/11: Update existing user - clean blacklist"
   request:
     headers:
       Content-Type: 'application/json'
@@ -177,7 +179,7 @@
   response_expectation:
     status_code: 204
     body:
-- name: 'Check users blacklist emptyness afterwards'
+- name: "002/12: Check users blacklist emptyness afterwards"
   request:
     headers:
       Content-Type: 'application/json'

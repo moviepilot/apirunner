@@ -1,7 +1,7 @@
 ---
-- name: 'Create new User'
+- name: "016/1: Create new User"
   iterations: 10000
-  priority: 4
+  priority: 7
   request:
     headers:
       Content-Type: 'application/json'
@@ -41,3 +41,14 @@
       expires_at: 2011-09-09T22:41:50+00:00
   response_expectation:
     status_code: 201
+
+- name: "016/2: delete our lovely users again"
+  iterations: 10000
+  priority: 7
+  request:
+    headers:
+      Content-Type: 'application/json'
+    path:        '/users/duffyduck@@'
+    method:      'DELETE'
+  response_expectation:
+    status_code: 204

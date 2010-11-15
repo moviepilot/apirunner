@@ -1,5 +1,5 @@
 ---
-- name: "9 ratings in preparation for recommendation check should return a 204"
+- name: "006/1: 9 ratings in preparation for recommendation check should return a 204"
   request:
     headers:
       Content-Type:         'application/json'
@@ -18,7 +18,7 @@
   response_expectation:
     status_code: 204
     body:
-- name: "10 ratings in preparation for recommendation check should return a 204"
+- name: "006/2: 10 ratings in preparation for recommendation check should return a 204"
   request:
     headers:
       Content-Type:         'application/json'
@@ -38,7 +38,7 @@
   response_expectation:
     status_code: 204
     body:
-- name: "With 10 ratings put there should be a lot of recommendations"
+- name: "006/3: With 10 ratings put there should be a lot of recommendations"
   request:
     headers:
       Content-Type:           'application/json'
@@ -47,7 +47,7 @@
   response_expectation:
     status_code: 200
     body:                     /^\[(\{"m\d+":[0-5]\.[05]\},)*\{"m\d+":[0-5]\.[05]\}\]$/
-- name: "There should be only 10 recommendations if per_page parameter is set"
+- name: "006/4: There should be only 10 recommendations if per_page parameter is set"
   request:
     headers:
       Content-Type:           'application/json'
@@ -58,7 +58,7 @@
   response_expectation:
     status_code: 200
     body:                     /^\[(\{"m\d+":[0-5]\.[05]\},){9}\{"m\d+":[0-5]\.[05]\}\]$/
-- name: "There should occure a 404 if recommendations are requested for a non existing user"
+- name: "006/5: There should occure a 404 if recommendations are requested for a non existing user"
   request:
     headers:
       Content-Type:            'application/json'
@@ -67,7 +67,7 @@
   response_expectation:
     status_code: 404
     body:
-- name: "There should be less than 2000 recommendations at all otherwise filtering does not apply"
+- name: "006/6: There should be less than 2000 recommendations at all otherwise filtering does not apply"
   request:
     headers:
       Content-Type:            'application/json'
