@@ -217,13 +217,38 @@ You can substitute every "string" in your request, not only parts of the url, bu
 
 Every of your sweet dev's should simply set their own prefix and there should not be any interference afterwards anymore.
 
+== CSV
 
+The most recent apirunner supports performance checks of your API. Would'nt is be nice, if you could record your API's performance in a CSV to make it a graph later? Here we go. Apirunner does so, if you tell him to.
+
+  general:
+    <stuff ...>
+    csv_mode:
+      - append
+      - create
+      - none
+
+The CSV file is created in your Rails app's tmp directory and automatically named after the environment you are running it against. The CSV is generated in an intelligent way so that the deletion of testcases as well as adding some new does not detroy the existing CSV structure. There are three modes that the CSV writer can run in.
+
+*append* - Guess the most used mode, every new testruns data is appended to an already existing CSV file. If none exists yet, it's created on the fly
+*create* - You want only to record the most recent run? Go with "create" and only the last runs data is recorded in the CSV file
+*none* - no arms, no cookies, none disables the creation of CSV files at all
 
 == Excludes
 
-You may also want to define some excludes for some of your environment. Imageine on your localhost's server there is no "Last-Modified" present in the header, but you would like to check that on staging and production boxes.
+You may also want to define some excludes for some of your environments. Imagine you run your production environment fully cached by Varnish and have some testcases that you cant "priorize out of scope". On the other hand you would like to run the same testsuite against you local development environment. You'll see a lot of errors, cause there is not caching set up on your local box. Here excludes come in and become very handy.
 
-Simply define your story to check "Last-Modified" generally and exclude it for 
+In the excludes files excludes.yml in the test/api_runner directory you can simply mention keys that shall not be evaluated in a certain environment. Example:
+
+  local:
+    excludes:
+      - "max-age"
+  staging:
+    excludes:
+      - "foo"
+      - "bar"
+
+This snipppet makes apirunner drop testcases where there "max-age" occures as a key to be evaluated while checking the responses header but only for your local environment. In the staging environment "foo" and "bar" are not checked. Excludes apply only to header- and body-checks, so they are implemented only in these plugins.
 
 
 == Testing
